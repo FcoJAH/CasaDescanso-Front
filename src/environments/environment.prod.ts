@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  // URL de tu API en Azure App Service (SQL Server)
+  // Cambiamos la URL de Azure por la de Render
   apiUrl: 'https://casa-descanso-back.onrender.com/api'
 };
