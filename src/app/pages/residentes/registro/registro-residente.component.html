@@ -1,0 +1,183 @@
+<div class="form-container">
+  @if (!isRegistered()) {
+  <form [formGroup]="residenteForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-card">
+      <h3><span class="icon">👤</span> INFORMACIÓN DEL RESIDENTE</h3>
+      <div class="grid-layout">
+        <div class="form-group">
+          <label>NOMBRE(S) *</label>
+          <div class="input-container">
+            <input formControlName="firstName" type="text" placeholder="EJ. FRANCISCO"
+              [class.is-invalid]="isFieldInvalid('firstName')" [class.is-valid]="isFieldValid('firstName')">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>APELLIDO PATERNO *</label>
+          <div class="input-container">
+            <input formControlName="lastName" type="text" placeholder="EJ. ALCALA"
+              [class.is-invalid]="isFieldInvalid('lastName')" [class.is-valid]="isFieldValid('lastName')">
+            @if (isFieldValid('lastName')) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>APELLIDO MATERNO *</label>
+          <div class="input-container">
+            <input formControlName="middleName" type="text" placeholder="EJ. HERRERA">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>FECHA DE NACIMIENTO *</label>
+          <div class="input-container">
+            <input formControlName="birthDate" type="date" [class.is-invalid]="isFieldInvalid('birthDate')"
+              [class.is-valid]="isFieldValid('birthDate')" [max]="maxDate">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>GÉNERO *</label>
+          <select formControlName="gender" [class.is-invalid]="isFieldInvalid('gender')"
+            [class.is-valid]="isFieldValid('gender')">
+            <option value="" disabled selected>SELECCIONAR...</option>
+            <option value="Masculino">MASCULINO</option>
+            <option value="Femenino">FEMENINO</option>
+            <option value="Otro">OTRO</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>FECHA DE INGRESO *</label>
+          <input formControlName="admissionDate" type="date" [class.is-invalid]="isFieldInvalid('admissionDate')"
+            [class.is-valid]="isFieldValid('admissionDate')">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card mt-4">
+      <h3><span class="icon">⚕️</span> INFORMACIÓN MÉDICA</h3>
+      <div class="grid-layout">
+        <div class="form-group">
+          <label>TIPO DE SANGRE *</label>
+          <select formControlName="bloodType" [class.is-invalid]="isFieldInvalid('bloodType')"
+            [class.is-valid]="isFieldValid('bloodType')">
+            <option value="" disabled selected>SELECCIONAR...</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>NSS (SEGURO SOCIAL)</label>
+          <input formControlName="nss" [class.is-invalid]="isFieldInvalid('nss')"
+            [class.is-valid]="isFieldValid('nss')" type="text" placeholder="11 DÍGITOS" maxlength="11">
+        </div>
+
+        <div class="form-group full-width">
+          <label>ENFERMEDADES DIAGNOSTICADAS</label>
+          <textarea formControlName="diagnosedDiseases" placeholder="EJ. DIABETES TIPO 2, HIPERTENSIÓN..."></textarea>
+        </div>
+
+        <div class="form-group full-width">
+          <label>ALERGIAS</label>
+          <input formControlName="allergies" type="text" placeholder="EJ. PENICILINA, NUECES...">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card mt-4">
+      <h3><span class="icon">📞</span> CONTACTOS DE EMERGENCIA</h3>
+      <div class="grid-layout">
+        <div class="form-group">
+          <label>CONTACTO PRINCIPAL *</label>
+          <input formControlName="emergencyContactName" type="text" placeholder="NOMBRE COMPLETO"
+            [class.is-invalid]="isFieldInvalid('emergencyContactName')"
+            [class.is-valid]="isFieldValid('emergencyContactName')">
+        </div>
+
+        <div class="form-group">
+          <label>TELÉFONO PRINCIPAL *</label>
+          <input formControlName="emergencyContactPhone" type="text" placeholder="10 DÍGITOS" maxlength="10"
+            [class.is-invalid]="isFieldInvalid('emergencyContactPhone')"
+            [class.is-valid]="isFieldValid('emergencyContactPhone')">
+        </div>
+
+        <div class="form-group">
+          <label>PARENTESCO *</label>
+          <input formControlName="emergencyContactRelation" type="text" placeholder="EJ. HIJO, HERMANO"
+            [class.is-invalid]="isFieldInvalid('emergencyContactRelation')"
+            [class.is-valid]="isFieldValid('emergencyContactRelation')">
+        </div>
+
+        <div class="form-group">
+          <label>CONTACTO SECUNDARIO</label>
+          <input formControlName="secondContactName" type="text" placeholder="NOMBRE COMPLETO">
+        </div>
+
+        <div class="form-group">
+          <label>TELÉFONO SECUNDARIO</label>
+          <input formControlName="secondContactPhone" type="text" placeholder="10 DÍGITOS" maxlength="10">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card mt-4">
+      <h3><span class="icon">📝</span> OBSERVACIONES FINALES</h3>
+      <div class="form-group full-width">
+        <label>OBSERVACIONES ADICIONALES</label>
+        <textarea formControlName="observations" rows="3"
+          placeholder="DETALLES SOBRE DIETA, MOVILIDAD O COMPORTAMIENTO..."></textarea>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn-cancel" (click)="volver()">CANCELAR</button>
+      <button type="submit" class="btn-submit">REGISTRAR RESIDENTE</button>
+    </div>
+  </form>
+  }
+
+  @else {
+  <div class="success-screen animate-fade-in">
+    <div class="success-card">
+      <div class="success-header">
+        <div class="icon-circle">
+          <img src="images/CD_Logo_Pequeno.png" alt="Logo" class="logo">
+        </div>
+        <h2>REGISTRO EXITOSO</h2>
+      </div>
+
+      <div class="info-box">
+        <p>El residente <strong>{{ registeredData()?.fullName | uppercase }}</strong> ha sido dado de alta correctamente
+          en el sistema de Casa Descanso.</p>
+        @if (config().nombreUsuario) {
+        <span class="user-badge">{{ config().nombreUsuario | uppercase }}</span>
+        }
+      </div>
+
+      <div class="actions-container">
+        <button type="button" class="btn-primary-success" (click)="volver()">
+          VOLVER A RESIDENTES
+        </button>
+
+        <button type="button" class="btn-link" (click)="salir()">
+          VOLVER AL DASHBOARD
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+</div>
+
+@if (showValidationPopup()) {
+<app-validation-popup [errors]="formErrors()" (onClose)="showValidationPopup.set(false)">
+</app-validation-popup>
+}

@@ -1,0 +1,72 @@
+<div class="form-container">
+  @if (!isDeleted() && !isError()) {
+    <div class="form-card">
+      <h3><span class="icon">🗑️</span> Eliminar Rol del Sistema</h3>
+
+      <div class="form-group full-width">
+        <label>Selecciona el rol que deseas eliminar:</label>
+        <select class="custom-select" (change)="onSeleccionarRol($event)">
+          <option value="" disabled selected>-- Seleccionar rol --</option>
+          @for (rol of roles(); track rol.id) {
+            <option [value]="rol.id">{{ rol.name }}</option>
+          }
+        </select>
+      </div>
+
+      @if (rolSeleccionado()) {
+        <div class="warning-box">
+          <p><strong>¿Estás seguro de eliminar este rol?</strong></p>
+          <div class="details">
+            <strong style="color: #005BB5; text-transform: uppercase; font-size: 1.2rem;">
+              {{ rolSeleccionado().name }}
+            </strong>
+            <span style="font-size: 0.9rem; color: #5D6D7E; margin-top: 5px;">
+              {{ rolSeleccionado().description }}
+            </span>
+          </div>
+          <p class="small-text" style="color: #E74C3C; font-size: 0.85rem; margin-top: 15px;">
+            Esta acción eliminará el registro de forma permanente.
+          </p>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-cancel" (click)="rolSeleccionado.set(null)">Cancelar</button>
+          <button type="button" class="btn-delete" (click)="confirmarEliminar()">Eliminar Ahora</button>
+        </div>
+      }
+    </div>
+  }
+
+  @else if (isError()) {
+    <div class="success-card" style="border-top: 6px solid #F9A825;">
+      <div class="success-content">
+        <div class="success-icon">⚠️</div>
+        <h2 style="color: #2C3E50;">No se puede eliminar</h2>
+
+        <div class="info-box">
+          <p>{{ errorMessage() }}</p>
+          <p style="font-size: 0.85rem; margin-top: 10px; color: #666;">
+            Asegúrate de que no existan empleados vinculados a este perfil antes de borrarlo.
+          </p>
+        </div>
+
+        <button class="btn-back" (click)="finalizar()">
+          Entendido
+        </button>
+      </div>
+    </div>
+  }
+
+  @else if (isDeleted()) {
+    <div class="success-card">
+      <div class="success-content">
+        <div class="success-icon">🗑️</div>
+        <h2>Rol Eliminado</h2>
+        <div class="info-box">
+          <p>El registro ha sido borrado correctamente de <strong>CASA DESCANSO</strong>.</p>
+        </div>
+        <button class="btn-back" (click)="finalizar()">Volver a Roles</button>
+      </div>
+    </div>
+  }
+</div>

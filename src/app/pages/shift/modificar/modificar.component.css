@@ -1,0 +1,196 @@
+/* Reutilizamos la base de form-container */
+.form-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 20px 10px;
+}
+
+/* Card principal */
+.form-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(44, 62, 80, 0.06);
+  border: 1px solid rgba(0, 91, 181, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Título con icono */
+.form-card h3 {
+  color: #005BB5;
+  /* Azul Corporativo */
+  margin-top: 0;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.25rem;
+}
+
+/* Selector Personalizado */
+.custom-select {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #E0E4E8;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #F8F9FA;
+  /* Blanco Humo */
+  color: #2C3E50;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.custom-select:focus {
+  border-color: #005BB5;
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+}
+
+/* Separador elegante */
+.separator {
+  border: 0;
+  border-top: 1px solid rgba(44, 62, 80, 0.1);
+  margin: 25px 0;
+}
+
+/* Grid Layout (2 columnas) */
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+/* Grupos y Contenedores */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #2C3E50;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #E0E4E8;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+/* Estados de Validación */
+.is-valid {
+  border: 1.5px solid #2e7d32 !important;
+  padding-right: 40px !important;
+}
+
+.is-invalid {
+  border: 1.5px solid #d32f2f !important;
+  background-color: #fff8f8;
+}
+
+.check-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Botones alineados a la derecha */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-submit {
+  background-color: #005BB5;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  background-color: white;
+  color: #005BB5;
+  border: 1.5px solid #005BB5;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #F8F9FA;
+}
+
+.success-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 91, 181, 0.1);
+  border-top: 6px solid #F9A825; /* Dorado Cálido para acentos */
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.success-icon {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+}
+
+.info-box {
+  background-color: #F8F9FA; /* Blanco Humo */
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border-left: 5px solid #005BB5; /* Azul Corporativo */
+}
+
+.btn-back {
+  background-color: #2C3E50; /* Azul Oscuro */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-back:hover {
+  background-color: #005BB5;
+  transform: translateY(-2px);
+}

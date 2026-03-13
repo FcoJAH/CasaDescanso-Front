@@ -1,0 +1,21 @@
+<div class="header-seccion">
+        <div class="indicador"></div>
+        <h1>Gestión de Turnos</h1>
+</div>
+<div class="menu-empleados">
+        <button routerLink="crear" routerLinkActive="active-link"
+                class="btn-menu btn-crear">Crear</button>
+
+        <button routerLink="modificar" routerLinkActive="active-link"
+                class="btn-menu btn-modificar">Modificar</button>
+
+        <button routerLink="eliminar" routerLinkActive="active-link"
+                class="btn-menu btn-desactivar">Eliminar</button>
+
+        <button routerLink="ver-turnos" routerLinkActive="active-link" class="btn-menu btn-ver">Ver
+                turnos</button>
+</div>
+
+<div class="contenido-empleados mt-3">
+        <router-outlet></router-outlet>
+</div>

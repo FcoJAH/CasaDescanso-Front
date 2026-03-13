@@ -1,0 +1,23 @@
+<div class="popup-overlay" (click)="cerrar()">
+  <div class="popup-card animate-pop" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <span class="warning-icon">⚠️</span>
+      <h2>ATENCIÓN: CAMPOS PENDIENTES</h2>
+    </div>
+
+    <div class="popup-body">
+      <p>Para continuar con el registro por favor corrija lo siguiente:</p>
+      <ul class="error-list">
+        @for (error of errors(); track error) {
+          <li>{{ error | uppercase }}</li>
+        }
+      </ul>
+    </div>
+
+    <div class="popup-actions">
+      <button class="btn-understand" (click)="cerrar()">
+        ENTENDIDO
+      </button>
+    </div>
+  </div>
+</div>

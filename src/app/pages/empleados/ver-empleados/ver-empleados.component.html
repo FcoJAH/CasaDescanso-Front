@@ -1,0 +1,39 @@
+<div class="table-container">
+  <div class="table-header">
+    <h2><span class="icon">👥</span> Gestión de Personal</h2>
+    <p class="subtitle">Lista completa de trabajadores registrados en el sistema.</p>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Nombre Completo</th>
+          <th>Nombre de Usuario</th>
+          <th>Cargo / Posición</th>
+          <th style="text-align: center;">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (usuario of usuarios(); track usuario.id) {
+          <tr>
+            <td class="name-column">
+              <strong>{{ usuario.fullName | uppercase }}</strong>
+            </td>
+            <td>
+              <span class="username-text">{{ usuario.username }}</span>
+            </td>
+            <td>
+              <span class="position-tag">{{ usuario.position }}</span>
+            </td>
+            <td style="text-align: center;">
+              <span class="status-badge" [class.active]="usuario.isActive">
+                {{ usuario.isActive ? 'ACTIVO' : 'INACTIVO' }}
+              </span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

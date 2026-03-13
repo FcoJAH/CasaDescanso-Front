@@ -1,0 +1,268 @@
+/* --- Contenedor y Estructura --- */
+.form-container {
+  max-width: 650px;
+  /* Ajustado según preferencia guardada */
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.form-card {
+  background-color: #FFFFFF;
+  /* Blanco Puro */
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #edf2f7;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+h3 {
+  color: #2C3E50;
+  /* Azul Oscuro */
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #F8F9FA;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* --- Grupos de Formulario e Inputs --- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #2C3E50;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  /* Consistencia con nombres en MAYÚSCULAS */
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+input,
+select {
+  /*width: 100%;*/
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #F8F9FA;
+  /* Blanco Humo */
+  color: #2C3E50;
+  font-family: inherit;
+}
+
+.center-residente {
+  width: 100%;
+  text-align: center;
+}
+
+textarea {
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #F8F9FA;
+  /* Blanco Humo */
+  color: #2C3E50;
+  font-family: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #005BB5;
+  /* Azul Corporativo */
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+  background-color: #FFFFFF;
+}
+
+/* --- Estados de Validación Clínica (Semáforo) --- */
+
+.status-normal {
+  border: 2px solid #28A745 !important;
+  background-color: #f0fff4 !important;
+  color: #155724;
+}
+
+.status-alerta {
+  border: 2px solid #DC3545 !important;
+  background-color: #fff5f5 !important;
+  color: #721c24;
+  animation: shake 0.2s ease-in-out;
+}
+
+.status-icon {
+  position: absolute;
+  right: 12px;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+/* --- Mensajes de Estado --- */
+.placeholder-card {
+  background-color: #F8F9FA;
+  border: 2px dashed #F9A825;
+  /* Dorado Cálido */
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.placeholder-card p {
+  color: #2C3E50;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.floating-alert {
+  position: fixed;
+  top: 80px;
+  right: 25px;
+  background-color: #F9A825;
+  color: #2C3E50;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  font-weight: 700;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- Botones --- */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-submit {
+  background-color: #005BB5;
+  color: white;
+  padding: 12px 35px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #004a94;
+  transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+  background-color: #cbd5e0;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.btn-back {
+  background-color: #005BB5;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* --- Animaciones --- */
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(3px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Éxito */
+.success-card {
+  background-color: #FFFFFF;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 500px;
+  margin: 50px auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border-top: 6px solid #28A745;
+}
+
+.info-box {
+  background-color: #F8F9FA;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border: 1px solid #dee2e6;
+  text-transform: uppercase;
+}

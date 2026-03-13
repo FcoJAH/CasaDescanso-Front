@@ -1,0 +1,23 @@
+<div class="header-seccion">
+        <div class="indicador"></div>
+        <h1>Gestión de Residentes</h1>
+</div>
+<div class="menu-empleados">
+        <button routerLink="registro" routerLinkActive="registro" class="btn-menu btn-crear">Crear</button>
+
+        <button routerLink="modificar" routerLinkActive="active-link"
+                class="btn-menu btn-modificar">Modificar</button>
+
+        <button routerLink="desactivar" routerLinkActive="active-link"
+                class="btn-menu btn-desactivar">Desactivar</button>
+
+        <button routerLink="activar" routerLinkActive="active-link"
+                class="btn-menu btn-activar">Activar</button>
+
+        <button routerLink="ver-residentes" routerLinkActive="active-link" class="btn-menu btn-ver">Ver
+                residentes</button>
+</div>
+
+<div class="contenido-empleados mt-3">
+        <router-outlet></router-outlet>
+</div>

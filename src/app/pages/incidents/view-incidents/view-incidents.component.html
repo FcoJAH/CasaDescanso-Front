@@ -1,0 +1,53 @@
+<div class="form-container">
+  <div class="form-card">
+    <h3><span class="icon">🔍</span> HISTORIAL DE INCIDENCIAS</h3>
+    <p class="subtitle">Seleccione un residente para consultar sus registros.</p>
+
+    <div class="form-group full-width">
+      <label>RESIDENTE *</label>
+      <select class="custom-select" (change)="onResidentChange($event)">
+        <option [value]="0" disabled selected>-- SELECCIONAR RESIDENTE --</option>
+        @for (res of residentes(); track res.id) {
+          <option [value]="res.id">{{ (res.firstName + ' ' + res.lastName) | uppercase }}</option>
+        }
+      </select>
+    </div>
+
+    @if (loading()) {
+      <div class="spinner-blue"></div>
+    }
+
+    @if (incidentes().length > 0) {
+      <div class="table-container animate-fade-in">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>FECHA</th>
+              <th>TIPO</th>
+              <th>SEVERIDAD</th>
+              <th>VER</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (inc of incidentes(); track inc.id) {
+              <tr>
+                <td class="bold">{{ inc.date | date:'dd/MM/yyyy' }}</td>
+                <td><span class="status-badge pending">{{ inc.type | uppercase }}</span></td>
+                <td>{{ inc.severityLevel | uppercase }}</td>
+                <td>
+                  <button class="btn-pdf-small" (click)="generarPDF(inc)">
+                    📄 VER PDF
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else if (residenteSeleccionadoId() && !loading()) {
+      <div class="info-box animate-fade-in">
+        <p>NO SE ENCONTRARON INCIDENCIAS REGISTRADAS PARA ESTE RESIDENTE.</p>
+      </div>
+    }
+  </div>
+</div>

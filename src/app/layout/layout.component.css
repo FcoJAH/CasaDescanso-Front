@@ -1,0 +1,227 @@
+/* Layout general */
+body:not(.sidebar-hidden) .sidebar-overlay {
+  display: block;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+  color: #2C3E50;
+  width: 100%;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #F8F9FA; /* Blanco Humo */
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #005BB5; /* Azul Corporativo */
+  color: white;
+  
+  /* Alineación Maestra */
+  display: flex;
+  justify-content: space-between; /* Empuja el contenido a los extremos */
+  align-items: center;
+  
+  /* Espaciado interno */
+  padding: 0 20px; 
+  box-sizing: border-box; /* Crucial para que el padding no desborde el 100% de ancho */
+  z-index: 1200;
+}
+
+/* Botón Hamburguesa */
+.hamburger-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Logout */
+.logout-btn {
+  background-color: #F9A825; /* Dorado Cálido */
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #2C3E50; /* Texto Azul Oscuro */
+}
+
+.main-container {
+  display: flex;
+  margin-top: 60px;   /* El mismo alto que tu header para que no se encime el contenido */
+  min-height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed; /* Flota sobre el contenido */
+  top: 60px;       /* Justo debajo del header */
+  left: 0;
+  width: 250px;
+  height: calc(100vh - 100px);
+  background-color: #FFFFFF;
+  padding: 20px;
+  z-index: 1100;   /* Por encima del contenido principal */
+  box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-hidden .sidebar {
+  transform: translateX(-100%); /* Se desliza hacia afuera */
+  margin-left: 0; /* Ya no usamos márgenes */
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 62, 80, 0.4); /* Azul Oscuro transparente */
+  z-index: 1050; /* Entre el contenido y el sidebar */
+  backdrop-filter: blur(2px); /* Efecto moderno de desenfoque */
+  display: none;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #2C3E50;
+  padding: 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+  white-space: nowrap; /* Evita que el texto se amontone al cerrar */
+}
+
+.sidebar a:hover {
+  background-color: #F8F9FA;
+}
+
+.sidebar a.active {
+  background-color: #005BB5;
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto; 
+  padding-top: 20px;
+  text-align: center;
+}
+
+.img-footer {
+  max-width: 100%;
+  height: auto;
+  opacity: 0.8; 
+  filter: grayscale(100%); 
+  transition: 0.3s;
+}
+
+.img-footer:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+  height: calc(100vh - 60px); /* Altura total menos el header */
+  overflow-y: auto;           /* Solo el contenido tiene scroll propio */
+  background-color: #F8F9FA;  /* Tu Blanco Humo */
+}
+
+/* Ajuste de enlaces deshabilitados (opcional) */
+.sidebar a.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.logo {
+  height: 40px;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    position: relative; /* Vuelve al flujo normal */
+    top: 0;
+    height: auto;
+    box-shadow: none;
+    transform: none !important;
+  }
+  
+  .sidebar-overlay {
+    display: none !important; /* Nunca mostrar en PC */
+  }
+
+  .sidebar-hidden .sidebar {
+    margin-left: -300px; /* Vuelve a ocultarse empujando */
+  }
+}
+
+.user-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF; /* Blanco Puro */
+  text-align: center;
+  flex: 1; /* Esto ayuda a que empuje los extremos y se quede al centro */
+}
+
+.user-welcome {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.85;
+  margin-bottom: -2px;
+}
+
+.user-fullname {
+  font-weight: 700;
+  font-size: 0.9rem;
+  /* Evitamos que nombres muy largos rompan el diseño en móvil */
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* En móviles muy pequeños, reducimos el tamaño o quitamos el saludo */
+@media (max-width: 480px) {
+  .user-welcome {
+    display: none;
+  }
+  .user-fullname {
+    font-size: 0.75rem;
+    max-width: 100px;
+  }
+}

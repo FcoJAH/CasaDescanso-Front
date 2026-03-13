@@ -1,0 +1,444 @@
+/* Contenedor Principal Estándar */
+.form-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Cards de Formulario y Éxito */
+.form-card,
+.success-card {
+  background: #FFFFFF;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.08);
+  border: 1px solid rgba(0, 91, 181, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Títulos e Iconos */
+h3 {
+  color: #005BB5;
+  /* Azul Corporativo */
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  color: #5D6D7E;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+}
+
+/* Grupos y Etiquetas */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: #2C3E50;
+  /* Azul Oscuro */
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Selectores y Campos */
+.custom-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #E0E4E8;
+  border-radius: 10px;
+  background-color: #F8F9FA;
+  /* Blanco Humo */
+  color: #2C3E50;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-select:focus {
+  border-color: #005BB5;
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+}
+
+/* Separador Visual (Igual al de Turnos y Roles) */
+.separator {
+  height: 1px;
+  background: #E0E4E8;
+  margin: 25px 0;
+  width: 100%;
+}
+
+/* Caja de Advertencia (Neutral con detalle corporativo) */
+.warning-box {
+  background-color: #F8F9FA;
+  padding: 25px;
+  border-radius: 12px;
+  margin: 25px 0;
+  text-align: center;
+  border: 1.5px solid #E0E4E8;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+/* Nombre resaltado en Azul y Uppercase */
+.details strong {
+  color: #005BB5;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+/* Botones y Acciones */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-delete {
+  background-color: #d32f2f;
+  /* Rojo alerta */
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete:hover {
+  background-color: #b71c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.2);
+}
+
+.btn-cancel {
+  background-color: white;
+  color: #005BB5;
+  border: 1.5px solid #005BB5;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Pantallas de Éxito / Error */
+.info-box {
+  background-color: #F8F9FA;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border: 1px solid #E0E4E8;
+}
+
+.btn-back {
+  background-color: #2C3E50;
+  /* Azul Oscuro */
+  color: white;
+  border: none;
+  padding: 14px 40px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s;
+}
+
+.btn-back:hover {
+  background-color: #005BB5;
+}
+
+/* Tags de posición dentro de la advertencia */
+.position-tag {
+  background-color: #EBF5FB;
+  color: #2E86C1;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  align-self: center;
+}
+
+/* --- Contenedor de la Tabla --- */
+.table-container {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  background-color: #FFFFFF;
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* --- Estilos Base de la Tabla --- */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Encabezado con Azul Corporativo */
+.custom-table th {
+  background-color: #005BB5;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  padding: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Celdas de Datos */
+.custom-table td {
+  padding: 12px;
+  border-bottom: 1px solid #F8F9FA;
+  font-size: 0.85rem;
+  color: #2C3E50;
+  /* Azul Oscuro (Texto) */
+}
+
+/* Resaltado de Fecha/Nombre */
+.bold {
+  font-weight: 700;
+}
+
+/* --- Etiquetas de Estado (Badges) --- */
+.status-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* Estado: LISTO (Verde) */
+.status-badge.complete {
+  background-color: #f0fff4;
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+/* Estado: ACTIVO (Dorado Cálido) */
+.status-badge.pending {
+  background-color: #fffaf0;
+  color: #F9A825;
+  border: 1px solid #F9A825;
+}
+
+/* --- Estados de Carga y Vacío --- */
+.empty-msg {
+  text-align: center;
+  padding: 30px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.spinner-blue {
+  width: 25px;
+  height: 25px;
+  border: 3px solid rgba(0, 91, 181, 0.1);
+  border-top: 3px solid #005BB5;
+  /* Azul Corporativo */
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-pdf-action {
+  background-color: #F9A825;
+  /* Dorado Cálido */
+  color: #2C3E50;
+  /* Azul Oscuro para el texto (alto contraste) */
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  /* Negritas para que resalte */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  /* Siempre en mayúsculas */
+  font-size: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.btn-pdf-action:hover {
+  background-color: #e69616;
+  /* Un tono más oscuro al pasar el mouse */
+  transform: translateY(-2px);
+  /* Pequeño levante */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-pdf-action:active {
+  transform: translateY(0);
+}
+
+/* Estilo para cuando no hay datos */
+.btn-pdf-action:disabled {
+  background-color: #e2e8f0;
+  color: #a0aec0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pdf-action {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filters-bar {
+  display: flex;
+  flex-direction: row;
+  /* Fuerza la línea horizontal en PC */
+  align-items: center;
+  /* Alinea verticalmente el checkbox con los inputs */
+  justify-content: flex-start;
+  gap: 25px;
+  background-color: #F8F9FA;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  margin-top: 15px;
+}
+
+/* Contenedor del Checkbox */
+.filter-item-check {
+  display: flex;
+  align-items: center;
+  /* Centra el texto del check internamente */
+  height: 100%;
+}
+
+/* Contenedor de las dos fechas */
+.filter-dates {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Alineación de etiqueta e input */
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  margin: 0;
+  /* Quita márgenes que puedan empujar el texto arriba */
+}
+
+@media (max-width: 600px) {
+  .filters-bar {
+    flex-direction: column;
+    /* Aquí sí permitimos que se apile */
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .filter-dates {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .filter-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Efecto de deshabilitado */
+.disabled-area {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* --- Checkbox Personalizado --- */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #2C3E50;
+  user-select: none;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #005BB5;
+  /* Azul Corporativo */
+  border-radius: 4px;
+}
+
+.custom-checkbox:hover input~.checkmark {
+  background-color: #f0f7ff;
+}
+
+.custom-checkbox input:checked~.checkmark {
+  background-color: #005BB5;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox input:checked~.checkmark:after {
+  display: block;
+}

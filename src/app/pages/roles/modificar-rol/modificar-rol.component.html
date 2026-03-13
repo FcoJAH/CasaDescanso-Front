@@ -1,0 +1,65 @@
+<div class="form-container">
+  @if (!isUpdated() && !isError()) {
+    <div class="form-card">
+      <h3><span class="icon">📝</span> Modificar Rol</h3>
+      <p class="subtitle">Selecciona un rol para actualizar su información.</p>
+
+      <div class="form-group full-width">
+        <label>Seleccionar Rol a modificar:</label>
+        <select class="custom-select" (change)="onSeleccionarRol($event)">
+          <option value="" disabled selected>-- Elija un rol --</option>
+          @for (rol of roles(); track rol.id) {
+            <option [value]="rol.id">{{ rol.name }}</option>
+          }
+        </select>
+      </div>
+
+      @if (isLoaded()) {
+        <div class="separator" style="height: 1px; background: #E0E4E8; margin: 25px 0;"></div>
+
+        <form [formGroup]="rolForm" (ngSubmit)="onSubmit()">
+          <div class="form-group full-width">
+            <label>Nombre del Rol</label>
+            <input formControlName="name" type="text" placeholder="Ej: ENFERMERO" style="text-transform: uppercase;">
+          </div>
+
+          <div class="form-group full-width">
+            <label>Descripción</label>
+            <textarea formControlName="description" rows="3" placeholder="Descripción de las funciones..."></textarea>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn-cancel" (click)="isLoaded.set(false)">Cancelar</button>
+            <button type="submit" class="btn-submit" [disabled]="rolForm.invalid">Guardar Cambios</button>
+          </div>
+        </form>
+      }
+    </div>
+  }
+
+  @else if (isError()) {
+    <div class="success-card">
+      <div class="success-content">
+        <div class="success-icon">⚠️</div>
+        <h2>No se pudo actualizar</h2>
+        <div class="info-box" style="border-left: 5px solid #F9A825;">
+          <p>{{ errorMessage() }}</p>
+        </div>
+        <button class="btn-back" (click)="resetVista()">Entendido</button>
+      </div>
+    </div>
+  }
+
+  @else if (isUpdated()) {
+    <div class="success-card">
+      <div class="success-content">
+        <div class="success-icon" style="color: #F9A825;">✨</div>
+        <h2>¡Cambios Guardados!</h2>
+        <div class="info-box">
+          <p>El rol ha sido actualizado correctamente en <strong>CASA DESCANSO</strong>.</p>
+        </div>
+        <button class="btn-back" (click)="finalizar()">Volver a Roles</button>
+      </div>
+    </div>
+  }
+</div>

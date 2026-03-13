@@ -1,0 +1,58 @@
+<div class="form-container">
+  @if (!isRegistered()) {
+    <div class="form-card">
+      <h3><span class="icon">👥</span> Crear Nuevo Rol</h3>
+      
+      <form [formGroup]="rolForm" (ngSubmit)="onSubmit()">
+        <div class="grid-layout">
+          
+          <div class="form-group full-width">
+            <label>Nombre del Rol</label>
+            <div class="input-container">
+              <input 
+                formControlName="name" 
+                type="text" 
+                placeholder="EJ: ADMINISTRADOR"
+                [class.is-valid]="rolForm.get('name')?.valid && rolForm.get('name')?.touched"
+                style="text-transform: uppercase;">
+              @if (rolForm.get('name')?.valid && rolForm.get('name')?.touched) {
+                <span class="check-icon">✅</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Descripción del Cargo</label>
+            <div class="input-container">
+              <textarea 
+                formControlName="description" 
+                rows="3" 
+                placeholder="Describa las responsabilidades..."
+                class="custom-textarea"
+                style="width: 100%; padding: 12px; border: 1.5px solid #E0E4E8; border-radius: 10px; font-size: 1rem; outline: none; box-sizing: border-box;"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="actions" style="margin-top: 25px;">
+          <button type="button" class="btn-cancel" (click)="finalizarEdicion()">Cancelar</button>
+          <button type="submit" class="btn-submit" [disabled]="rolForm.invalid">Guardar Rol</button>
+        </div>
+      </form>
+    </div>
+  } @else {
+    <div class="success-card">
+      <div class="success-icon">✨</div>
+      <h2 style="color: #2C3E50; margin: 0;">¡Rol Registrado!</h2>
+      
+      <div class="info-box">
+        <p>El rol <strong>{{ rolForm.get('name')?.value | uppercase }}</strong> ha sido guardado correctamente en <strong>CASA DESCANSO</strong>.</p>
+      </div>
+
+      <button class="btn-back" (click)="finalizarEdicion()">
+        Volver a la lista
+      </button>
+    </div>
+  }
+</div>

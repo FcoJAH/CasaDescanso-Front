@@ -1,0 +1,52 @@
+<div class="layout" [class.sidebar-hidden]="!isSidebarOpen">
+
+  <header class="header">
+    <div class="header-left">
+      <button class="hamburger-btn" (click)="toggleSidebar()">☰</button>
+      <div><img src="images/CD_Logo_Pequeno.png" alt="Logo" class="logo"></div>
+    </div>
+
+    <div class="user-display" *ngIf="user$ | async as user">
+      <span class="user-welcome">BIENVENIDO,</span>
+      <span class="user-fullname">{{ user.fullName | uppercase }}</span>
+    </div>
+
+    <button class="logout-btn" (click)="logout()">Cerrar sesión</button>
+  </header>
+
+  <div class="main-container">
+    @if (isSidebarOpen) {
+    <div class="sidebar-overlay" (click)="toggleSidebar()"></div>
+    }
+
+    <aside class="sidebar">
+      <nav>
+        <a routerLink="/dashboard" routerLinkActive="active" (click)="isSidebarOpen = false">Dashboard</a>
+        <a routerLink="/residentes" routerLinkActive="active" (click)="isSidebarOpen = false">Residentes</a>
+        <a routerLink="/signos-vitales" routerLinkActive="active" (click)="isSidebarOpen = false">Signos vitales</a>
+        <a routerLink="/incidents" routerLinkActive="active" (click)="isSidebarOpen = false">Incidentes</a>
+        <a routerLink="/reporte-signos" routerLinkActive="active" (click)="isSidebarOpen = false">Reporte de signos</a>
+        <!-- Dejar siempre hasta el final -->
+        <a routerLink="/checkin-out" routerLinkActive="active" (click)="isSidebarOpen = false">Check-in/Check-out</a>
+
+        @if (authService.isAdmin()) {
+        <div class="admin-separator">ADMINISTRACIÓN</div>
+        <a routerLink="/horarios" routerLinkActive="active" (click)="isSidebarOpen = false">Turnos</a>
+        <a routerLink="/empleados" routerLinkActive="active" (click)="isSidebarOpen = false">Empleados</a>
+        <a routerLink="/cambiar-contrasena" routerLinkActive="active" (click)="isSidebarOpen = false">Cambiar contraseña empleados</a>
+        <a routerLink="/roles" routerLinkActive="active" (click)="isSidebarOpen = false">Roles</a>
+        <a routerLink="/check-history" routerLinkActive="active" (click)="isSidebarOpen = false">Historial de checks</a>
+        }
+      </nav>
+
+      <div class="sidebar-footer">
+        <img src="images/CD_Titulo.png" alt="Logo Inferior" class="img-footer">
+      </div>
+    </aside>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>

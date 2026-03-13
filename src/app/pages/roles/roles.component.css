@@ -1,0 +1,114 @@
+/* Contenedor del menú con estilo de "Tab Bar" moderna */
+.menu-roles { /* Asegúrate que en el HTML diga class="menu-roles" */
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  padding: 10px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(44, 62, 80, 0.08);
+  border: 1px solid rgba(0, 91, 181, 0.1);
+  width: fit-content;
+  max-width: 100%;
+  justify-content: center;
+  margin: 0 auto 25px auto;
+}
+
+/* Base del botón tipo "Pill" */
+.btn-menu {
+  flex: 0 1 auto;
+  min-width: 140px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Colores de botones (Igual a tu estándar) */
+.btn-crear { background: linear-gradient(135deg, #005BB5 0%, #00468c 100%); color: white; }
+.btn-modificar { background: linear-gradient(135deg, #F9A825 0%, #e69616 100%); color: #2C3E50; }
+.btn-desactivar { background-color: transparent; color: #d32f2f; border: 2px solid #d32f2f; }
+.btn-ver { background-color: #F8F9FA; color: #005BB5; border: 1px solid #005BB5; }
+
+/* Estados de Interacción */
+.btn-menu:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  filter: saturate(1.2);
+}
+
+.active-link {
+  position: relative;
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 0 0 3px rgba(249, 168, 37, 0.4);
+}
+
+.active-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  width: 20px;
+  height: 4px;
+  background-color: #2C3E50;
+  border-radius: 10px;
+}
+
+/* --- AJUSTES RESPONSIVOS (Corregidos para .menu-roles) --- */
+
+@media (max-width: 768px) {
+  .menu-roles { /* Cambiado de .menu-empleados a .menu-roles */
+    flex-wrap: wrap; 
+    width: 100%;    
+    justify-content: center;
+  }
+
+  .btn-menu {
+    flex: 1 1 calc(50% - 12px); 
+    min-width: 120px;
+    font-size: 0.75rem;
+    padding: 10px 5px;
+  }
+
+  .active-link::after {
+    bottom: -2px;
+    width: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .btn-menu {
+    flex: 1 1 100%; 
+  }
+}
+
+/* Header de Sección */
+.header-seccion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.indicador {
+  width: 6px;
+  height: 35px;
+  border-radius: 10px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: #2C3E50;
+  margin: 0;
+  font-weight: 700;
+}

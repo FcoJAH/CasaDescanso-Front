@@ -1,0 +1,65 @@
+<div class="form-container">
+  @if (!isDeleted() && !isError()) {
+  <div class="form-card">
+    <h3><span class="icon">🗑️</span> Eliminar Turno Laboral</h3>
+
+    <div class="form-group full-width">
+      <label>Selecciona el turno que deseas eliminar:</label>
+      <select class="custom-select" (change)="onSeleccionarTurno($event)">
+        <option value="" disabled selected>-- Seleccionar turno --</option>
+        @for (turno of turnos(); track turno.id) {
+        <option [value]="turno.id">{{ turno.name }}</option>
+        }
+      </select>
+    </div>
+
+    @if (turnoSeleccionado()) {
+    <div class="warning-box">
+      <p><strong>¿Estás seguro de eliminar este turno?</strong></p>
+      <div class="details">
+        <span style="color: #005BB5;">{{ turnoSeleccionado().name }}</span>
+        <span style="font-size: 0.9rem;">{{ turnoSeleccionado().startTime }} - {{ turnoSeleccionado().endTime }}</span>
+      </div>
+      <p class="small-text">Esta acción eliminará el registro de forma permanente.</p>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn-cancel" (click)="turnoSeleccionado.set(null)">Cancelar</button>
+      <button type="button" class="btn-delete" (click)="confirmarEliminar()">Eliminar Ahora</button>
+    </div>
+    }
+  </div>
+  }
+  @else if (isError()) {
+  <div class="success-card" style="border-top: 6px solid #F9A825;">
+    <div class="success-content">
+      <div class="success-icon">⚠️</div>
+      <h2 style="color: #2C3E50;">No se puede eliminar</h2>
+
+      <div class="info-box">
+        <p>{{ errorMessage() }}</p>
+        <p style="font-size: 0.85rem; margin-top: 10px; color: #666;">
+          Por favor, reasigna a los trabajadores antes de intentar eliminar este turno.
+        </p>
+      </div>
+
+      <button class="btn-back" (click)="resetVista()">
+        Entendido
+      </button>
+    </div>
+  </div>
+  }
+
+  @else if (isDeleted()) {
+  <div class="success-card">
+    <div class="success-content">
+      <div class="success-icon">🗑️</div>
+      <h2>Turno Eliminado</h2>
+      <div class="info-box">
+        <p>El registro ha sido borrado correctamente del sistema.</p>
+      </div>
+      <button class="btn-back" (click)="finalizar()">Volver a Horarios</button>
+    </div>
+  </div>
+  }
+</div>

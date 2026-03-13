@@ -1,0 +1,32 @@
+<div class="checkin-wrapper">
+  <div class="checkin-card fade-slide-in">
+    <h2>Registro de Asistencia</h2>
+    <p class="current-time">{{ currentTime | date:'hh:mm:ss a' }}</p>
+
+    <div class="buttons">
+      @if (!checkedIn) {
+        <button 
+          class="btn-checkin"
+          (click)="checkIn()" 
+          [disabled]="loading">
+          @if (loading) { <span class="spinner"></span> }
+          @else { 📥 Registrar Entrada }
+        </button>
+      }
+
+      @else {
+        <button 
+          class="btn-checkout"
+          (click)="checkOut()" 
+          [disabled]="loading">
+          @if (loading) { <span class="spinner"></span> }
+          @else { 📤 Registrar Salida }
+        </button>
+      }
+    </div>
+
+    @if (message) {
+      <p class="message" [class.success]="!loading">{{ message }}</p>
+    }
+  </div>
+</div>

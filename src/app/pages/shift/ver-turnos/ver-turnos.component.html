@@ -1,0 +1,45 @@
+<div class="table-container">
+  <div class="table-card">
+    <div class="table-header-section">
+      <h3><span class="icon">📋</span> Horarios de Turnos</h3>
+      <p>Consulta la configuración de jornadas laborales</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="loading-state">
+        <p>Cargando información...</p>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Nombre del Turno</th>
+              <th class="text-center">Hora de Inicio</th>
+              <th class="text-center">Hora de Fin</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (turno of turnos(); track turno.id) {
+              <tr>
+                <td class="name-column">
+                  <strong>{{ turno.name }}</strong>
+                </td>
+                <td class="text-center">
+                  <span class="time-badge">{{ formatTime12h(turno.startTime) }}</span>
+                </td>
+                <td class="text-center">
+                  <span class="time-badge">{{ formatTime12h(turno.endTime) }}</span>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="empty-message">No se encontraron turnos registrados.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
