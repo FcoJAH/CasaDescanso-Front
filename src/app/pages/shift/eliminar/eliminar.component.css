@@ -1,0 +1,143 @@
+/* Contenedor Principal */
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px 10px;
+}
+
+/* Card de Formulario */
+.form-card {
+  background: #FFFFFF; /* Blanco Puro */
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.08);
+  border-top: none; 
+  border: 1px solid rgba(44, 62, 80, 0.05); 
+}
+
+.form-card h3 {
+  color: #2C3E50; /* Azul Oscuro */
+  margin-top: 0;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.4rem;
+}
+
+/* Selector Estilizado */
+.custom-select {
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid #E0E4E8;
+  border-radius: 10px;
+  background-color: #F8F9FA; /* Blanco Humo */
+  color: #2C3E50;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.custom-select:focus {
+  border-color: #005BB5; /* Azul Corporativo */
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+}
+
+/* Caja de Confirmación / Advertencia (Sin borde dorado) */
+.warning-box {
+  background-color: #F8F9FA; /* Blanco Humo */
+  padding: 25px;
+  border-radius: 12px;
+  margin: 25px 0;
+  text-align: center;
+  border: 1.5px solid #E0E4E8; /* Borde neutro alineado al sistema */
+}
+
+.warning-box .details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 15px 0;
+}
+
+.warning-box .details strong {
+  color: #005BB5; /* Azul Corporativo para resaltar el nombre */
+  font-size: 1.2rem;
+}
+
+/* Botones y Acciones */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  background-color: white;
+  color: #005BB5;
+  border: 1.5px solid #005BB5;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #F8F9FA;
+}
+
+.btn-delete {
+  background-color: #d32f2f; /* Rojo de alerta */
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete:hover {
+  background-color: #b71c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.2);
+}
+
+/* Estilos de Éxito */
+.success-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 91, 181, 0.1);
+  border-top: 6px solid #005BB5;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.info-box {
+  background-color: #F8F9FA;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border: 1px solid #E0E4E8;
+}
+
+.btn-back {
+  background-color: #2C3E50; /* Azul Oscuro */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-back:hover {
+  background-color: #005BB5;
+  transform: translateY(-2px);
+}

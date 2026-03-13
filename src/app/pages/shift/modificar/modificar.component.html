@@ -1,0 +1,63 @@
+<div class="form-container">
+  @if (!isRegistered()) {
+    <div class="form-card">
+      <h3><span class="icon">✏️</span> Modificar Turno</h3>
+
+      <div class="form-group full-width">
+        <label>Selecciona el turno a editar:</label>
+        <select class="custom-select" (change)="onSeleccionarTurno($event)">
+          <option value="" disabled selected>-- Elige un horario --</option>
+          @for (turno of turnos(); track turno.id) {
+            <option [value]="turno.id">{{ turno.name }} ({{ turno.startTime }})</option>
+          }
+        </select>
+      </div>
+
+      @if (isLoaded()) {
+        <div class="separator"></div>
+
+        <form [formGroup]="turnoForm" (ngSubmit)="onUpdate()">
+          <div class="grid-layout">
+            <div class="form-group full-width">
+              <label>Nombre del Turno *</label>
+              <div class="input-container">
+                <input formControlName="name" type="text" [class.is-valid]="isFieldValid('name')">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Hora de Inicio *</label>
+              <input formControlName="startTime" type="time">
+            </div>
+            <div class="form-group">
+              <label>Hora de Fin *</label>
+              <input formControlName="endTime" type="time">
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn-cancel" (click)="isLoaded.set(false)">Cancelar</button>
+            <button type="submit" class="btn-submit">Actualizar Cambios</button>
+          </div>
+        </form>
+      }
+    </div>
+  }
+  @else {
+    <div class="success-card">
+      <div class="success-content">
+        <div class="success-icon">✨</div>
+        <h2>¡Actualización Exitosa!</h2>
+        
+        <div class="info-box">
+          <p>El turno <strong style="color: #005BB5;">{{ turnoForm.value.name }}</strong> ha sido modificado correctamente.</p>
+          <p class="horario-display">Nuevo horario: {{ turnoForm.value.startTime }} - {{ turnoForm.value.endTime }}</p>
+        </div>
+
+        <button class="btn-back" (click)="finalizarEdicion()">
+          Volver a la lista
+        </button>
+      </div>
+    </div>
+  }
+</div>

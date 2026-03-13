@@ -1,0 +1,136 @@
+<div class="form-container">
+  @if (!editMode() && !isSuccess() && !isError()) {
+    <div class="form-card">
+      <h3><span class="icon">✏️</span> Modificar Empleado</h3>
+      <p class="subtitle">Seleccione al trabajador para actualizar su expediente.</p>
+      
+      <div class="form-group full-width">
+        <label>Buscar empleado:</label>
+        <div class="input-container">
+          <select class="custom-select" (change)="onSeleccionar($event)">
+            <option value="" disabled selected>-- Seleccionar por nombre --</option>
+            @for (emp of empleados(); track emp.id) {
+              <option [value]="emp.id">{{ emp.fullName | uppercase }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (editMode() && !isSuccess() && !isError()) {
+    <div class="form-card">
+      <h3><span class="icon">👤</span> Editando: {{ formData().fullName | uppercase }}</h3>
+
+      <form (submit)="onSubmit()">
+        <div class="section-title">
+          <i class="icon">📄</i> Datos Personales
+        </div>
+        
+        <div class="grid-layout">
+          <div class="form-group">
+            <label>Nombre(s)</label>
+            <div class="input-container">
+              <input type="text" [(ngModel)]="formData().firstName" name="firstName" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Apellido Paterno</label>
+            <div class="input-container">
+              <input type="text" [(ngModel)]="formData().lastName" name="lastName" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Apellido Materno</label>
+            <div class="input-container">
+              <input type="text" [(ngModel)]="formData().middleName" name="middleName">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Fecha de Nacimiento</label>
+            <div class="input-container">
+              <input type="date" [(ngModel)]="formData().birthDate" name="birthDate">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Género</label>
+            <div class="input-container">
+              <select [(ngModel)]="formData().gender" name="gender">
+                <option value="" disabled>Seleccione...</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Teléfono</label>
+            <div class="input-container">
+              <input type="text" [(ngModel)]="formData().phone" name="phone">
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <i class="icon">💼</i> Información Laboral
+        </div>
+
+        <div class="grid-layout">
+          <div class="form-group">
+            <label>Rol / Perfil</label>
+            <div class="input-container">
+              <select [(ngModel)]="formData().roleId" name="roleId">
+                @for (rol of roles(); track rol.id) {
+                  <option [value]="rol.id">{{ rol.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Turno Asignado</label>
+            <div class="input-container">
+              <select [(ngModel)]="formData().shiftId" name="shiftId">
+                @for (turno of turnos(); track turno.id) {
+                  <option [value]="turno.id">{{ turno.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-cancel" (click)="editMode.set(false)">Cancelar</button>
+          <button type="submit" class="btn-submit" (click)="onSubmit()">Guardar Cambios</button>
+        </div>
+      </form>
+    </div>
+  }
+
+  @if (isSuccess()) {
+    <div class="success-card">
+      <div class="success-icon">✅</div>
+      <h2>¡Actualización Exitosa!</h2>
+      <div class="info-box">
+        <p>Los datos de <strong>{{ formData().firstName | uppercase }}</strong> han sido modificados correctamente en la base de datos de <strong>CASA DESCANSO</strong>.</p>
+      </div>
+      <button class="btn-back" (click)="finalizar()">Volver a la lista</button>
+    </div>
+  }
+
+  @if (isError()) {
+    <div class="success-card" style="border-top: 6px solid #e74c3c;">
+      <div class="success-icon">❌</div>
+      <h2>Error al Guardar</h2>
+      <div class="info-box">
+        <p>No se pudo procesar la solicitud. Por favor, revisa los datos o intenta más tarde.</p>
+      </div>
+      <button class="btn-back" (click)="isError.set(false)">Regresar al formulario</button>
+    </div>
+  }
+</div>

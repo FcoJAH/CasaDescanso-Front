@@ -1,0 +1,66 @@
+<div class="dashboard-container">
+
+  <div class="metrics-grid">
+    <div class="metric-card active-now">
+      <span class="icon">👤</span>
+      <div class="info">
+        <h3>{{ stats().workersWorkingNow }}</h3>
+        <p>LABORANDO AHORA</p>
+      </div>
+    </div>
+
+    <div class="metric-card checkins">
+      <span class="icon">✅</span>
+      <div class="info">
+        <h3>{{ stats().checkInsToday }}</h3>
+        <p>ENTRADAS HOY</p>
+      </div>
+    </div>
+
+    <div class="metric-card incidents" [class.danger]="stats().totalIncidents > 0">
+      <span class="icon">⚠️</span>
+      <div class="info">
+        <h3>{{ stats().todayIncidents }}</h3>
+        <p>INCIDENCIAS DE HOY</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid" *ngIf="!loading()">
+
+    <div class="chart-card">
+      <h4>RESIDENTES ({{ stats().totalResidents }})</h4>
+      <div class="chart-box">
+        <canvas #resChart></canvas>
+      </div>
+      <div class="chart-footer">
+        <span><strong>{{ stats().activeResidents }}</strong> Activos</span>
+        <span><strong>{{ stats().inactiveResidents }}</strong> Inactivos</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h4>ESTADO DEL PERSONAL ({{ stats().totalWorkers }})</h4>
+      <div class="chart-box">
+        <canvas #workChart></canvas>
+      </div>
+      <div class="chart-footer">
+        <span class="text-primary">● Activos</span>
+        <span class="text-accent">● Bajas</span>
+      </div>
+    </div>
+
+    <div class="chart-card border-danger">
+      <h4>ESTADO DE INCIDENCIAS</h4>
+      <div class="chart-box">
+        <canvas #incidentChart></canvas>
+      </div>
+      <div class="chart-footer">
+        <span class="text-danger">● Hoy: {{ stats().todayIncidents }}</span>
+        <span class="text-success">● Totales: {{ stats().totalIncidents }}</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>

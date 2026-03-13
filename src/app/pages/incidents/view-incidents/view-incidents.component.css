@@ -1,0 +1,175 @@
+/* ============================================================
+   ESTILOS HISTORIAL DE INCIDENCIAS - CASA DESCANSO
+   Contenedor: 650px | Primario: #005BB5 | Secundario: #F9A825
+   ============================================================ */
+
+.form-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-card {
+  background: #FFFFFF;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.08);
+  border: 1px solid rgba(0, 91, 181, 0.1);
+}
+
+/* --- Encabezados --- */
+h3 {
+  color: #005BB5; /* Azul Corporativo */
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  color: #5D6D7E;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+}
+
+/* --- Selector de Residente --- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  color: #2C3E50; /* Azul Oscuro */
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #E0E4E8;
+  border-radius: 10px;
+  background-color: #F8F9FA; /* Blanco Humo */
+  color: #2C3E50;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.custom-select:focus {
+  border-color: #005BB5;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+}
+
+/* --- Tabla de Incidentes --- */
+.table-container {
+  border: 1px solid #E0E4E8;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+  background-color: #FFFFFF;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.custom-table th {
+  background-color: #005BB5; /* Azul Corporativo */
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  padding: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.custom-table td {
+  padding: 15px;
+  border-bottom: 1px solid #F8F9FA;
+  font-size: 0.85rem;
+  color: #2C3E50;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+/* --- Etiquetas de Severidad (Badges) --- */
+.status-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  display: inline-block;
+  background-color: #EBF5FB;
+  color: #005BB5;
+  border: 1px solid rgba(0, 91, 181, 0.2);
+}
+
+/* --- Botón PDF (Dorado Cálido) --- */
+.btn-pdf-small {
+  background-color: #F9A825; /* Dorado Cálido */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(249, 168, 37, 0.2);
+}
+
+.btn-pdf-small:hover {
+  background-color: #E68A00;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(249, 168, 37, 0.3);
+}
+
+/* --- Estados de Carga e Info --- */
+.spinner-blue {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(0, 91, 181, 0.1);
+  border-top: 3px solid #005BB5;
+  border-radius: 50%;
+  margin: 20px auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.info-box {
+  background-color: #F8F9FA;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #E0E4E8;
+  text-align: center;
+  color: #5D6D7E;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* --- Animaciones --- */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

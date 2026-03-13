@@ -1,0 +1,157 @@
+<div class="form-container">
+  @if (!editMode() && !isSuccess() && !isError()) {
+    <div class="form-card">
+      <h3><span class="icon">✏️</span> Modificar Expediente</h3>
+      <p class="subtitle">Seleccione al residente para actualizar su información médica y personal.</p>
+      
+      <div class="form-group full-width">
+        <label>Buscar Residente:</label>
+        <div class="input-container">
+          <select class="custom-select" (change)="onSeleccionar($event)">
+            <option value="" disabled selected>-- Seleccionar por nombre --</option>
+            @for (res of residentes(); track res.id) {
+              <option [value]="res.id">{{ res.firstName }} {{ res.lastName }} {{ res.middleName }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (editMode() && !isSuccess() && !isError()) {
+    <div class="form-card">
+      <h3><span class="icon">👤</span> Editando: {{ formData().firstName | uppercase }} {{ formData().lastName | uppercase }}</h3>
+
+      <form (submit)="onSubmit()">
+        <div class="section-title"><i class="icon">📄</i> Datos Personales</div>
+        <div class="grid-layout">
+          <div class="form-group">
+            <label>Nombre(s)</label>
+            <input type="text" [(ngModel)]="formData().firstName" name="firstName" required>
+          </div>
+
+          <div class="form-group">
+            <label>Apellido Paterno</label>
+            <input type="text" [(ngModel)]="formData().lastName" name="lastName" required>
+          </div>
+
+          <div class="form-group">
+            <label>Apellido Materno</label>
+            <input type="text" [(ngModel)]="formData().middleName" name="middleName">
+          </div>
+
+          <div class="form-group">
+            <label>Fecha de Nacimiento</label>
+            <input type="date" [(ngModel)]="formData().birthDate" name="birthDate">
+          </div>
+
+          <div class="form-group">
+            <label>Género</label>
+            <select [(ngModel)]="formData().gender" name="gender">
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>NSS</label>
+            <input type="text" [(ngModel)]="formData().nss" name="nss" maxlength="11">
+          </div>
+        </div>
+
+        <div class="section-title"><i class="icon">⚕️</i> Salud y Admisión</div>
+        <div class="grid-layout">
+          <div class="form-group" >
+            <label>Tipo de Sangre</label>
+            <select [(ngModel)]="formData().bloodType" name="bloodType">
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Fecha de Ingreso</label>
+            <input type="date" [(ngModel)]="formData().admissionDate" name="admissionDate">
+          </div>
+
+          <div class="form-group full-width">
+            <label>Enfermedades Diagnosticadas</label>
+            <textarea [(ngModel)]="formData().diagnosedDiseases" name="diagnosedDiseases"></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Alergias</label>
+            <input type="text" [(ngModel)]="formData().allergies" name="allergies">
+          </div>
+        </div>
+
+        <div class="section-title"><i class="icon">📞</i> Contactos</div>
+        <div class="grid-layout">
+          <div class="form-group">
+            <label>Contacto Principal</label>
+            <input type="text" [(ngModel)]="formData().emergencyContactName" name="emergencyContactName">
+          </div>
+
+          <div class="form-group">
+            <label>Teléfono Principal</label>
+            <input type="text" [(ngModel)]="formData().emergencyContactPhone" name="emergencyContactPhone" maxlength="10">
+          </div>
+
+          <div class="form-group">
+            <label>Parentesco</label>
+            <input type="text" [(ngModel)]="formData().emergencyContactRelation" name="emergencyContactRelation">
+          </div>
+
+          <div class="form-group">
+            <label>Contacto Secundario</label>
+            <input type="text" [(ngModel)]="formData().secondContactName" name="secondContactName">
+          </div>
+
+          <div class="form-group">
+            <label>Tel. Secundario</label>
+            <input type="text" [(ngModel)]="formData().secondContactPhone" name="secondContactPhone" maxlength="10">
+          </div>
+        </div>
+
+        <div class="section-title"><i class="icon">📝</i> Observaciones</div>
+        <div class="form-group full-width">
+          <textarea [(ngModel)]="formData().observations" name="observations" rows="3"></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-cancel" (click)="editMode.set(false)">Cancelar</button>
+          <button type="submit" class="btn-submit">Actualizar Expediente</button>
+        </div>
+      </form>
+    </div>
+  }
+
+  @if (isSuccess()) {
+    <div class="success-card">
+      <div class="success-icon">✅</div>
+      <h2>¡Expediente Actualizado!</h2>
+      <div class="info-box">
+        <p>Los datos médicos y personales de <strong>{{ formData().firstName | uppercase }}</strong> han sido guardados correctamente.</p>
+      </div>
+      <button class="btn-back" (click)="finalizar()">Volver a la lista</button>
+    </div>
+  }
+
+  @if (isError()) {
+    <div class="success-card" style="border-top: 6px solid #e74c3c;">
+      <div class="success-icon">❌</div>
+      <h2>Error al Actualizar</h2>
+      <div class="info-box">
+        <p>Hubo un problema al guardar los cambios del residente. Por favor, verifique el NSS o la conexión.</p>
+      </div>
+      <button class="btn-back" (click)="isError.set(false)">Regresar al dashboard</button>
+    </div>
+  }
+</div>

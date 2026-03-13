@@ -1,0 +1,106 @@
+<div class="form-container">
+  @if (!isDeleted() && !isError()) {
+  <div class="form-card">
+    <h3><span class="icon">📓</span> Consultar historial</h3>
+    <p class="subtitle">Seleccione un empleado de la lista para ver sus registros.</p>
+
+    <div class="form-group full-width">
+      <label>Seleccionar trabajador:</label>
+      <select class="custom-select" (change)="onSeleccionar($event)"
+        (change)="consultarHistorial(empleadoSeleccionado().id)">
+        <option value="" disabled selected>-- Buscar por nombre --</option>
+        @for (u of empleados(); track u.id) {
+        <option [value]="u.id">{{ u.fullName }}</option>
+        }
+      </select>
+    </div>
+
+    @if (empleadoSeleccionado()) {
+    <div class="header-flex">
+      <p><span class="icon">📅</span> Historial de: <strong>{{ empleadoSeleccionado().fullName }}</strong></p>
+    </div>
+
+    <div class="filters-bar mt-4">
+
+      <div class="filter-item-check">
+        <label class="custom-checkbox">
+          <input type="checkbox" [(ngModel)]="todoElHistorial" (change)="toggleTodoHistorial()">
+          <span class="checkmark"></span>
+          Todo el historial
+        </label>
+      </div>
+
+      <div class="filter-dates" [class.disabled-area]="todoElHistorial()">
+        <div class="filter-group">
+          <label>Desde:</label>
+          <input type="date" [(ngModel)]="fechaInicio" [disabled]="todoElHistorial()" (change)="aplicarFiltro()">
+        </div>
+
+        <div class="filter-group">
+          <label>Hasta:</label>
+          <input type="date" [(ngModel)]="fechaFin" [disabled]="todoElHistorial()" (change)="aplicarFiltro()">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="table-container mt-4">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>FECHA</th>
+            <th>ENTRADA</th>
+            <th>SALIDA</th>
+            <th>ESTADO</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (record of historyFiltered(); track record.id) {
+          <tr>
+            <td class="bold">{{ record.date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ record.checkIn | date:'hh:mm a' }}</td>
+            <td>{{ record.checkOut ? (record.checkOut | date:'hh:mm a') : '--:--' }}</td>
+            <td>
+              <span class="status-badge" [class.complete]="record.checkOut" [class.pending]="!record.checkOut">
+                {{ record.checkOut ? 'LISTO' : 'ACTIVO' }}
+              </span>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="pdf-action">
+      <button class="btn-pdf-action" (click)="descargarPDF(empleadoSeleccionado().fullName)">📄 Descargar PDF</button>
+    </div>
+    }
+  </div>
+  }
+
+  @else if (isError()) {
+  <div class="success-card" style="border-top: 6px solid #F9A825;">
+    <div class="success-content">
+      <div class="success-icon">⚠️</div>
+      <h2>Aviso del Sistema</h2>
+      <div class="info-box">
+        <p>{{ errorMessage() }}</p>
+      </div>
+      <button class="btn-back" (click)="resetVista()">Seleccionar otro</button>
+    </div>
+  </div>
+  }
+
+  @else if (isDeleted()) {
+  <div class="success-card">
+    <div class="success-content">
+      <div class="success-icon">
+        <h2>✅ Acceso Restringido</h2>
+      </div>
+      <div class="info-box">
+        <p>El empleado ha sido desactivado correctamente en <strong>CASA DESCANSO</strong>.</p>
+      </div>
+      <button class="btn-back" (click)="finalizar()">Volver a Gestión</button>
+    </div>
+  </div>
+  }
+</div>

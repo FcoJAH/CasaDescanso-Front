@@ -1,0 +1,148 @@
+/* Contenedor principal con el estándar de 650px */
+.form-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Tarjetas: Formulario y Éxito/Error */
+.form-card,
+.success-card {
+  background: #FFFFFF;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.08);
+  border: 1px solid rgba(0, 91, 181, 0.1);
+}
+
+/* Tipografía y Títulos */
+h3 {
+  color: #005BB5; /* Azul Corporativo */
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  color: #5D6D7E;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+}
+
+/* Estructura de Grupos */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: #2C3E50; /* Azul Oscuro */
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Inputs, Selects y Textareas */
+.custom-select,
+input,
+textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #E0E4E8;
+  border-radius: 10px;
+  background-color: #F8F9FA; /* Blanco Humo */
+  color: #2C3E50;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.custom-select:focus,
+input:focus,
+textarea:focus {
+  border-color: #005BB5;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+}
+
+/* Separador visual igual al de Turnos */
+.separator {
+  height: 1px;
+  background: #E0E4E8;
+  margin: 25px 0;
+  width: 100%;
+}
+
+/* Botones y Acciones */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-submit {
+  background-color: #005BB5;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #005BB5;
+  border: 1.5px solid #005BB5;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Pantallas de Realización (Éxito/Error) */
+.success-content {
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+}
+
+.info-box {
+  background-color: #F8F9FA;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 25px 0;
+  border-left: 5px solid #005BB5; /* Azul Corporativo */
+  text-align: left;
+  color: #2C3E50;
+}
+
+.btn-back {
+  background-color: #2C3E50; /* Azul Oscuro */
+  color: white;
+  border: none;
+  padding: 14px 40px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+}

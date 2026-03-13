@@ -1,0 +1,151 @@
+/* ============================================================
+   ESTÁNDARES VISUALES - CASA DESCANSO
+   Contenedor: 650px | Primario: #005BB5 | Secundario: #F9A825
+   ============================================================ */
+
+/* 1. ESTRUCTURA Y CONTENEDORES */
+.form-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.form-card, .success-card {
+  background: #FFFFFF;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.08);
+  border: 1px solid rgba(0, 91, 181, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 2. TIPOGRAFÍA Y ENCABEZADOS */
+h3 {
+  color: #005BB5;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  color: #5D6D7E;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+}
+
+/* 3. ELEMENTOS DE FORMULARIO */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group.full-width { width: 100%; }
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+label {
+  color: #2C3E50;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.custom-select, .custom-textarea, .custom-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #E0E4E8;
+  border-radius: 10px;
+  background-color: #F8F9FA; /* Blanco Humo */
+  color: #2C3E50;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.custom-select:focus, .custom-textarea:focus {
+  border-color: #005BB5;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+}
+
+/* 4. BOTONES Y ACCIONES */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.btn-submit {
+  background-color: #005BB5;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #004488;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 91, 181, 0.2);
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #5D6D7E;
+  border: 1.5px solid #D5DBDB;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel:hover { background-color: #F8F9FA; }
+
+/* 5. ESTADOS (ÉXITO / ERROR) */
+.success-icon { font-size: 3rem; margin-bottom: 15px; }
+
+.info-box {
+  background-color: #F8F9FA;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #E0E4E8;
+  margin: 15px 0;
+  color: #2C3E50;
+  font-weight: 600;
+}
+
+.btn-back {
+  background-color: #2C3E50;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 6. RESPONSIVIDAD */
+@media (max-width: 600px) {
+  .grid-layout { grid-template-columns: 1fr; }
+  .form-card { padding: 20px; }
+  .actions { flex-direction: column; }
+  .btn-submit, .btn-cancel { width: 100%; }
+}

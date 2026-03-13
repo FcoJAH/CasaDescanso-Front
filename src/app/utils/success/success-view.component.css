@@ -1,0 +1,106 @@
+.success-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 300px;
+}
+
+.success-card {
+    background-color: #FFFFFF;
+    width: 100%;
+    max-width: 500px;
+    /* Un poco más angosto para que luzca como tarjeta */
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #28A745;
+    /* Verde éxito */
+}
+
+.icon-circle {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2C3E50;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.info-box {
+    background-color: #F8F9FA;
+    /* Blanco Humo */
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid #dee2e6;
+}
+
+.info-box p {
+    color: #2C3E50;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 500;
+}
+
+.user-badge {
+    display: inline-block;
+    margin-top: 10px;
+    color: #005BB5;
+    /* Azul Corporativo */
+    font-weight: bold;
+}
+
+.actions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-primary-success {
+    background-color: #005BB5;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-primary-success:hover {
+    background-color: #004488;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #7F8C8D;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo {
+    width: 80px;
+}

@@ -1,0 +1,256 @@
+/* --- Contenedor y Estructura --- */
+.form-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.form-card {
+  background-color: #FFFFFF; /* Blanco Puro (Superficie) */
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #edf2f7;
+}
+
+.mt-4 { margin-top: 1.5rem; }
+
+h3 {
+  color: #2C3E50; /* Azul Oscuro (Texto) */
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #F8F9FA;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* --- Grupos de Formulario e Inputs --- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #2C3E50;
+  font-size: 0.85rem;
+}
+
+/* Contenedor relativo para posicionar el check ✅ */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px 35px 10px 12px; /* Espacio extra a la derecha para el check */
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #F8F9FA; /* Blanco Humo */
+  color: #2C3E50;
+}
+
+/* --- Estados de Validación --- */
+
+/* Foco estándar */
+input:focus, select:focus {
+  border-color: #005BB5; /* Azul Corporativo */
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+}
+
+/* Campo Válido (Check Verde) */
+.is-valid {
+  border-color: #2ecc71 !important;
+  background-color: #f0fff4 !important;
+}
+
+/* Campo Inválido (Borde Rojo) */
+.is-invalid {
+  border-color: #e74c3c !important;
+  background-color: #fff5f5 !important;
+}
+
+.check-icon {
+  position: absolute;
+  right: 12px;
+  font-size: 0.8rem;
+  pointer-events: none; /* No interfiere con el click en el input */
+}
+
+/* --- Popup Flotante (Avisos) --- */
+.floating-alert {
+  position: fixed;
+  top: 80px;
+  right: 25px;
+  background-color: #F9A825; /* Dorado Cálido */
+  color: #2C3E50;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  font-weight: 700;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* --- Botones --- */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-submit {
+  background-color: #005BB5; /* Azul Corporativo */
+  color: white;
+  padding: 12px 35px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: #004a94;
+  transform: translateY(-2px);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #2C3E50;
+  padding: 12px 30px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-cancel:hover {
+  background-color: #f1f5f9;
+}
+
+/* Botón del ojito */
+.btn-eye {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2C3E50;
+  transition: transform 0.2s;
+  z-index: 5; /* Asegura que esté sobre el input */
+}
+
+.btn-eye:hover {
+  transform: scale(1.2);
+}
+
+/* Ajuste para que el check verde no tape al ojo */
+.form-group .input-container .check-icon {
+  right: 35px; /* Lo movemos un poco a la izquierda del ojo */
+}
+
+/* Ajuste del padding del input para que el texto no choque con los iconos */
+input[type="password"], 
+input[type="text"] {
+  padding-right: 60px !important; 
+}
+
+/* Específicamente para el select inválido */
+select.is-invalid {
+  border: 2px solid #e74c3c !important; /* Rojo */
+  background-color: #fff5f5 !important;
+  color: #e74c3c; /* Cambia el color del texto "Seleccionar..." a rojo */
+}
+
+/* Para que se vea bien en todos los navegadores */
+select.is-invalid:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+input[formControlName="rfc"], 
+input[formControlName="curp"] {
+  text-transform: uppercase;
+}
+
+.success-card {
+  background-color: #FFFFFF; /* Blanco Puro sobre fondo gris */
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 500px;
+  margin: 50px auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.success-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.success-card h2 {
+  color: #2C3E50; /* Azul Oscuro para el cuerpo */
+  margin-bottom: 20px;
+}
+
+.info-box {
+  background-color: #F8F9FA; /* Blanco Humo */
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border: 1px solid #dee2e6;
+}
+
+.username-display {
+  font-size: 1.4em;
+  margin-top: 10px;
+  color: #005BB5; /* Azul Corporativo */
+}
+
+.btn-back {
+  background-color: #005BB5;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-back:hover {
+  background-color: #004488;
+}

@@ -1,0 +1,230 @@
+/* --- Contenedor y Estructura Principal --- */
+.form-container {
+  max-width: 900px; /* Mantenemos el ancho para el grid */
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.form-card {
+  background-color: #FFFFFF;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #edf2f7;
+}
+
+/* --- Secciones y Títulos --- */
+h3 {
+  color: #2C3E50;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #F8F9FA;
+  padding-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Subtítulos de sección tipo "Registro" */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #005BB5; /* Azul Corporativo */
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 25px 0 15px 0;
+  text-transform: uppercase;
+}
+
+.section-title i {
+  color: #F9A825; /* Dorado para el icono */
+}
+
+/* --- Layout de Rejilla --- */
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background-color: #F8F9FA; /* Fondo Gris Suave como en Registro */
+  border-radius: 10px;
+  border-left: 4px solid #005BB5; /* Detalle lateral corporativo */
+}
+
+.full-width {
+  grid-column: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* --- Grupos de Formulario e Inputs --- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #2C3E50;
+  font-size: 0.85rem;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #FFFFFF;
+  color: #2C3E50;
+}
+
+/* --- Estados de Validación (Estilo Registro) --- */
+input:focus, select:focus {
+  border-color: #005BB5;
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.1);
+}
+
+.is-valid {
+  border-color: #2ecc71 !important;
+  background-color: #f0fff4 !important;
+}
+
+.is-invalid {
+  border-color: #e74c3c !important;
+  background-color: #fff5f5 !important;
+}
+
+.check-icon {
+  position: absolute;
+  right: 12px;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+/* --- Acciones y Botones --- */
+.actions {
+  display: flex;
+  justify-content: center; /* Centrado solicitado */
+  gap: 20px;
+  margin-top: 35px;
+}
+
+.btn-submit {
+  background-color: #005BB5;
+  color: white;
+  padding: 12px 40px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 180px;
+}
+
+.btn-submit:hover {
+  background-color: #004a94;
+  transform: translateY(-2px);
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #2C3E50;
+  padding: 12px 35px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  min-width: 180px;
+}
+
+.btn-cancel:hover {
+  background-color: #f1f5f9;
+}
+
+/* --- Pantalla de Éxito --- */
+.success-card {
+  background-color: #FFFFFF;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 500px;
+  margin: 50px auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.success-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+/* Ajuste de mayúsculas para documentos */
+.doc-input {
+  text-transform: uppercase;
+}
+
+/* Asegura que el botón de submit tenga el Azul Corporativo */
+.btn-submit {
+  background-color: #005BB5 !important;
+  color: white !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Alineación de la cuadrícula a 2 columnas fijas en desktop */
+@media (min-width: 768px) {
+  .grid-layout {
+    grid-template-columns: 1fr 1fr; /* Fuerza 2 columnas iguales */
+  }
+}
+
+/* --- Botón de Retorno Estilizado --- */
+.btn-back {
+  background-color: #005BB5; /* Azul Corporativo */
+  color: #FFFFFF !important;
+  padding: 12px 40px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 4px 10px rgba(0, 91, 181, 0.2);
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+}
+
+.btn-back:hover {
+  background-color: #004a94;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 91, 181, 0.3);
+}
+
+.btn-back:active {
+  transform: translateY(0);
+}
+
+/* Ajuste adicional para la success-card para que todo respire */
+.success-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}

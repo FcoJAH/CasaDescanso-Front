@@ -1,0 +1,41 @@
+<div class="table-container">
+  <div class="table-card">
+    <div class="table-header-section">
+      <h3><span class="icon">👥</span> Roles del Personal</h3>
+      <p>Definición de perfiles y responsabilidades en el sistema</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="loading-state">
+        <p>Cargando roles...</p>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Nombre del Rol</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (rol of roles(); track rol.name) {
+              <tr>
+                <td class="name-column">
+                  <span class="role-badge">{{ rol.name }}</span>
+                </td>
+                <td class="description-column">
+                  {{ rol.description }}
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="2" class="empty-message">No hay roles registrados.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="form-container">
+  @if (!isDeleted() && !isError()) {
+  <div class="form-card">
+    <h3><span class="icon">🆗</span> Activar Residente</h3>
+    <p class="subtitle">Busca al residente para reactivar en sistema.</p>
+
+    <div class="form-group full-width">
+      <label>Seleccionar residente:</label>
+      <select class="custom-select" (change)="onSeleccionar($event)">
+        <option value="" disabled selected>-- Buscar por nombre --</option>
+        @for (u of residentes(); track u.id) {
+        <option [value]="u.id">{{ u.firstName }} {{ u.lastName }} {{ u.middleName }}</option>
+        }
+      </select>
+    </div>
+
+    @if (empleadoSeleccionado()) {
+    <div class="warning-box">
+      <p><strong>¿Confirmas la reactivación de este residente?</strong></p>
+      <div class="details">
+        <strong style="color: #005BB5; text-transform: uppercase;">
+          {{ empleadoSeleccionado().firstName }} {{ empleadoSeleccionado().lastName }} {{ empleadoSeleccionado().middleName }}
+        </strong>
+      </div>
+      <p class="small-text">El residente estará disponible en el sistema una vez activado.</p>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn-cancel" (click)="empleadoSeleccionado.set(null)">Cancelar</button>
+      <button type="button" class="btn-delete" (click)="confirmarActivar()">Activar Ahora</button>
+    </div>
+    }
+  </div>
+  }
+
+  @else if (isError()) {
+  <div class="success-card" style="border-top: 6px solid #F9A825;">
+    <div class="success-content">
+      <div class="success-icon">⚠️</div>
+      <h2>Aviso del Sistema</h2>
+      <div class="info-box">
+        <p>{{ errorMessage() }}</p>
+      </div>
+      <button class="btn-back" (click)="resetVista()">Seleccionar otro</button>
+    </div>
+  </div>
+  }
+
+  @else if (isDeleted()) {
+  <div class="success-card">
+    <div class="success-content">
+      <div class="success-icon">
+        <h2>✅ Acceso Restablecido</h2>
+      </div>
+      <div class="info-box">
+        <p>El empleado ha sido activado correctamente en <strong>CASA DESCANSO</strong>.</p>
+      </div>
+      <button class="btn-back" (click)="finalizar()">Volver a Gestión</button>
+    </div>
+  </div>
+  }
+</div>

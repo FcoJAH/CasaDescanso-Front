@@ -1,0 +1,25 @@
+<div class="success-screen animate-fade-in">
+    <div class="success-card">
+        <div class="success-header">
+            <div class="icon-circle"><img src="images/CD_Logo_Pequeno.png" alt="Logo" class="logo"></div>
+            <h2>{{ config().titulo }}</h2>
+        </div>
+
+        <div class="info-box">
+            <p>{{ config().mensaje }}</p>
+            @if (config().nombreUsuario) {
+            <span class="user-badge">{{ config().nombreUsuario }}</span>
+            }
+        </div>
+
+        <div class="actions-container">
+            <button type="button" class="btn-primary-success" (click)="ejecutarAccion()">
+                {{ config().botonPrincipal }}
+            </button>
+
+            <button type="button" class="btn-link" (click)="salir()">
+                VOLVER AL DASHBOARD
+            </button>
+        </div>
+    </div>
+</div>

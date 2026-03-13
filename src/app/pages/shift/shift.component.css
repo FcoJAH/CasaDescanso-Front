@@ -1,0 +1,155 @@
+/* Contenedor del menú con estilo de "Tab Bar" moderna */
+.menu-empleados {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  padding: 10px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(44, 62, 80, 0.08);
+  border: 1px solid rgba(0, 91, 181, 0.1);
+  width: fit-content;
+  max-width: 100%;
+  justify-content: center;
+  margin-left: auto;  
+  margin-right: auto; 
+  margin-bottom: 25px; 
+}
+/* Base del botón tipo "Pill" */
+.btn-menu {
+  flex: 0 1 auto; /* En PC no se estiran a la fuerza */
+  min-width: 140px; /* Tamaño mínimo cómodo para leer */
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* CREAR: Azul Corporativo con profundidad */
+.btn-crear {
+  background: linear-gradient(135deg, #005BB5 0%, #00468c 100%);
+  color: white;
+}
+
+/* MODIFICAR: Dorado Cálido con texto oscuro */
+.btn-modificar {
+  background: linear-gradient(135deg, #F9A825 0%, #e69616 100%);
+  color: #2C3E50;
+}
+
+/* DESACTIVAR: Estilo 'Outline' agresivo pero elegante */
+.btn-desactivar {
+  background-color: transparent;
+  color: #d32f2f; /* Un rojo más serio */
+  border: 2px solid #d32f2f;
+}
+
+/* VER: Fondo neutro para no competir visualmente */
+.btn-ver {
+  background-color: #F8F9FA; /* Blanco Humo */
+  color: #005BB5;
+  border: 1px solid #005BB5;
+}
+
+/* --- Estados de Interacción --- */
+
+.btn-menu:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  filter: saturate(1.2);
+}
+
+/* Efecto cuando el botón está activo (Ruta actual) */
+.active-link {
+  position: relative;
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 0 0 3px rgba(249, 168, 37, 0.4); /* Resplandor Dorado */
+}
+
+/* Indicador visual debajo del botón activo */
+.active-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  width: 20px;
+  height: 4px;
+  background-color: #2C3E50;
+  border-radius: 10px;
+}
+
+/* Estilo para los botones cuando NO están activos (opcional para dar foco) */
+.btn-menu:not(.active-link) {
+  opacity: 0.85;
+}
+
+.header-seccion {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra título e indicador */
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.indicador {
+  width: 6px;
+  height: 35px;
+  background-color: var(--color-primario); /* #005BB5 */
+  border-radius: 10px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: var(--color-texto); /* #2C3E50 */
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* --- Ajustes Responsivos --- */
+
+@media (max-width: 768px) {
+  .menu-empleados {
+    flex-wrap: wrap; /* Aquí sí permitimos que bajen */
+    width: 100%;    /* En móvil sí usamos todo el ancho */
+    justify-content: center;
+  }
+
+  .btn-menu {
+    flex: 1 1 calc(50% - 12px); /* Dos columnas en móvil */
+    min-width: 120px;
+    font-size: 0.75rem;
+    padding: 10px 5px;
+  }
+
+  /* Ajustamos el indicador del botón activo para que no estorbe en móvil */
+  .active-link::after {
+    bottom: -2px;
+    width: 15px;
+  }
+
+  h1 {
+    font-size: 1.4rem; /* Título un poco más pequeño en celular */
+  }
+  
+  .header-seccion {
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+}
+
+/* Para pantallas muy pequeñas (celulares angostos) */
+@media (max-width: 400px) {
+  .btn-menu {
+    flex: 1 1 100%; /* Un botón por fila si el espacio es crítico */
+  }
+}

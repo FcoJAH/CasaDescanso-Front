@@ -1,0 +1,132 @@
+.table-container {
+  max-width: 1000px; /* Un poco más ancho para tablas */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.table-header {
+  margin-bottom: 25px;
+}
+
+.table-header h2 {
+  color: #2C3E50;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.subtitle {
+  color: #5D6D7E;
+  font-size: 0.95rem;
+}
+
+.table-wrapper {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.08);
+  border: 1px solid rgba(44, 62, 80, 0.05);
+  overflow-x: auto;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 600px
+}
+
+.custom-table th {
+  background-color: #F8F9FA;
+  color: #2C3E50;
+  font-weight: 700;
+  padding: 15px 20px;
+  font-size: 0.85rem;
+  border-bottom: 2px solid #E0E4E8;
+  text-transform: uppercase;
+}
+
+.custom-table td {
+  padding: 15px 20px;
+  border-bottom: 1px solid #F1F3F5;
+  color: #2C3E50;
+  font-size: 0.95rem;
+}
+
+.name-column strong {
+  color: #005BB5; /* Azul Corporativo */
+}
+
+.id-column {
+  color: #95A5A6;
+  font-weight: 600;
+}
+
+/* Badge de Estado */
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: #EAECEE;
+  color: #5D6D7E;
+}
+
+.status-badge.active {
+  background-color: #D4EFDF;
+  color: #1E8449;
+}
+
+/* Tag de Posición */
+.position-tag {
+  background-color: #EBF5FB;
+  color: #2E86C1;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #AED6F1;
+}
+
+code {
+  background: #F4F6F7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  color: #E74C3C;
+}
+
+@media (min-width: 768px) {
+  .custom-table th, 
+  .custom-table td {
+    padding: 15px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .id-column {
+    display: none;
+  }
+}
+
+.time-badge {
+  background-color: #F8F9FA;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #E0E4E8;
+  font-size: 0.9rem;
+}
+
+.time-badge {
+  display: inline-block;
+  min-width: 90px;
+  background-color: #F8F9FA; /* Blanco Humo */
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 91, 181, 0.15); /* Azul Corporativo muy sutil */
+  color: #005BB5; /* Azul Corporativo para la hora */
+  font-weight: 600;
+  font-size: 0.95rem;
+}

@@ -1,0 +1,222 @@
+@if (showPopup()) {
+<div class="floating-alert">
+  <span>⚠️</span> {{ errorMessage() }}
+</div>
+}
+
+<div class="form-container">
+  @if (!isRegistered()) {
+  <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-card">
+      <h3><span class="icon">👤</span> Información Personal</h3>
+      <div class="grid-layout">
+        <div class="form-group">
+          <label>Nombre(s) *</label>
+          <div class="input-container">
+            <input formControlName="firstName" type="text" placeholder="Ej. Francisco"
+              [class.is-invalid]="isFieldInvalid('firstName')" [class.is-valid]="isFieldValid('firstName')">
+            @if (isFieldValid('firstName')) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Apellido Paterno *</label>
+          <div class="input-container">
+            <input formControlName="lastName" type="text" placeholder="Ej. Alcala"
+              [class.is-invalid]="isFieldInvalid('lastName')" [class.is-valid]="isFieldValid('lastName')">
+            @if (isFieldValid('lastName')) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Apellido Materno *</label>
+          <div class="input-container">
+            <input formControlName="middleName" type="text" placeholder="Ej. Herrera"
+              [class.is-invalid]="isFieldInvalid('middleName')" [class.is-valid]="isFieldValid('middleName')">
+            @if (isFieldValid('middleName')) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Fecha de Nacimiento *</label>
+          <div class="input-container">
+            <input formControlName="birthDate" type="date" [class.is-invalid]="isFieldInvalid('birthDate')"
+              [class.is-valid]="isFieldValid('birthDate')" [max]="maxDate">
+            @if (isFieldValid('birthDate')) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Género *</label>
+          <div class="input-container">
+            <select formControlName="gender" [class.is-invalid]="isFieldInvalid('gender')"
+              [class.is-valid]="isFieldValid('gender')">
+              <option value="" disabled selected>Seleccionar...</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Nivel Educativo *</label>
+          <div class="input-container">
+            <select formControlName="educationLevel" [class.is-invalid]="isFieldInvalid('educationLevel')"
+              [class.is-valid]="isFieldValid('educationLevel')">
+              <option value="" disabled selected>Seleccionar...</option>
+              <option value="Primaria">Primaria</option>
+              <option value="Secundaria">Secundaria</option>
+              <option value="Preparatoria">Preparatoria</option>
+              <option value="Licenciatura">Licenciatura</option>
+              <option value="Maestría">Maestría</option>
+              <option value="Doctorado">Doctorado</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card mt-4">
+      <h3><span class="icon">📞</span> Contacto y Emergencia</h3>
+      <div class="grid-layout">
+        <div class="form-group">
+          <label>Correo Electrónico (Opcional)</label>
+          <div class="input-container">
+            <input formControlName="email" type="email" placeholder="ejemplo@correo.com"
+              [class.is-invalid]="isFieldInvalid('email')"
+              [class.is-valid]="isFieldValid('email') && empleadoForm.get('email')?.value">
+            @if (isFieldValid('email') && empleadoForm.get('email')?.value) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono (10 dígitos) *</label>
+          <div class="input-container">
+            <input formControlName="phone" type="text" placeholder="5551234567" maxlength="10"
+              [class.is-invalid]="isFieldInvalid('phone')" [class.is-valid]="isFieldValid('phone')">
+            @if (isFieldValid('phone')) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Contacto de Emergencia *</label>
+          <div class="input-container">
+            <input formControlName="emergencyContactName" type="text" placeholder="Nombre completo"
+              [class.is-invalid]="isFieldInvalid('emergencyContactName')"
+              [class.is-valid]="isFieldValid('emergencyContactName')">
+            @if (isFieldValid('emergencyContactName')) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono de Emergencia *</label>
+          <div class="input-container">
+            <input formControlName="emergencyContactPhone" type="text" placeholder="10 dígitos" maxlength="10"
+              [class.is-invalid]="isFieldInvalid('emergencyContactPhone')"
+              [class.is-valid]="isFieldValid('emergencyContactPhone')">
+            @if (isFieldValid('emergencyContactPhone')) { <span class="check-icon">✅</span> }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card mt-4">
+      <h3><span class="icon">📑</span> Datos Laborales y Legales</h3>
+      <div class="grid-layout">
+        <div class="form-group">
+          <label>RFC (Opcional)</label>
+          <div class="input-container">
+            <input formControlName="rfc" type="text" placeholder="ABCD123456H01"
+              [class.is-invalid]="isFieldInvalid('rfc')"
+              [class.is-valid]="isFieldValid('rfc') && empleadoForm.get('rfc')?.value">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>CURP (Opcional)</label>
+          <div class="input-container">
+            <input formControlName="curp" type="text" placeholder="18 caracteres"
+              [class.is-invalid]="isFieldInvalid('curp')"
+              [class.is-valid]="isFieldValid('curp') && empleadoForm.get('curp')?.value">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>NSS (Opcional)</label>
+          <div class="input-container">
+            <input formControlName="nss" type="text" placeholder="11 dígitos" [class.is-invalid]="isFieldInvalid('nss')"
+              [class.is-valid]="isFieldValid('nss') && empleadoForm.get('nss')?.value">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Alergias (Opcional)</label>
+          <div class="input-container">
+            <input formControlName="allergies" type="text" placeholder="Ej. Penicilina">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Rol de Usuario *</label>
+          <select formControlName="roleId" [class.is-invalid]="isFieldInvalid('roleId')"
+            [class.is-valid]="isFieldValid('roleId')">
+            <option value="" disabled selected>Seleccionar Rol...</option>
+            @for (role of roles(); track role.id) {
+            <option [value]="role.id">{{ role.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Turno *</label>
+          <select formControlName="shiftId" [class.is-invalid]="isFieldInvalid('shiftId')"
+            [class.is-valid]="isFieldValid('shiftId')">
+            <option value="" disabled selected>Seleccionar Turno...</option>
+            @for (shift of shifts(); track shift.id) {
+            <option [value]="shift.id">{{ shift.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-submit">Guardar Empleado</button>
+    </div>
+  </form>
+  }
+
+  @else {
+  <div class="success-card">
+    <div class="success-icon">✅</div>
+    <h2>{{ registeredData()?.message }}</h2>
+
+    <div class="info-box">
+      <p>Se han generado las siguientes credenciales para el acceso de <strong>{{ empleadoForm.get('firstName')?.value |
+          uppercase }}</strong>:</p>
+
+      <div class="credentials-display">
+        <div class="credential-item">
+          <span class="label">Username:</span>
+          <span class="value">{{ registeredData()?.username }}</span>
+        </div>
+        <div class="credential-item">
+          <span class="label">Contraseña:</span>
+          <span class="value password-text">{{ registeredData()?.password }}</span>
+        </div>
+      </div>
+
+      <p class="warning-text">
+        ⚠️ <strong>IMPORTANTE:</strong> Asegúrese de copiar la contraseña ahora. Por seguridad, no podrá verla
+        nuevamente una vez que salga de esta pantalla.
+      </p>
+    </div>
+
+    <button type="button" class="btn-back" (click)="volver()">
+      Finalizar y Volver
+    </button>
+  </div>
+  }
+</div>
