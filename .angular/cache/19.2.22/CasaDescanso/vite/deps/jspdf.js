@@ -14896,7 +14896,7 @@ function(t2) {
     });
   }
   function n() {
-    return (i.DOMPurify ? Promise.resolve(i.DOMPurify) : import("./purify.es-GIQICOTZ.js")).catch(function(t2) {
+    return (i.DOMPurify ? Promise.resolve(i.DOMPurify) : import("./purify.es-BDVAHXOW.js")).catch(function(t2) {
       return Promise.reject(new Error("Could not load dompurify: " + t2));
     }).then(function(t2) {
       return t2.default ? t2.default : t2;

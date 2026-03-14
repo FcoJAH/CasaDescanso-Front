@@ -11,26 +11,41 @@ export class AttendanceService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  checkIn(): Observable<any> {
+  // Aceptamos coords y enviamos todo en el body
+  checkIn(coords: { lat: number, lng: number }): Observable<any> {
     const user = this.authService.getCurrentUser();
-    console.log('Enviando userId:', user?.userId);
 
-    return this.http.post(`${this.baseUrl}/checkin?userId=${user?.userId}`, {});
+    if (!user || !user.userId) {
+      console.error("No se encontró el ID del usuario");
+    }
+
+    const body = {
+      userId: user?.userId,
+      latitude: coords.lat,
+      longitude: coords.lng
+    };
+    return this.http.post(`${this.baseUrl}/checkin`, body);
   }
 
-
-  checkOut(): Observable<any> {
+  // Aceptamos coords y enviamos todo en el body
+  checkOut(coords: { lat: number, lng: number }): Observable<any> {
     const user = this.authService.getCurrentUser();
-    if (!user) throw new Error('Usuario no logeado');
 
-    console.log('Enviando workerId:', user.workerId);
+    if (!user || !user.userId) {
+      console.error("No se encontró el ID del usuario");
+    }
 
-    return this.http.post(`${this.baseUrl}/checkout?workerId=${user.workerId}`, {});
+    const body = {
+      userId: user?.userId,
+      latitude: coords.lat,
+      longitude: coords.lng
+    };
+    return this.http.post(`${this.baseUrl}/checkout`, body);
   }
 
-  // Verifica si el empleado tiene un check-in activo hoy
-  getAttendanceStatus(id: number): Observable<{ hasActiveEntry: boolean }> {
-    return this.http.get<{ hasActiveEntry: boolean }>(`${this.baseUrl}/status/${id}`);
+  // En attendance.service.ts
+  getAttendanceStatus(id: number): Observable<{ hasOpenAttendance: boolean }> {
+    return this.http.get<{ hasOpenAttendance: boolean }>(`${this.baseUrl}/status/${id}`);
   }
 
   getAttendanceHistory(userId: number): Observable<any[]> {

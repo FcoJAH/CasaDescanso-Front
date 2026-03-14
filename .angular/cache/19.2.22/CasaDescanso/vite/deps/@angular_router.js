@@ -1,7 +1,7 @@
 import {
   Title
-} from "./chunk-6UJU4SMV.js";
-import "./chunk-F6ICPXGK.js";
+} from "./chunk-4ORAZ5S7.js";
+import "./chunk-EYCWXRWO.js";
 import {
   HashLocationStrategy,
   LOCATION_INITIALIZED,
@@ -9,10 +9,10 @@ import {
   LocationStrategy,
   PathLocationStrategy,
   ViewportScroller
-} from "./chunk-ZBPE67N2.js";
+} from "./chunk-KNX2RFM5.js";
 import {
   DOCUMENT
-} from "./chunk-MJZKI6VM.js";
+} from "./chunk-M3LRYOHJ.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   ApplicationRef,
@@ -79,12 +79,12 @@ import {
   ɵɵloadQuery,
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl
-} from "./chunk-YCEPADS6.js";
-import "./chunk-PEBH6BBU.js";
+} from "./chunk-GRJUGQH4.js";
 import {
   defer,
   isObservable
 } from "./chunk-WPM5VTLQ.js";
+import "./chunk-PEBH6BBU.js";
 import {
   BehaviorSubject,
   ConnectableObservable,
@@ -5900,7 +5900,7 @@ function mapToCanDeactivate(providers) {
 function mapToResolve(provider) {
   return (...params) => inject(provider).resolve(...params);
 }
-var VERSION = new Version("19.2.18");
+var VERSION = new Version("19.2.20");
 export {
   ActivatedRoute,
   ActivatedRouteSnapshot,
@@ -5987,7 +5987,7 @@ export {
 @angular/router/fesm2022/router_module-DTJgGWLd.mjs:
 @angular/router/fesm2022/router.mjs:
   (**
-   * @license Angular v19.2.18
+   * @license Angular v19.2.20
    * (c) 2010-2025 Google LLC. https://angular.io/
    * License: MIT
    *)

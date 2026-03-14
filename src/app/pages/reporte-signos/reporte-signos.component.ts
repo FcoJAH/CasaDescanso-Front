@@ -101,7 +101,7 @@ export class ReporteSignosComponent implements OnInit {
             .filter(id => id !== undefined && id !== null && id !== 0)
         )];
 
-        console.log('IDs de trabajadores a consultar:', workerIds);
+        //console.log('IDs de trabajadores a consultar:', workerIds);
 
         if (workerIds.length === 0) {
             this.generarPDFConFirmas(registros, {});
@@ -113,7 +113,7 @@ export class ReporteSignosComponent implements OnInit {
         const workerRequests = workerIds.map(id =>
             this.signosService.getWorkerDetail(id).pipe(
                 map(worker => {
-                    console.log(`Trabajador ${id} obtenido:`, worker);
+                    //console.log(`Trabajador ${id} obtenido:`, worker);
                     const name = worker.fullName || worker.fullname || worker.name || 'SISTEMA';
                     return { id, fullName: name };
                 }),

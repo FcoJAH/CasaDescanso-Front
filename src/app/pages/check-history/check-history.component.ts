@@ -67,6 +67,20 @@ export class CheckHistoryComponent implements OnInit {
         });
     }
 
+    // Agrega esta función a tu componente
+    private async obtenerDireccion(lat: number, lng: number): Promise<string> {
+        if (!lat || !lng) return 'Ubicación no disponible';
+
+        try {
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            return data.display_name || 'Dirección no encontrada';
+        } catch (error) {
+            return 'Error al obtener dirección';
+        }
+    }
+
     todoElHistorial = signal<boolean>(true);
     fechaInicio = signal<string>('');
     fechaFin = signal<string>('');
@@ -106,10 +120,18 @@ export class CheckHistoryComponent implements OnInit {
         this.aplicarFiltro();
     }
 
-    descargarPDF(userName: string = this.empleadoSeleccionado().fullName) {
-        const doc = new jsPDF();
-        const data = this.history();
+    async descargarPDF(userName: string = this.empleadoSeleccionado().fullName) {
+        this.loading.set(true);
+        const rawData = this.historyFiltered();
 
+        // Transformamos los datos para incluir las direcciones
+        const dataConDirecciones = await Promise.all(rawData.map(async (r) => ({
+            ...r,
+            direccionIn: await this.obtenerDireccion(r.latitudeIn, r.longitudeIn),
+            direccionOut: r.checkOut ? await this.obtenerDireccion(r.latitudeOut, r.longitudeOut) : '---'
+        })));
+
+        const doc = new jsPDF();
         const logoUrl = '../images/CD_Logo_Pequeno.png';
 
         const img = new Image();
@@ -117,18 +139,19 @@ export class CheckHistoryComponent implements OnInit {
 
         // Esperamos a que la imagen cargue para generarlo correctamente
         img.onload = () => {
-            this.generarEstructuraPDF(doc, img, userName);
+            this.generarEstructuraPDF(doc, img, userName, dataConDirecciones);
+            this.loading.set(false);
         };
 
         // Si hay error cargando la imagen (ruta mal escrita), generamos el PDF sin logo
         img.onerror = () => {
-            this.generarEstructuraPDF(doc, null, userName);
+            this.generarEstructuraPDF(doc, img, userName, dataConDirecciones);
+            this.loading.set(false);
         };
     }
 
-    private generarEstructuraPDF(doc: jsPDF, logoImg: HTMLImageElement | null, userName: string) {
+    private generarEstructuraPDF(doc: jsPDF, logoImg: HTMLImageElement | null, userName: string, data: any[]) {
         // Definición de colores con Tipado Estricto (Tuplas)
-        const data = this.historyFiltered();
         const azulCorp: [number, number, number] = [0, 91, 181];
         const azulOscuro: [number, number, number] = [44, 62, 80];
         const blancoHumo: [number, number, number] = [248, 249, 250];
@@ -169,11 +192,13 @@ export class CheckHistoryComponent implements OnInit {
         // --- TABLA DE REGISTROS ---
         autoTable(doc, {
             startY: 75,
-            head: [['FECHA', 'ENTRADA', 'SALIDA', 'ESTADO']],
+            head: [['FECHA', 'ENTRADA', 'LUGAR ENTRADA', 'SALIDA', 'LUGAR SALIDA', 'ESTADO']],
             body: data.map(r => [
                 new Date(r.date).toLocaleDateString(),
                 new Date(r.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                r.direccionIn,
                 r.checkOut ? new Date(r.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '---',
+                r.checkOut ? r.direccionOut : '---',
                 r.checkOut ? 'COMPLETADO' : 'EN TURNO'
             ]),
             headStyles: {

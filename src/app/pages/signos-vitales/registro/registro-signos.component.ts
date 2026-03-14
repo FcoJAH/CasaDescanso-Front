@@ -81,9 +81,9 @@ export class RegistroSignosComponent implements OnInit {
         recordedByUserId: user.workerId
       });
       this.usuarioLogueado.set(user);
-      console.log("✅ Usuario responsable asignado:", user.workerId, user.fullName);
+      //console.log("✅ Usuario responsable asignado:", user.workerId, user.fullName);
     } else {
-      console.error("❌ No se pudo recuperar el usuario de ninguna fuente.");
+      //console.error("❌ No se pudo recuperar el usuario de ninguna fuente.");
     }
   }
 

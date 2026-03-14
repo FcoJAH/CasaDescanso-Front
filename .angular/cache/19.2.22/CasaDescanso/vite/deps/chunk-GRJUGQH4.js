@@ -8088,6 +8088,12 @@ var HTML_ATTRS = tagSet("abbr,accesskey,align,alt,autoplay,axis,bgcolor,border,c
 var ARIA_ATTRS = tagSet("aria-activedescendant,aria-atomic,aria-autocomplete,aria-busy,aria-checked,aria-colcount,aria-colindex,aria-colspan,aria-controls,aria-current,aria-describedby,aria-details,aria-disabled,aria-dropeffect,aria-errormessage,aria-expanded,aria-flowto,aria-grabbed,aria-haspopup,aria-hidden,aria-invalid,aria-keyshortcuts,aria-label,aria-labelledby,aria-level,aria-live,aria-modal,aria-multiline,aria-multiselectable,aria-orientation,aria-owns,aria-placeholder,aria-posinset,aria-pressed,aria-readonly,aria-relevant,aria-required,aria-roledescription,aria-rowcount,aria-rowindex,aria-rowspan,aria-selected,aria-setsize,aria-sort,aria-valuemax,aria-valuemin,aria-valuenow,aria-valuetext");
 var VALID_ATTRS = merge(URI_ATTRS, HTML_ATTRS, ARIA_ATTRS);
 var SKIP_TRAVERSING_CONTENT_IF_INVALID_ELEMENTS = tagSet("script,style,template");
+var SENSITIVE_ATTRS = merge(
+  URI_ATTRS,
+  // Note: we don't include these attributes in `URI_ATTRS`, because `URI_ATTRS` also
+  // determines whether an attribute should be dropped when sanitizing an HTML string.
+  tagSet("action,formaction,data,codebase")
+);
 var SanitizingHtmlSerializer = class {
   // Explicitly track if something was stripped, to avoid accidentally warning of sanitization just
   // because characters were re-encoded.
@@ -12804,7 +12810,7 @@ var ComponentFactory2 = class extends ComponentFactory$1 {
     try {
       const cmpDef = this.componentDef;
       ngDevMode && verifyNotAnOrphanComponent(cmpDef);
-      const tAttributes = rootSelectorOrNode ? ["ng-version", "19.2.18"] : (
+      const tAttributes = rootSelectorOrNode ? ["ng-version", "19.2.20"] : (
         // Extract attributes and classes from the first selector only to match VE behavior.
         extractAttrsAndClassesFromSelector(this.componentDef.selectors[0])
       );
@@ -19708,7 +19714,7 @@ function i18nAttributesFirstPass(tView, index, values) {
         if (ICU_REGEXP.test(message)) {
           throw new Error(`ICU expressions are not supported in attributes. Message: "${message}".`);
         }
-        generateBindingUpdateOpCodes(updateOpCodes, message, previousElementIndex, attrName, countBindings(updateOpCodes), null);
+        generateBindingUpdateOpCodes(updateOpCodes, message, previousElementIndex, attrName, countBindings(updateOpCodes), SENSITIVE_ATTRS[attrName.toLowerCase()] ? _sanitizeUrl : null);
       }
     }
     tView.data[index] = updateOpCodes;
@@ -19940,16 +19946,23 @@ function walkIcuTree(ast, tView, tIcu, lView, sharedUpdateOpCodes, create, remov
             const hasBinding2 = !!attr.value.match(BINDING_REGEXP);
             if (hasBinding2) {
               if (VALID_ATTRS.hasOwnProperty(lowerAttrName)) {
-                if (URI_ATTRS[lowerAttrName]) {
-                  generateBindingUpdateOpCodes(update, attr.value, newIndex, attr.name, 0, _sanitizeUrl);
-                } else {
-                  generateBindingUpdateOpCodes(update, attr.value, newIndex, attr.name, 0, null);
-                }
+                generateBindingUpdateOpCodes(update, attr.value, newIndex, attr.name, 0, SENSITIVE_ATTRS[lowerAttrName] ? _sanitizeUrl : null);
               } else {
                 ngDevMode && console.warn(`WARNING: ignoring unsafe attribute value ${lowerAttrName} on element ${tagName} (see ${XSS_SECURITY_URL})`);
               }
+            } else if (VALID_ATTRS[lowerAttrName]) {
+              if (SENSITIVE_ATTRS[lowerAttrName]) {
+                if (typeof ngDevMode !== "undefined" && ngDevMode) {
+                  console.warn(`WARNING: ignoring unsafe attribute ${lowerAttrName} on element ${tagName} (see ${XSS_SECURITY_URL})`);
+                }
+                addCreateAttribute(create, newIndex, attr.name, "unsafe:blocked");
+              } else {
+                addCreateAttribute(create, newIndex, attr.name, attr.value);
+              }
             } else {
-              addCreateAttribute(create, newIndex, attr);
+              if (typeof ngDevMode !== "undefined" && ngDevMode) {
+                console.warn(`WARNING: ignoring unknown attribute name ${lowerAttrName} on element ${tagName} (see ${XSS_SECURITY_URL})`);
+              }
             }
           }
           const elementNode = {
@@ -20024,8 +20037,8 @@ function addCreateNodeAndAppend(create, marker, text, appendToParentIdx, createA
   }
   create.push(text, createAtIdx, icuCreateOpCode(0, appendToParentIdx, createAtIdx));
 }
-function addCreateAttribute(create, newIndex, attr) {
-  create.push(newIndex << 1 | 1, attr.name, attr.value);
+function addCreateAttribute(create, newIndex, attrName, attrValue) {
+  create.push(newIndex << 1 | 1, attrName, attrValue);
 }
 var ROOT_TEMPLATE_ID = 0;
 var PP_MULTI_VALUE_PLACEHOLDERS_REGEXP = /\[(�.+?�?)\]/;
@@ -22371,7 +22384,7 @@ var Version = class {
     this.patch = parts.slice(2).join(".");
   }
 };
-var VERSION = new Version("19.2.18");
+var VERSION = new Version("19.2.20");
 var ModuleWithComponentFactories = class {
   ngModuleFactory;
   componentFactories;
@@ -27007,7 +27020,7 @@ export {
 @angular/core/fesm2022/primitives/event-dispatch.mjs:
 @angular/core/fesm2022/core.mjs:
   (**
-   * @license Angular v19.2.18
+   * @license Angular v19.2.20
    * (c) 2010-2025 Google LLC. https://angular.io/
    * License: MIT
    *)
@@ -27022,4 +27035,4 @@ export {
    * found in the LICENSE file at https://angular.dev/license
    *)
 */
-//# sourceMappingURL=chunk-YCEPADS6.js.map
+//# sourceMappingURL=chunk-GRJUGQH4.js.map
