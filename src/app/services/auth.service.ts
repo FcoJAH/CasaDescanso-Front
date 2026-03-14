@@ -45,7 +45,7 @@ export class AuthService {
           this.currentUserSignal.set(user);
           
           // Nombre siempre en MAYÚSCULAS en el log según tu instrucción
-          console.log(`USUARIO AUTENTICADO: ${user.fullName.toUpperCase()} CON ROL: ${user.position}`);
+          //console.log(`USUARIO AUTENTICADO: ${user.fullName.toUpperCase()} CON ROL: ${user.position}`);
         }
       })
     );

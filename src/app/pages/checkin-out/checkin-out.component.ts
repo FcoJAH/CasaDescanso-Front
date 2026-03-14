@@ -1,5 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core'; // Agregamos OnInit e inject
+import { Component, OnInit, inject } from '@angular/core';
 import { AttendanceService } from '../../services/attendance.service';
+import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -15,61 +16,107 @@ export class CheckInOutComponent implements OnInit {
   message = '';
   currentTime = new Date();
   checkedIn = false;
+
+  // Variables para el Modal
+  showLocationModal = false;
+  pendingAction: 'in' | 'out' | null = null;
   
-  // Usamos inject para un estilo más moderno
   private attendanceService = inject(AttendanceService);
+  private authService = inject(AuthService);
 
   ngOnInit() {
     this.verificarEstadoActual();
-    // Actualización del reloj
     setInterval(() => this.currentTime = new Date(), 1000);
   }
 
+  // --- Lógica del Modal (Pre-permiso) ---
+  solicitarUbicacion(tipo: 'in' | 'out') {
+    this.pendingAction = tipo;
+    this.showLocationModal = true;
+  }
+
+  async confirmarUbicacion() {
+    this.showLocationModal = false;
+    if (this.pendingAction === 'in') {
+      await this.ejecutarCheckIn();
+    } else if (this.pendingAction === 'out') {
+      await this.ejecutarCheckOut();
+    }
+  }
+
+  // --- Lógica de Geolocalización ---
+  private obtenerUbicacion(): Promise<{ lat: number, lng: number }> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject('Geolocalización no soportada por el navegador');
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        (err) => reject('Permiso denegado: Se requiere ubicación para marcar asistencia.'),
+        { enableHighAccuracy: true }
+      );
+    });
+  }
+
+  // --- Comunicación con el Servicio ---
   verificarEstadoActual() {
-    this.loading = true;
-    // El ID lo podrías obtener de tu servicio de autenticación
-    const userId = 1; 
+    const user = this.authService.getCurrentUser();
+    if (!user) return;
 
-    this.attendanceService.getAttendanceStatus(userId).subscribe({
+    this.loading = true;
+    this.attendanceService.getAttendanceStatus(user.userId).subscribe({
       next: (res) => {
-        // Asumiendo que el API responde true si hay un registro activo
-        this.checkedIn = res.hasActiveEntry; 
+        // Sincronizado con el backend (hasOpenAttendance)
+        this.checkedIn = res.hasOpenAttendance; 
         this.loading = false;
       },
       error: () => {
-        this.message = 'No se pudo sincronizar el estado actual.';
+        this.message = 'No se pudo sincronizar el estado.';
         this.loading = false;
       }
     });
   }
 
-  checkIn() {
+  private async ejecutarCheckIn() {
     this.loading = true;
-    this.attendanceService.checkIn().subscribe({
-      next: () => {
-        this.message = '¡Entrada registrada con éxito!';
-        this.checkedIn = true; // Cambia la vista a Check-out
-        this.loading = false;
-      },
-      error: () => {
-        this.message = 'Error al registrar check-in';
-        this.loading = false;
-      }
-    });
+    try {
+      const coords = await this.obtenerUbicacion();
+      this.attendanceService.checkIn(coords).subscribe({
+        next: () => {
+          this.message = '¡Entrada registrada con éxito!';
+          this.checkedIn = true;
+          this.loading = false;
+        },
+        error: () => {
+          this.message = 'Error al registrar entrada en el servidor.';
+          this.loading = false;
+        }
+      });
+    } catch (error) {
+      this.message = error as string;
+      this.loading = false;
+    }
   }
 
-  checkOut() {
+  private async ejecutarCheckOut() {
     this.loading = true;
-    this.attendanceService.checkOut().subscribe({
-      next: () => {
-        this.message = '¡Salida registrada con éxito!';
-        this.checkedIn = false; // Cambia la vista a Check-in
-        this.loading = false;
-      },
-      error: () => {
-        this.message = 'Error al registrar check-out';
-        this.loading = false;
-      }
-    });
+    try {
+      const coords = await this.obtenerUbicacion();
+      console.log('Coordenadas obtenidas para Check-Out:', coords);
+      this.attendanceService.checkOut(coords).subscribe({
+        next: () => {
+          this.message = '¡Salida registrada con éxito!';
+          this.checkedIn = false;
+          this.loading = false;
+        },
+        error: () => {
+          this.message = 'Error al registrar salida en el servidor.';
+          this.loading = false;
+        }
+      });
+    } catch (error) {
+      this.message = error as string;
+      this.loading = false;
+    }
   }
 }

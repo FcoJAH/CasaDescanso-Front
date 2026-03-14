@@ -7,7 +7,7 @@
       @if (!checkedIn) {
         <button 
           class="btn-checkin"
-          (click)="checkIn()" 
+          (click)="solicitarUbicacion('in')" 
           [disabled]="loading">
           @if (loading) { <span class="spinner"></span> }
           @else { 📥 Registrar Entrada }
@@ -17,7 +17,7 @@
       @else {
         <button 
           class="btn-checkout"
-          (click)="checkOut()" 
+          (click)="solicitarUbicacion('out')" 
           [disabled]="loading">
           @if (loading) { <span class="spinner"></span> }
           @else { 📤 Registrar Salida }
@@ -28,5 +28,18 @@
     @if (message) {
       <p class="message" [class.success]="!loading">{{ message }}</p>
     }
+  </div>
+</div>
+
+<div class="modal-location-overlay" *ngIf="showLocationModal">
+  <div class="modal-location-card">
+    <div class="modal-location-icon">📍</div>
+    <h3>Ubicación Requerida</h3>
+    <p>Para validar tu asistencia en <strong>Casa de descanso</strong>, es necesario registrar tu ubicación actual.</p>
+    
+    <div class="modal-location-actions">
+      <button class="btn-cancel" (click)="showLocationModal = false">Ahora no</button>
+      <button class="btn-confirm" (click)="confirmarUbicacion()">Entendido, permitir</button>
+    </div>
   </div>
 </div>

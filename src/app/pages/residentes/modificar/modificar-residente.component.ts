@@ -51,7 +51,7 @@ export class ModificarResidenteComponent implements OnInit {
 
   onSubmit() {
     const data = this.formData();
-    console.log("Enviando datos a la API para el ID:", data.id);
+    //console.log("Enviando datos a la API para el ID:", data.id);
     if (data && data.id) {
       if (data.middleName) data.middleName = data.middleName.toUpperCase();
 
