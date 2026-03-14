@@ -1,13 +1,29 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hogares Fraternarles de Juanacatlán A.C.</title>
-  <base href="/">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hogares Fraternarles de Juancatlán A.C.</title>
+  <base href="/">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script>
+    window.addEventListener('error', (event) => {
+      // Verifica si el error es de carga de chunks
+      const isChunkLoadFailed = /Loading chunk [\d]+ failed/.test(event.message) ||
+        /Failed to fetch dynamically imported module/.test(event.message);
+
+      if (isChunkLoadFailed) {
+        // Recarga la página para intentar cargar la versión nueva
+        window.location.reload();
+      }
+    }, true);
+  </script>
 </head>
+
 <body>
   <app-root></app-root>
 </body>
+
 </html>
