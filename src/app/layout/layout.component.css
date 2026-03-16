@@ -14,7 +14,8 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #F8F9FA; /* Blanco Humo */
+  background-color: #F8F9FA;
+  /* Blanco Humo */
 }
 
 .header {
@@ -23,17 +24,20 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   left: 0;
   width: 100%;
   height: 60px;
-  background-color: #005BB5; /* Azul Corporativo */
+  background-color: #005BB5;
+  /* Azul Corporativo */
   color: white;
-  
+
   /* Alineación Maestra */
   display: flex;
-  justify-content: space-between; /* Empuja el contenido a los extremos */
+  justify-content: space-between;
+  /* Empuja el contenido a los extremos */
   align-items: center;
-  
+
   /* Espaciado interno */
-  padding: 0 20px; 
-  box-sizing: border-box; /* Crucial para que el padding no desborde el 100% de ancho */
+  padding: 0 20px;
+  box-sizing: border-box;
+  /* Crucial para que el padding no desborde el 100% de ancho */
   z-index: 1200;
 }
 
@@ -56,41 +60,49 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 
 /* Logout */
 .logout-btn {
-  background-color: #F9A825; /* Dorado Cálido */
+  background-color: #F9A825;
+  /* Dorado Cálido */
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
-  color: #2C3E50; /* Texto Azul Oscuro */
+  color: #2C3E50;
+  /* Texto Azul Oscuro */
 }
 
 .main-container {
   display: flex;
-  margin-top: 60px;   /* El mismo alto que tu header para que no se encime el contenido */
+  margin-top: 60px;
+  /* El mismo alto que tu header para que no se encime el contenido */
   min-height: calc(100vh - 60px);
   overflow: hidden;
 }
 
 /* Sidebar */
 .sidebar {
-  position: fixed; /* Flota sobre el contenido */
-  top: 60px;       /* Justo debajo del header */
+  position: fixed;
+  /* Flota sobre el contenido */
+  top: 60px;
+  /* Justo debajo del header */
   left: 0;
   width: 250px;
   height: calc(100vh - 100px);
   background-color: #FFFFFF;
   padding: 20px;
-  z-index: 1100;   /* Por encima del contenido principal */
-  box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+  z-index: 1100;
+  /* Por encima del contenido principal */
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-hidden .sidebar {
-  transform: translateX(-100%); /* Se desliza hacia afuera */
-  margin-left: 0; /* Ya no usamos márgenes */
+  transform: translateX(-100%);
+  /* Se desliza hacia afuera */
+  margin-left: 0;
+  /* Ya no usamos márgenes */
 }
 
 .sidebar-overlay {
@@ -99,9 +111,12 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(44, 62, 80, 0.4); /* Azul Oscuro transparente */
-  z-index: 1050; /* Entre el contenido y el sidebar */
-  backdrop-filter: blur(2px); /* Efecto moderno de desenfoque */
+  background-color: rgba(44, 62, 80, 0.4);
+  /* Azul Oscuro transparente */
+  z-index: 1050;
+  /* Entre el contenido y el sidebar */
+  backdrop-filter: blur(2px);
+  /* Efecto moderno de desenfoque */
   display: none;
 }
 
@@ -117,7 +132,8 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   padding: 10px;
   border-radius: 6px;
   transition: 0.2s;
-  white-space: nowrap; /* Evita que el texto se amontone al cerrar */
+  white-space: nowrap;
+  /* Evita que el texto se amontone al cerrar */
 }
 
 .sidebar a:hover {
@@ -130,7 +146,7 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 }
 
 .sidebar-footer {
-  margin-top: auto; 
+  margin-top: auto;
   padding-top: 20px;
   text-align: center;
 }
@@ -138,8 +154,8 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 .img-footer {
   max-width: 100%;
   height: auto;
-  opacity: 0.8; 
-  filter: grayscale(100%); 
+  opacity: 0.8;
+  filter: grayscale(100%);
   transition: 0.3s;
 }
 
@@ -151,9 +167,12 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 .content {
   flex: 1;
   padding: 30px;
-  height: calc(100vh - 60px); /* Altura total menos el header */
-  overflow-y: auto;           /* Solo el contenido tiene scroll propio */
-  background-color: #F8F9FA;  /* Tu Blanco Humo */
+  height: calc(100vh - 60px);
+  /* Altura total menos el header */
+  overflow-y: auto;
+  /* Solo el contenido tiene scroll propio */
+  background-color: #F8F9FA;
+  /* Tu Blanco Humo */
 }
 
 /* Ajuste de enlaces deshabilitados (opcional) */
@@ -171,19 +190,22 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 
 @media (min-width: 1024px) {
   .sidebar {
-    position: relative; /* Vuelve al flujo normal */
+    position: relative;
+    /* Vuelve al flujo normal */
     top: 0;
     height: auto;
     box-shadow: none;
     transform: none !important;
   }
-  
+
   .sidebar-overlay {
-    display: none !important; /* Nunca mostrar en PC */
+    display: none !important;
+    /* Nunca mostrar en PC */
   }
 
   .sidebar-hidden .sidebar {
-    margin-left: -300px; /* Vuelve a ocultarse empujando */
+    margin-left: -300px;
+    /* Vuelve a ocultarse empujando */
   }
 }
 
@@ -192,9 +214,11 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #FFFFFF; /* Blanco Puro */
+  color: #FFFFFF;
+  /* Blanco Puro */
   text-align: center;
-  flex: 1; /* Esto ayuda a que empuje los extremos y se quede al centro */
+  flex: 1;
+  /* Esto ayuda a que empuje los extremos y se quede al centro */
 }
 
 .user-welcome {
@@ -220,8 +244,49 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   .user-welcome {
     display: none;
   }
+
   .user-fullname {
     font-size: 0.75rem;
     max-width: 100px;
   }
+}
+
+.version-bar {
+  background-color: #2C3E50;
+  color: #F8F9FA;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  border-top: 2px solid #F9A825;
+  /* Dorado Cálido para el acento */
+  z-index: 9999;
+  /* Ajustamos para que se ajuste a cualquier ventana */
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.version-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.version-tag {
+  background: rgba(249, 168, 37, 0.2);
+  /* Dorado muy tenue */
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Evitar que el contenido se tape por la barra fija */
+body {
+  padding-bottom: 40px;
 }

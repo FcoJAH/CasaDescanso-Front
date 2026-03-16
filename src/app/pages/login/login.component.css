@@ -221,3 +221,16 @@ button:disabled {
     font-size: 20px;
   }
 }
+
+.version-tag {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: xx-small;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 1px;
+}
+
+.version-info {
+  padding: 10px;
+}

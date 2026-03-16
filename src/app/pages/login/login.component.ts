@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { APP_VERSION } from '../../../environments/versions';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,8 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router
   ) { }
+
+  version = APP_VERSION.full;
 
   onLogin() {
     this.loading = true;

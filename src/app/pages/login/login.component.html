@@ -13,13 +13,9 @@
 
       <div class="form-group">
         <div class="input-wrapper">
-          <input 
-            [type]="isPasswordVisible() ? 'text' : 'password'" 
-            placeholder="Contraseña" 
-            [(ngModel)]="password" 
-            name="password" 
-            required />
-          
+          <input [type]="isPasswordVisible() ? 'text' : 'password'" placeholder="Contraseña" [(ngModel)]="password"
+            name="password" required />
+
           <button type="button" class="btn-eye" (click)="togglePasswordVisibility()">
             {{ isPasswordVisible() ? '🙈' : '🙉' }}
           </button>
@@ -31,9 +27,12 @@
         <span *ngIf="loading" class="spinner"></span>
       </button>
 
+
+
       <p class="error" *ngIf="errorMessage">
         {{ errorMessage }}
       </p>
     </form>
+    <span class="version-tag">Hogares Fraternales de Juanacatlán A.C. v{{ version }}</span>
   </div>
 </div>
