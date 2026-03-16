@@ -1,0 +1,30 @@
+<div class="popup-overlay" (click)="cerrar()">
+  <div class="popup-card animate-pop" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <span class="warning-icon">⚠️</span>
+      <h2>{{ title() }}</h2>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <p style="color: #005BB5; text-transform: uppercase; font-size: 1.2rem; font-weight: bold;">
+        {{ description() }}</p>
+    </div>
+
+    <div
+    style="display: flex; align-items: center; justify-content: center; margin: 10px">
+      <p style="font-size: 0.9rem; color: #5D6D7E; margin-top: 5px; 
+      white-space: pre-line; text-align: center;">
+        {{ aditional() }}</p>
+    </div>
+
+    <div class="popup-actions"
+    style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+      <button class="btn-understand" (click)="confirmar()">
+        {{ button() }}
+      </button>
+      <button class="btn-cancel" (click)="cerrar()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

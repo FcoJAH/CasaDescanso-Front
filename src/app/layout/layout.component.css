@@ -217,8 +217,7 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   color: #FFFFFF;
   /* Blanco Puro */
   text-align: center;
-  flex: 1;
-  /* Esto ayuda a que empuje los extremos y se quede al centro */
+  width: 100%;
 }
 
 .user-welcome {
@@ -233,7 +232,6 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   font-weight: 700;
   font-size: 0.9rem;
   /* Evitamos que nombres muy largos rompan el diseño en móvil */
-  max-width: 180px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

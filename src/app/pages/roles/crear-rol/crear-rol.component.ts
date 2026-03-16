@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RolesService } from '../roles.service';
 import { Router } from '@angular/router';
+import { ValidationPopupComponent } from '../../../utils/popup/validation-popup.component';
 
 @Component({
     selector: 'app-crear-rol',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, ValidationPopupComponent],
     templateUrl: './crear-rol.component.html',
     styleUrls: ['./crear-rol.component.css']
 })
@@ -24,6 +25,8 @@ export class CrearRolComponent {
     isRegistered = signal(false);
     errorMessage = signal('');
     showPopup = signal(false);
+    showValidationPopup = signal(false);
+    formErrors = signal<string[]>([]); // Lista de errores para el Popup
 
     onSubmit() {
         if (this.rolForm.valid) {
@@ -41,7 +44,39 @@ export class CrearRolComponent {
                     this.showPopup.set(true);
                 }
             });
+        } else {
+            this.validarCamposYMostrarError();
         }
+    }
+
+    private validarCamposYMostrarError() {
+        const listaErrores: string[] = [];
+        const controls = this.rolForm.controls;
+
+        // Revisamos cada campo obligatorio
+        if (controls['name'].invalid) listaErrores.push('El nombre del rol es obligatorio');
+        if (controls['description'].invalid) listaErrores.push('La descripción del rol es obligatoria');
+
+
+        this.formErrors.set(listaErrores); // Llenamos el signal de errores
+        this.showPopup.set(true);      // Disparamos la ventana emergente
+        this.showValidationPopup.set(true);
+        this.rolForm.markAllAsTouched(); // Marcamos para que se vean los bordes rojos
+    }
+
+    cerrarPopup() {
+        this.showPopup.set(false);
+    }
+
+    // Helpers para el HTML
+    isFieldValid(field: string) {
+        const control = this.rolForm.get(field);
+        return control && control.valid && (control.dirty || control.touched);
+    }
+
+    isFieldInvalid(field: string) {
+        const control = this.rolForm.get(field);
+        return control && control.invalid && (control.dirty || control.touched);
     }
 
     finalizarEdicion() {

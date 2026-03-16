@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RolesService } from '../roles.service';
 import { Router } from '@angular/router';
+import { ValidationPopupComponent } from '../../../utils/popup/validation-popup.component';
 
 @Component({
   selector: 'app-modificar-rol',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ValidationPopupComponent],
   templateUrl: './modificar-rol.component.html',
   styleUrls: ['./modificar-rol.component.css']
 })
@@ -21,6 +22,12 @@ export class ModificarRolComponent implements OnInit {
   isUpdated = signal(false);
   isError = signal(false);
   errorMessage = signal('');
+
+  showValidationPopup = signal(false);
+  formErrors = signal<string[]>([]); // Lista de errores para el Popup
+  showPopup = signal(false); // Controla la visibilidad del Popup
+
+  estadoIncial = signal(true);
 
   rolForm: FormGroup = this.fb.group({
     id: ['', [Validators.required]],
@@ -38,6 +45,7 @@ export class ModificarRolComponent implements OnInit {
 
   onSeleccionarRol(event: any) {
     const id = event.target.value;
+    this.estadoIncial.set(false);
     const seleccionado = this.roles().find(r => r.id == id);
     if (seleccionado) {
       this.rolForm.patchValue({
@@ -48,6 +56,20 @@ export class ModificarRolComponent implements OnInit {
       this.isLoaded.set(true); // <--- Al seleccionar, mostramos el formulario
       this.isError.set(false);
     }
+  }
+
+  private validarCamposYMostrarError() {
+    const listaErrores: string[] = [];
+    const controls = this.rolForm.controls;
+
+    // Revisamos cada campo obligatorio
+    if (controls['name'].invalid) listaErrores.push('El nombre es obligatorio');
+    if (controls['description'].invalid) listaErrores.push('La descripción es obligatoria');
+
+    this.formErrors.set(listaErrores); // Llenamos el signal de errores
+    this.showPopup.set(true);      // Disparamos la ventana emergente
+    this.showValidationPopup.set(true);
+    this.rolForm.markAllAsTouched(); // Marcamos para que se vean los bordes rojos
   }
 
   onSubmit() {
@@ -69,14 +91,38 @@ export class ModificarRolComponent implements OnInit {
           this.isError.set(true);
         }
       });
+    } else {
+      this.validarCamposYMostrarError();
     }
   }
+
+  cerrarPopup() {
+    this.showPopup.set(false);
+  }
+
+  // Helpers para el HTML
+  isFieldValid(field: string) {
+    const control = this.rolForm.get(field);
+    return control && control.valid && (control.dirty || control.touched);
+  }
+
+  isFieldInvalid(field: string) {
+    const control = this.rolForm.get(field);
+    return control && control.invalid && (control.dirty || control.touched);
+  }
+
 
   resetVista() {
     this.isError.set(false);
     this.isUpdated.set(false);
     this.isLoaded.set(false);
+    this.roles.set([]);
     this.rolForm.reset();
+    this.showValidationPopup.set(false);
+    this.showPopup.set(false);
+    this.formErrors.set([]);
+    this.estadoIncial.set(true);
+    this.ngOnInit();
   }
 
   finalizar() {
