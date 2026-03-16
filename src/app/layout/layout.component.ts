@@ -3,6 +3,7 @@ import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } fro
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
+import { APP_VERSION } from '../../environments/versions';
 
 @Component({
   selector: 'app-layout',
@@ -14,6 +15,8 @@ import { AuthService } from '../services/auth.service';
 export class LayoutComponent implements OnInit {
   private router = inject(Router);
   public authService = inject(AuthService);
+
+  version = APP_VERSION.full;
 
   // Mantenemos el sidebar abierto por defecto en desktop
   isSidebarOpen = false; 
