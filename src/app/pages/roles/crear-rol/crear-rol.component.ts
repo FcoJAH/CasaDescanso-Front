@@ -4,11 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RolesService } from '../roles.service';
 import { Router } from '@angular/router';
 import { ValidationPopupComponent } from '../../../utils/popup/validation-popup.component';
+import { SuccessConfig } from '../../../utils/success/success-config.model';
+import { SuccessViewComponent } from '../../../utils/success/success-view.component';
 
 @Component({
     selector: 'app-crear-rol',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, ValidationPopupComponent],
+    imports: [CommonModule, ReactiveFormsModule, ValidationPopupComponent, SuccessViewComponent],
     templateUrl: './crear-rol.component.html',
     styleUrls: ['./crear-rol.component.css']
 })
@@ -66,6 +68,28 @@ export class CrearRolComponent {
 
     cerrarPopup() {
         this.showPopup.set(false);
+    }
+
+    configuracionExito: SuccessConfig = {
+        titulo: '¡CREACIÓN EXITOSA!',
+        mensaje: 'El rol ' + this.rolForm.value.name + ' ha sido creado correctamente.',
+        botonPrincipal: 'Crear otro Rol',
+        botonSecundario: 'Volver a roles',
+    };
+
+    alConfirmar() {
+        this.resetVista();
+    }
+
+    alSalir() {
+        this.router.navigate(['/roles']);
+    }
+
+    resetVista() {
+        this.isRegistered.set(false);
+        this.rolForm.reset();
+        this.rolForm.markAsPristine();
+        this.rolForm.markAsUntouched();
     }
 
     // Helpers para el HTML

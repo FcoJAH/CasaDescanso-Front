@@ -442,3 +442,19 @@ h3 {
 .custom-checkbox input:checked~.checkmark:after {
   display: block;
 }
+
+.info-box {
+  background-color: #F8F9FA;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #E0E4E8;
+  text-align: center;
+  color: #5D6D7E;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* --- Animaciones --- */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}

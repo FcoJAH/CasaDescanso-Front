@@ -4,11 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RolesService } from '../roles.service';
 import { Router } from '@angular/router';
 import { ValidationPopupComponent } from '../../../utils/popup/validation-popup.component';
+import { SuccessViewComponent } from '../../../utils/success/success-view.component';
+import { SuccessConfig } from '../../../utils/success/success-config.model';
 
 @Component({
   selector: 'app-modificar-rol',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ValidationPopupComponent],
+  imports: [CommonModule, ReactiveFormsModule, ValidationPopupComponent, SuccessViewComponent],
   templateUrl: './modificar-rol.component.html',
   styleUrls: ['./modificar-rol.component.css']
 })
@@ -96,6 +98,21 @@ export class ModificarRolComponent implements OnInit {
     }
   }
 
+  configuracionExito: SuccessConfig = {
+    titulo: '¡ACTUALIZACIÓN EXITOSA!',
+    mensaje: 'Los datos del rol se han guardado correctamente para el rol.' + this.rolForm.value.name,
+    botonPrincipal: 'Realizar otra modificación',
+    botonSecundario: 'volver a roles',
+  };
+
+  alConfirmar() {
+    this.resetVista();
+  }
+
+  alSalir() {
+    this.router.navigate(['/roles']);
+  }
+
   cerrarPopup() {
     this.showPopup.set(false);
   }
@@ -110,7 +127,6 @@ export class ModificarRolComponent implements OnInit {
     const control = this.rolForm.get(field);
     return control && control.invalid && (control.dirty || control.touched);
   }
-
 
   resetVista() {
     this.isError.set(false);

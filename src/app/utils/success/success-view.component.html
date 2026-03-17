@@ -17,8 +17,9 @@
                 {{ config().botonPrincipal }}
             </button>
 
-            <button type="button" class="btn-link" (click)="salir()">
-                VOLVER AL DASHBOARD
+            <button type="button" class="btn-link" (click)="salir()"
+                style="background: none; border: none; color: #005BB5; text-decoration: underline; cursor: pointer; font-size: 0.9rem;">
+                {{ config().botonSecundario || 'VOLVER AL DASHBOARD' }}
             </button>
         </div>
     </div>

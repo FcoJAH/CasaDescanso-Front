@@ -38,20 +38,8 @@
     </form>
   </div>
   } @else {
-  <div class="success-card">
-    <div class="success-icon">✨</div>
-    <h2 style="color: #2C3E50; margin: 0;">¡Rol Registrado!</h2>
-
-    <div class="info-box">
-      <p>El rol <strong>{{ rolForm.get('name')?.value | uppercase }}</strong> ha sido guardado correctamente en
-        <strong>CASA DESCANSO</strong>.
-      </p>
-    </div>
-
-    <button class="btn-back" (click)="finalizarEdicion()">
-      Volver a la lista
-    </button>
-  </div>
+  <app-success-view [config]="configuracionExito" (onAction)="alConfirmar()" (onExit)="alSalir()">
+  </app-success-view>
   }
 </div>
 

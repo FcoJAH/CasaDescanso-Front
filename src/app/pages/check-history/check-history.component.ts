@@ -42,6 +42,7 @@ export class CheckHistoryComponent implements OnInit {
     onSeleccionar(event: any) {
         const seleccionado = this.empleados().find(u => u.id == event.target.value);
         this.empleadoSeleccionado.set(seleccionado || null);
+        this.consultarHistorial(seleccionado.id);
     }
 
     consultarHistorial(userId: number) {
@@ -51,12 +52,12 @@ export class CheckHistoryComponent implements OnInit {
         this.attendanceService.getAttendanceHistory(userId).subscribe({
             next: (data) => {
                 // Validamos que la respuesta tenga datos, si no, lanzamos el error específico
-                if (data.length === 0) {
+                /*if (data.length === 0) {
                     this.isError.set(true);
                     this.errorMessage.set('No se encontró historial para este empleado.');
                     this.loading.set(false);
                     return;
-                }
+                }*/
                 // Sincronizamos todas las señales de datos
                 this.history.set(data);        // Para el PDF original
                 this.allHistory.set(data);     // Para el respaldo de filtros

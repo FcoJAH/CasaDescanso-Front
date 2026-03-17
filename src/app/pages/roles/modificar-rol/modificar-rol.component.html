@@ -54,16 +54,8 @@
   }
 
   @else if (isUpdated()) {
-  <div class="success-card">
-    <div class="success-content">
-      <div class="success-icon" style="color: #F9A825;">✨</div>
-      <h2>¡Cambios Guardados!</h2>
-      <div class="info-box">
-        <p>El rol ha sido actualizado correctamente en <strong>CASA DESCANSO</strong>.</p>
-      </div>
-      <button class="btn-back" (click)="finalizar()">Volver a Roles</button>
-    </div>
-  </div>
+  <app-success-view [config]="configuracionExito" (onAction)="alConfirmar()" (onExit)="alSalir()">
+  </app-success-view>
   }
 </div>
 
