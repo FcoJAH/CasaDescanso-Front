@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.css']
 })
-export class AlertPopupComponent {
+export class AlertComponent {
 
   title = input.required<string>();
   description = input.required<string>();

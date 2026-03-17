@@ -6,8 +6,7 @@
 
     <div class="form-group full-width">
       <label>Seleccionar trabajador:</label>
-      <select class="custom-select" (change)="onSeleccionar($event)"
-        (change)="consultarHistorial(empleadoSeleccionado().id)">
+      <select class="custom-select" (change)="onSeleccionar($event)">
         <option value="" disabled selected>-- Buscar por nombre --</option>
         @for (u of empleados(); track u.id) {
         <option [value]="u.id">{{ u.fullName }}</option>
@@ -20,8 +19,8 @@
       <p><span class="icon">📅</span> Historial de: <strong>{{ empleadoSeleccionado().fullName }}</strong></p>
     </div>
 
+    @if(historyFiltered().length > 0){
     <div class="filters-bar mt-4">
-
       <div class="filter-item-check">
         <label class="custom-checkbox">
           <input type="checkbox" [(ngModel)]="todoElHistorial" (change)="toggleTodoHistorial()">
@@ -73,34 +72,13 @@
     <div class="pdf-action">
       <button class="btn-pdf-action" (click)="descargarPDF(empleadoSeleccionado().fullName)">📄 Descargar PDF</button>
     </div>
+    } @else if (empleadoSeleccionado() && historyFiltered().length === 0) {
+    <div class="info-box animate-fade-in">
+      <p>NO SE ENCONTRO HISTORIAL REGISTRADO PARA ESTE USUARIO.</p>
+    </div>
     }
-  </div>
-  }
 
-  @else if (isError()) {
-  <div class="success-card" style="border-top: 6px solid #F9A825;">
-    <div class="success-content">
-      <div class="success-icon">⚠️</div>
-      <h2>Aviso del Sistema</h2>
-      <div class="info-box">
-        <p>{{ errorMessage() }}</p>
-      </div>
-      <button class="btn-back" (click)="resetVista()">Seleccionar otro</button>
-    </div>
-  </div>
-  }
-
-  @else if (isDeleted()) {
-  <div class="success-card">
-    <div class="success-content">
-      <div class="success-icon">
-        <h2>✅ Acceso Restringido</h2>
-      </div>
-      <div class="info-box">
-        <p>El empleado ha sido desactivado correctamente en <strong>CASA DESCANSO</strong>.</p>
-      </div>
-      <button class="btn-back" (click)="finalizar()">Volver a Gestión</button>
-    </div>
+    }
   </div>
   }
 </div>
