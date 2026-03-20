@@ -1,0 +1,23 @@
+<div class="form-container" style="max-width: 650px; margin: 0 auto;">
+
+  <form [formGroup]="miFormulario">
+
+    <div class="form-card">
+      <h3>EXPEDIENTE DEL RESIDENTE</h3>
+      <div class="grid-layout">
+        <div class="form-group center-residente">
+          <label>SELECCIONA UN RESIDENTE PARA CONTINUAR *</label>
+          <div class="input-container ">
+            <select formControlName="residentId" class="custom-select center-residente" (change)="goToProfile($event)">
+              <option value="" disabled selected>-- BUSQUE EL NOMBRE DEL RESIDENTE --</option>
+              @for (res of residentes(); track res.id) {
+              <option [value]="res.id">
+                {{ (res.firstName + ' ' + res.lastName + ' ' + (res.middleName || ''))}}
+              </option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
