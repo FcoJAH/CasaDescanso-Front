@@ -74,7 +74,7 @@ export const routes: Routes = [
           {
             path: 'ver-residentes',
             loadComponent: () => import('./pages/residentes/ver-residentes/ver-residentes.component').then(m => m.VerResidentesComponent)
-          },{
+          }, {
             path: 'modificar',
             loadComponent: () => import('./pages/residentes/modificar/modificar-residente.component').then(m => m.ModificarResidenteComponent)
           }
@@ -87,23 +87,23 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/shift/shift.component').then(m => m.ShiftComponent),
         children: [
-           {
+          {
             path: 'crear',
             loadComponent: () => import('./pages/shift/crear-turno/crear-turno.component').then(m => m.CrearTurnoComponent)
-           },
-           {
+          },
+          {
             path: 'modificar',
             loadComponent: () => import('./pages/shift/modificar/modificar.component').then(m => m.ModificarComponent)
-           },
-           {
+          },
+          {
             path: 'eliminar',
             loadComponent: () => import('./pages/shift/eliminar/eliminar.component').then(m => m.EliminarComponent)
-           },
-           {
+          },
+          {
             path: 'ver-turnos',
             loadComponent: () => import('./pages/shift/ver-turnos/ver-turnos.component').then(m => m.VerTurnosComponent)
-           }
-          ]
+          }
+        ]
       },
 
       // Seccion de roles
@@ -112,23 +112,23 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/roles/roles.component').then(m => m.RolesComponent),
         children: [
-           {
+          {
             path: 'crear-rol',
             loadComponent: () => import('./pages/roles/crear-rol/crear-rol.component').then(m => m.CrearRolComponent)
-           },
-           {
+          },
+          {
             path: 'modificar-rol',
             loadComponent: () => import('./pages/roles/modificar-rol/modificar-rol.component').then(m => m.ModificarRolComponent)
-           },
-           {
+          },
+          {
             path: 'eliminar-rol',
             loadComponent: () => import('./pages/roles/eliminar-rol/eliminar-rol.component').then(m => m.EliminarRolComponent)
-           },
-           {
+          },
+          {
             path: 'ver-roles',
             loadComponent: () => import('./pages/roles/ver-roles/ver-roles.component').then(m => m.VerRolesComponent)
-           }
-          ]
+          }
+        ]
       },
 
       {
@@ -156,16 +156,25 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/incidents/incidents.component').then(m => m.IncidentsComponent),
         children: [
-           {
+          {
             path: 'crear-incidencia',
             loadComponent: () => import('./pages/incidents/create/create-incident.component').then(m => m.CrearIncidenciaComponent)
-           },
-           {
+          },
+          {
             path: 'ver-incidencias',
             loadComponent: () => import('./pages/incidents/view-incidents/view-incidents.component').then(m => m.ViewIncidentsComponent)
-           }
-          ]
+          }
+        ]
       },
+      {
+        path: 'resident-history',
+        loadComponent: () =>
+          import('./pages/resident-history/resident-history.component').then(m => m.ResidentHistoryComponent),
+      },
+      {
+        path: 'resident-profile/:id',
+        loadComponent: () => import('./pages/resident-history/resident-profile/resident-profile.component').then(m => m.ResidentProfileComponent)
+      }
     ]
   },
 

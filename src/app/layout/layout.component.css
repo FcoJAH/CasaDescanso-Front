@@ -4,18 +4,21 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 }
 
 .content {
-  flex: 1;
-  padding: 30px;
+  /*flex: 1;*/
+  padding: 20px;
   color: #2C3E50;
   width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .layout {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #F8F9FA;
-  /* Blanco Humo */
+  height: 100vh;
+  /* Ocupa toda la ventana */
+  overflow: hidden;
+  /* Prohibido el scroll al navegador */
 }
 
 .header {
@@ -56,6 +59,7 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 .header-left {
   display: flex;
   align-items: center;
+  flex-shrink: 0
 }
 
 /* Logout */
@@ -166,13 +170,16 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 
 .content {
   flex: 1;
+  /* Ocupa todo el espacio sobrante */
   padding: 30px;
-  height: calc(100vh - 60px);
-  /* Altura total menos el header */
+  padding-bottom: 60px;
+  /* Margen interno para que el contenido no quede pegado al footer */
   overflow-y: auto;
-  /* Solo el contenido tiene scroll propio */
+  /* ÚNICO scroll permitido */
   background-color: #F8F9FA;
-  /* Tu Blanco Humo */
+
+  /* Eliminamos el height fijo de 100vh que tenías antes */
+  height: auto;
 }
 
 /* Ajuste de enlaces deshabilitados (opcional) */
@@ -266,6 +273,7 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .version-content {
@@ -285,6 +293,7 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 }
 
 /* Evitar que el contenido se tape por la barra fija */
-body {
-  padding-bottom: 40px;
-}
+/*body {
+  padding-bottom: 60px;
+  padding-top: 20px;
+}*/

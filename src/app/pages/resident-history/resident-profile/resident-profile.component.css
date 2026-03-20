@@ -1,0 +1,215 @@
+/* Contenedor Principal */
+.main-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.page-title {
+    color: #004085;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #888;
+    margin-top: 0;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Tarjeta de Perfil */
+.profile-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    /* Para poner la foto a la derecha */
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+/* Sección de Foto */
+.photo-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Centra horizontalmente la foto y el botón */
+    gap: 15px;
+    /* Espacio de separación entre la foto y el botón */
+    flex: 0 0 200px;
+    /* Mantiene un ancho fijo para que no empuje los datos */
+}
+
+.avatar-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* Evita que la foto se estire feo */
+    }
+}
+
+.btn-change-photo {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    /* Estilo redondeado */
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+.avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Sección de Datos */
+.data-section {
+    flex: 1;
+    /* Toma el resto del espacio */
+    padding-right: 20px;
+}
+
+.resident-full-name {
+    color: #004085;
+    /* Azul Universidad */
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    /* Como en la imagen */
+}
+
+.info-group {
+    margin-bottom: 10px;
+}
+
+.info-group label {
+    display: block;
+    color: #777;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.info-value {
+    color: #333;
+    font-size: 15px;
+}
+
+/* Texto Azul como en la imagen */
+.text-blue {
+    color: #007bff;
+}
+
+/* Estilos de Bloques Médicos */
+.data-block {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.data-block.highlight {
+    background: #fdfdfe;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #eef;
+}
+
+.block-title {
+    margin-top: 0;
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.block-title.medic {
+    color: #822;
+}
+
+.danger {
+    color: #d00;
+    font-weight: bold;
+}
+
+/* Tabla de Documentos */
+.documents-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-add {
+    background: #004085;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.custom-table th {
+    text-align: left;
+    padding: 10px;
+    background: #f9f9f9;
+    border-bottom: 2px solid #eee;
+}
+
+.custom-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.actions button {
+    margin-right: 5px;
+    cursor: pointer;
+    background: #eee;
+    border: 1px solid #ccc;
+}
+
+.btn-volver {
+    background-color: #e28000;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    /* Estilo redondeado */
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+
+    &:hover {
+        background-color: #bb6a00;
+    }
+}

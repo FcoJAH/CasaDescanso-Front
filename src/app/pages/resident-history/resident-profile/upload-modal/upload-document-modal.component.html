@@ -1,0 +1,35 @@
+<div class="modal-overlay" (click)="close()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Subir Documento</h2>
+            <button class="close-icon" (click)="close()">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="input-group">
+                <label>Nombre del Documento</label>
+                <input type="text" [(ngModel)]="docName" placeholder="Ej: Acta de Nacimiento">
+            </div>
+
+            <div class="input-group">
+                <label>Descripción / Detalle</label>
+                <textarea [(ngModel)]="detalleRecurso" rows="3" placeholder="Información adicional..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label class="file-label">
+                    <span class="file-btn">Seleccionar Archivo</span>
+                    <span class="file-name">{{ selectedFile()?.name || 'Ningún archivo seleccionado' }}</span>
+                    <input type="file" (change)="onFileSelected($event)" accept=".pdf,image/*" hidden>
+                </label>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-cancel" (click)="close()" [disabled]="isUploading()">Cancelar</button>
+            <button class="btn-upload" (click)="upload()" [disabled]="!selectedFile() || !docName() || isUploading()">
+                {{ isUploading() ? 'Subiendo...' : 'Subir a expediente' }}
+            </button>
+        </div>
+    </div>
+</div>

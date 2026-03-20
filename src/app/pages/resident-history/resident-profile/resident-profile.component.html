@@ -1,0 +1,154 @@
+<div class="main-container">
+    <div style="text-align: end;">
+        <button class="btn-volver" (click)="volverMenu()">Volver a seleccionar residente</button>
+    </div>
+    <div class="profile-card" *ngIf="resident(); else loading">
+
+        <div class="data-section">
+            <h2 class="resident-full-name">
+                {{ resident()!.firstName }} {{ resident()!.lastName }} {{ resident()!.middleName || '' }}
+            </h2>
+            <div class="info-group">
+                <label>ID del Residente</label>
+                <span class="info-value text-blue">{{ resident()!.id | number:'5.0-0' }}</span>
+            </div>
+
+            <div class="info-group">
+                <label>Fecha de Nacimiento</label>
+                <span class="info-value">{{ resident()!.birthDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+
+            <div class="info-group">
+                <label>Fecha de ingreso</label>
+                <span class="info-value">{{ resident()!.admissionDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+
+            <div class="info-group">
+                <label>NSS</label>
+                <span class="info-value">{{ resident()!.nss }}</span>
+            </div>
+
+            <div class="data-block">
+                <h4 class="block-title">Contacto de Emergencia</h4>
+                <div class="info-group">
+                    <label>Nombre</label>
+                    <span class="info-value">{{ resident()!.emergencyContactName }} ({{
+                        resident()!.emergencyContactRelation }})</span>
+                </div>
+                <div class="info-group">
+                    <label>Teléfono</label>
+                    <span class="info-value text-blue">{{ resident()!.emergencyContactPhone }}</span>
+                </div>
+                @if (resident()!.secondContactName && resident()!.secondContactPhone) {
+                <div class="info-group">
+                    <label>Nombre</label>
+                    <span class="info-value">{{ resident()!.secondContactName }} ({{
+                        resident()!.secondContactRelation }})</span>
+                </div>
+                <div class="info-group">
+                    <label>Teléfono</label>
+                    <span class="info-value text-blue">{{ resident()!.secondContactPhone }}</span>
+                </div>
+                }
+            </div>
+
+            <div class="data-block highlight fullDataBlock">
+                <h4 class="block-title medic">🩺 Datos Médicos</h4>
+                <div class="grid-med">
+                    <div class="info-group">
+                        <label>Tipo de Sangre</label>
+                        <span class="info-value">{{ resident()!.bloodType }}</span>
+                    </div>
+                    <div class="info-group">
+                        <label>Alergias</label>
+                        <span class="info-value danger">{{ resident()!.allergies || 'Ninguna conocida' }}</span>
+                    </div>
+                    <div class="info-group col-2">
+                        <label>Diagnósticos</label>
+                        <span class="info-value">{{ resident()!.diagnosedDiseases }}</span>
+                    </div>
+                    @if (resident()!.observations) {
+                    <div class="info-group col-2">
+                        <label>Observaciones adicionales</label>
+                        <span class="info-value">{{ resident()!.observations }}</span>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="photo-section">
+            <div class="avatar-circle">
+                <img [src]="resident()!.photoPath || 'images/photoDefault.png'" alt="Foto Francisco">
+            </div>
+            <div>
+                <button class="btn-change-photo" (click)="openPerfil()">Cambiar Foto</button>
+            </div>
+
+            <input #photoInput type="file" style="display: none;" accept="image/png, image/jpeg, image/jpg, image/webp"
+                (change)="onPhotoSelected($event)">
+        </div>
+
+    </div>
+
+    <div class="documents-card">
+        <div class="table-header">
+            <h3>Expediente Digital y Documentos</h3>
+            <button class="btn-add" (click)="openUploadModal()">
+                + AGREGAR
+            </button>
+            @if (isModalAddOpen()) {
+            <app-upload-document-modal [residentId]="resident().id" (onClose)="isModalAddOpen.set(false)"
+                (onSuccess)="mostrarModalExito()">
+            </app-upload-document-modal>
+            }
+        </div>
+
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Nombre del Documento</th>
+                    <th>Detalles</th>
+                    <th>Fecha de Subida</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (doc of documents(); track doc.id) {
+                <tr>
+                    <td>{{ doc.documentName }}</td>
+                    <td>{{ doc.detalleRecurso }}</td>
+                    <td>{{ doc.createdAt | date:'dd/MM/yyyy' }}</td>
+                    <td class="actions">
+                        <button title="Previsualizar" (click)="preview(doc.documentUrl)">👁️</button>
+                        <button title="Descargar" (click)="download(doc)">📥</button>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="3" style="text-align: center; padding: 20px;">No hay documentos registrados.</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<ng-template #loading>
+    <div class="loading-state">Cargando datos del residente...</div>
+</ng-template>
+
+@if (showValidationPopup()) {
+<app-validation-popup [errors]="formErrors()" (onClose)="showValidationPopup.set(false)">
+</app-validation-popup>
+}
+
+@if (showSuccess()) {
+<app-success-view [config]="configuracionExito" (onAction)="alSalir()" (onExit)="volverMenu()">
+</app-success-view>
+}
+
+@if (exitoSubida()) {
+<app-success-view [config]="configuracionExitoSubida" (onAction)="alSalir()" (onExit)="volverMenu()">
+</app-success-view>
+}
