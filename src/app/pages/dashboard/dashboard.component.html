@@ -26,6 +26,27 @@
     </div>
   </div>
 
+  @if (authService.isAdmin()) {
+  <div class="active-staff-panel animate-fade-in" *ngIf="!loading()">
+    <div class="panel-header">
+      <span class="icon">📋</span>
+      <h4>PERSONAL LABORANDO AHORA</h4>
+      <span class="badge">{{ stats().activeWorkersNames.length }} en turno</span>
+    </div>
+
+    <div class="staff-list-container">
+      @for (name of stats().activeWorkersNames; track name) {
+      <div class="staff-tag">
+        <span class="status-indicator"></span>
+        <span class="staff-name">{{ name }}</span>
+      </div>
+      } @empty {
+      <p class="empty-staff">No hay registros de entrada activos hoy.</p>
+      }
+    </div>
+  </div>
+  }
+
   <div class="charts-grid" *ngIf="!loading()">
 
     <div class="chart-card">
@@ -39,7 +60,7 @@
       </div>
     </div>
 
-    <div class="chart-card">
+    <!--<div class="chart-card">
       <h4>ESTADO DEL PERSONAL ({{ stats().totalWorkers }})</h4>
       <div class="chart-box">
         <canvas #workChart></canvas>
@@ -48,7 +69,7 @@
         <span class="text-primary">● Activos</span>
         <span class="text-accent">● Bajas</span>
       </div>
-    </div>
+    </div>-->
 
     <div class="chart-card border-danger">
       <h4>ESTADO DE INCIDENCIAS</h4>

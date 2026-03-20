@@ -2,6 +2,7 @@ import { Component, ElementRef, inject, OnInit, signal, ViewChild, AfterViewInit
 import { CommonModule } from '@angular/common';
 import { DashboardData, DashboardService } from './dashboard.service';
 import { Chart, registerables } from 'chart.js';
+import { AuthService } from '../../services/auth.service';
 
 Chart.register(...registerables);
 
@@ -14,6 +15,7 @@ Chart.register(...registerables);
 })
 export class DashboardComponent implements OnInit {
   private dashboardService = inject(DashboardService);
+  public authService = inject(AuthService);
 
   @ViewChild('resChart') resChart!: ElementRef<HTMLCanvasElement>;
   @ViewChild('workChart') workChart!: ElementRef<HTMLCanvasElement>;
@@ -23,8 +25,11 @@ export class DashboardComponent implements OnInit {
     totalResidents: 0, activeResidents: 0, inactiveResidents: 0,
     totalWorkers: 0, activeWorkers: 0, inactiveWorkers: 0,
     todayIncidents: 0, totalIncidents: 0,
-    workersWorkingNow: 0, checkInsToday: 0
+    workersWorkingNow: 0, checkInsToday: 0,
+    activeWorkersNames: []
   });
+
+  user$ = this.authService.currentUser$;
 
   loading = signal(true);
 
@@ -66,7 +71,7 @@ export class DashboardComponent implements OnInit {
     });
 
     // Gráfica Trabajadores (Pastel) - Azul Corporativo y Dorado Cálido
-    new Chart(this.workChart.nativeElement, {
+    /*new Chart(this.workChart.nativeElement, {
       type: 'pie',
       data: {
         labels: ['Activos', 'Inactivos'],
@@ -77,7 +82,7 @@ export class DashboardComponent implements OnInit {
         }]
       },
       options: { responsive: true, maintainAspectRatio: false }
-    });
+    });*/
 
     // Gráfica de Incidentes
     new Chart(this.incidentChart.nativeElement, {
