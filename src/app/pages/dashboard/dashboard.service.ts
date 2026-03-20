@@ -15,6 +15,7 @@ export interface DashboardData {
   totalIncidents: number;
   workersWorkingNow: number;
   checkInsToday: number;
+  activeWorkersNames: string[];
 }
 
 @Injectable({
