@@ -93,9 +93,14 @@
     <div class="documents-card">
         <div class="table-header">
             <h3>Expediente Digital y Documentos</h3>
-            <button class="btn-add" (click)="openUploadModal()">
-                + AGREGAR
-            </button>
+            <div>
+                <button class="btn-descargar" (click)="descargarExpedienteUnificado()">
+                    Descargar expediente
+                </button>
+                <button class="btn-add" (click)="openUploadModal()">
+                    + AGREGAR
+                </button>
+            </div>
             @if (isModalAddOpen()) {
             <app-upload-document-modal [residentId]="resident().id" (onClose)="isModalAddOpen.set(false)"
                 (onSuccess)="mostrarModalExito()">
