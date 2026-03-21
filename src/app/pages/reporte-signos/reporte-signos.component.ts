@@ -163,31 +163,69 @@ export class ReporteSignosComponent implements OnInit {
         // --- CUADRO DE INFORMACIÓN ---
         doc.setLineWidth(0.2);
         doc.setDrawColor(0, 0, 0);
-        doc.rect(10, 28, 190, 32);
+
+        const col1X = 15;
+        const col2X = 110;
+        const margenRect = 10;
+        const anchoTotal = 190;
+        const startY = 28;
+        let yCursor = 35;
+        const espaciadoLineas = 5;
+
+        // Calculamos el ancho disponible para cada columna
+        const wrapWidth = (margenRect + anchoTotal) - col2X - 5;
 
         doc.setFontSize(8.5);
-        doc.text(`NOMBRE: ${residente.firstName + ' ' + residente.lastName + ' ' + residente.middleName}`, 15, 35);
-        doc.text(`FECHA DE NACIMIENTO: ${residente.birthDate?.split('T')[0] || '--'}`, 15, 40);
-        doc.text(`CONTACTO DE URGENCIA: ${residente.emergencyContactPhone}`, 15, 45);
-        doc.text(`NOMBRE DE CONTACTO: ${residente.emergencyContactName}`, 15, 50);
-        doc.text(`ENFERMEDADES: ${safeUpper(residente.diagnosedDiseases)}`, 15, 55);
+        doc.setFont('helvetica', 'normal');
 
-        doc.text(`ALERGIAS: ${safeUpper(residente.allergies)}`, 110, 35);
-        doc.text(`EDAD: ${this.calcularEdad(residente.birthDate)} AÑOS`, 110, 40);
-        doc.text(`SEXO: ${residente.gender}`, 110, 45);
-        doc.text(`N.S.S.: ${safeUpper(residente.nss)}`, 110, 50);
-        doc.setTextColor(200, 0, 0);
-        doc.setTextColor(...negro);
-        doc.text(`OBSERVACIONES: ${safeUpper(residente.observations)}`, 110, 55);
+        // FILA 1
+        doc.text(`NOMBRE: ${residente.firstName} ${residente.lastName} ${residente.middleName}`, col1X, yCursor);
+        doc.text(`ALERGIAS: ${safeUpper(residente.allergies)}`, col2X, yCursor);
+
+        // FILA 2
+        yCursor += espaciadoLineas;
+        doc.text(`FECHA DE NACIMIENTO: ${residente.birthDate?.split('T')[0] || '--'}`, col1X, yCursor);
+        doc.text(`EDAD: ${this.calcularEdad(residente.birthDate)} AÑOS`, col2X, yCursor);
+
+        // FILA 3
+        yCursor += espaciadoLineas;
+        doc.text(`CONTACTO DE URGENCIA: ${residente.emergencyContactPhone}`, col1X, yCursor);
+        doc.text(`SEXO: ${residente.gender}`, col2X, yCursor);
+
+        // FILA 4
+        yCursor += espaciadoLineas;
+        doc.text(`NOMBRE DE CONTACTO: ${residente.emergencyContactName}`, col1X, yCursor);
+        doc.text(`N.S.S.: ${safeUpper(residente.nss)}`, col2X, yCursor);
+
+        // FILA 5 (Textos con Wrap)
+        yCursor += espaciadoLineas;
+        const textoEnfermedadesRaw = `ENFERMEDADES: ${safeUpper(residente.diagnosedDiseases)}`;
+        const textoEnfermedadesWrapped = doc.splitTextToSize(textoEnfermedadesRaw, wrapWidth);
+
+        const textoObservacionesRaw = `OBSERVACIONES: ${safeUpper(residente.observations)}`;
+        const textoObservacionesWrapped = doc.splitTextToSize(textoObservacionesRaw, wrapWidth);
+
+        // Dibujamos los bloques envueltos
+        doc.text(textoEnfermedadesWrapped, col1X, yCursor);
+        doc.text(textoObservacionesWrapped, col2X, yCursor);
+
+        // Calculamos el final del cuadro basado en qué texto fue más largo
+        const lineasMax = Math.max(textoEnfermedadesWrapped.length, textoObservacionesWrapped.length);
+        const alturaFinalTextos = yCursor + (lineasMax * 4); // 4 es el alto aprox de la línea de texto
+
+        // Dibujamos el rectángulo (mínimo 32mm de alto o lo que ocupen los textos)
+        const altoRect = Math.max(32, alturaFinalTextos - startY + 2);
+        doc.rect(margenRect, startY, anchoTotal, altoRect);
+
+        // El startY de la tabla debe ser dinámico según el alto del cuadro
+        const tableStartY = startY + altoRect + 5;
 
         // --- TABLA DE SIGNOS VITALES ---
         autoTable(doc, {
-            startY: 63,
+            startY: tableStartY,
             head: [['FECHA', 'HORARIO', 'T/A', 'F. CARD', 'F. RESP', 'SAT.', 'TEMP.', 'GLUC.', 'FIRMA']],
             body: registros.map(r => {
                 const fechaHora = new Date(r.recordedAt);
-                const nombreFirma = workersMap[r.recordedByUserId] || 'SISTEMA';
-
                 return [
                     this.datePipe.transform(fechaHora, 'dd/MM/yyyy') || '--',
                     this.datePipe.transform(fechaHora, 'HH:mm') || '--',
@@ -197,14 +235,13 @@ export class ReporteSignosComponent implements OnInit {
                     r.oxygenSaturation ? r.oxygenSaturation + '%' : '--',
                     r.temperature ? r.temperature + '°C' : '--',
                     r.glucoseLevel || '--',
-                    r.recordedBy
+                    r.recordedBy || '---'
                 ];
             }),
             didParseCell: (data) => {
-                // Si la celda es de la columna "FIRMA" (índice 8)
                 if (data.section === 'body' && data.column.index === 8) {
-                    data.cell.styles.textColor = grisFirma; // Aplicamos el gris claro
-                    data.cell.styles.fontSize = 6; // Un poco más pequeña para dar espacio a la firma real
+                    data.cell.styles.textColor = grisFirma;
+                    data.cell.styles.fontSize = 6;
                 }
             },
             headStyles: {
@@ -224,7 +261,7 @@ export class ReporteSignosComponent implements OnInit {
             theme: 'grid'
         });
 
-        // Pie de página
+        // Pie de página y guardado (igual que tu código)
         const pageCount = (doc as any).internal.getNumberOfPages();
         for (let i = 1; i <= pageCount; i++) {
             doc.setPage(i);
@@ -232,7 +269,7 @@ export class ReporteSignosComponent implements OnInit {
             doc.text(`Página ${i} de ${pageCount} - Generado por Sistema Hogares Fraternales de Juanacatlán A.C.`, 105, 285, { align: 'center' });
         }
 
-        doc.save(`HOJA_CLINICA_${safeUpper(residente.fullName)}.pdf`);
+        doc.save(`HOJA_CLINICA_${safeUpper(residente.firstName)}_${safeUpper(residente.lastName)}.pdf`);
     }
 
     resetVista() {
