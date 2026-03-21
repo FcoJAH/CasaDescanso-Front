@@ -36,6 +36,13 @@ export class CrearIncidenciaComponent implements OnInit {
     // --- NUEVO: Configuración para el componente SuccessView ---
     successData = signal<any>(null);
 
+    obtenerFechaHoraGDL(): string {
+        // Retorna algo como "3/21/2026, 13:24:00" que Date() sí puede leer
+        return new Date().toLocaleString("en-US", { timeZone: "America/Mexico_City" });
+    }
+
+    // Ejemplo de salida: "21/03/2026, 13:15:00"
+
     ngOnInit() {
         this.cargarResidentes();
     }
@@ -87,7 +94,8 @@ export class CrearIncidenciaComponent implements OnInit {
         const payload: Incidente = {
             residentId: this.residenteSeleccionado().id,
             registeredByUserId: 1,
-            date: new Date().toISOString(),
+            // Si viene de un formulario o de tu función que devuelve string:
+            date: new Date(this.obtenerFechaHoraGDL()).toISOString(),
             type: this.tipoIncidente().toUpperCase(),
             severityLevel: this.severidad().toUpperCase(),
             description: this.descripcion().toUpperCase()
@@ -115,9 +123,9 @@ export class CrearIncidenciaComponent implements OnInit {
     private prepararSuccessData() {
         const nombre = `${this.residenteSeleccionado().firstName} ${this.residenteSeleccionado().lastName} ${this.residenteSeleccionado().middleName || ''}`.trim();
         this.successData.set({
-          titulo: '¡INCIDENCIA REGISTRADA!',
-          mensaje: `El reporte para el residente ${nombre} se ha guardado correctamente.`,
-          botonPrincipal: 'NUEVA INCIDENCIA'
+            titulo: '¡INCIDENCIA REGISTRADA!',
+            mensaje: `El reporte para el residente ${nombre} se ha guardado correctamente.`,
+            botonPrincipal: 'NUEVA INCIDENCIA'
         });
     }
 

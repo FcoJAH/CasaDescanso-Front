@@ -30,6 +30,14 @@ export class IncidentsService {
     return this.http.get<any[]>(`${this.apiUrl}/Incidents/resident/${residentId}`);
   }
 
+  getResidentsById(residentId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Residents/detail/${residentId}`);
+  }
+
+  getWorkerById(workerId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Workers/detail/${workerId}`);
+  }
+
   /**
    * Manejador de errores para evitar el 400 en la consola roja
    * y permitir que el componente reciba el mensaje amigablemente.
