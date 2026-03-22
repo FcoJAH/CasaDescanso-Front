@@ -11,98 +11,49 @@ import { ValidationPopupComponent } from '../../../utils/popup/validation-popup.
 @Component({
   selector: 'app-registro-signos',
   standalone: true,
-  imports: [CommonModule,
-    ReactiveFormsModule,
-    SuccessViewComponent,
-    ValidationPopupComponent],
+  imports: [CommonModule, ReactiveFormsModule, SuccessViewComponent, ValidationPopupComponent],
   templateUrl: './registro-signos.component.html',
   styleUrl: './registro-signos.component.css'
 })
 export class RegistroSignosComponent implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private residentesService = inject(ResidentesService);
+  private empleadosService = inject(VitalSignsService);
 
-  // Signals para el manejo del popup (muy Angular 19)
   errorMessage = signal('');
   showPopup = signal(false);
-
   isRegistered = signal(false);
-  registeredData = signal<{ username: string; message: string } | null>(null);
   usuarioLogueado = signal<any>(null);
   residentes = signal<any[]>([]);
-  usuarios = signal<any[]>([]);
   successData = signal<SuccessConfig | null>(null);
+  showValidationPopup = signal(false);
+  formErrors = signal<string[]>([]);
 
-  // Rangos de referencia
-  readonly RANGOS = {
-    temp: { min: 36.0, max: 37.5 },
-    heart: { min: 60, max: 100 },
-    oxigen: { min: 94, max: 100 },
-    resp: { min: 12, max: 20 },
-    glucosa: { min: 70, max: 140 }
-  };
-
+  // Formulario con validaciones solo de presencia y formato (Permite guardar cualquier rango)
   signosForm: FormGroup = this.fb.group({
     residentId: ['', [Validators.required]],
     recordedByUserId: ['', [Validators.required]],
-    temperature: [null, [Validators.required, Validators.min(30), Validators.max(45)]],
+    temperature: [null, [Validators.required]],
     bloodPressure: ['', [Validators.required, Validators.pattern(/^\d{2,3}\/\d{2,3}$/)]],
-    heartRate: [null, [Validators.required, Validators.min(10), Validators.max(250)]],
-    respiratoryFrequency: [null, [Validators.required, Validators.min(5), Validators.max(60)]],
-    oxygenSaturation: [null, [Validators.required, Validators.min(1), Validators.max(100)]],
-    glucoseLevel: [null, [Validators.required, Validators.min(20), Validators.max(600)]],
-    weight: [null, [Validators.required, Validators.min(20), Validators.max(500)]],
+    heartRate: [null, [Validators.required]],
+    respiratoryFrequency: [null, [Validators.required]],
+    oxygenSaturation: [null, [Validators.required]],
+    glucoseLevel: [null, [Validators.required]],
+    weight: [null, [Validators.required]],
     notes: ['']
   });
-
-  // En RegistrarEmpleadoComponent
-  maxDate: string = '';
-  authService: any;
-
-  constructor() {
-    const today = new Date();
-    const year = today.getFullYear() - 15; // Año máximo permitido (2011)
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    this.maxDate = `${year}-${month}-${day}`;
-  }
 
   ngOnInit() {
     this.cargarCatalogos();
     this.establecerUsuarioResponsable();
   }
 
-  establecerUsuarioResponsable() {
-    // 1. Red de seguridad: Intentar obtener del servicio o directamente del Storage
-    const user = this.authService?.currentUserSignal() || this.getBackupUser();
+  // --- MÉTODOS PARA EL HTML (RESUELVE TUS ERRORES) ---
 
-    if (user) {
-      this.signosForm.patchValue({
-        recordedByUserId: user.workerId
-      });
-      this.usuarioLogueado.set(user);
-      //console.log("✅ Usuario responsable asignado:", user.workerId, user.fullName);
-    } else {
-      //console.error("❌ No se pudo recuperar el usuario de ninguna fuente.");
-    }
-  }
-
-  // Método de respaldo por si el servicio falla en el arranque
-  private getBackupUser(): any {
-    const stored = localStorage.getItem('currentUser');
-    return stored ? JSON.parse(stored) : null;
-  }
-
-  private residentesService = inject(ResidentesService);
-
-  cargarCatalogos() {
-    this.residentesService.obtenerActivos().subscribe({
-      next: (data) => {
-        // Aquí se llena el catálogo que usa el @for del HTML
-        this.residentes.set(data);
-      },
-      error: () => this.errorMessage.set('Error al conectar con la base de datos de residentes')
-    });
+  isFieldInvalid(field: string): boolean {
+    const control = this.signosForm.get(field);
+    return !!(control && control.invalid && (control.dirty || control.touched));
   }
 
   getStatus(field: string): 'normal' | 'alerta' | 'none' {
@@ -117,11 +68,9 @@ export class RegistroSignosComponent implements OnInit {
       case 'bloodPressure':
         if (!String(value).includes('/')) return 'none';
         const parts = String(value).split('/');
-        const sistolica = Number(parts[0]);
-        const diastolica = Number(parts[1]);
-        // Rango: Sistólica 110-139 y Diastólica 70-89
-        return (sistolica >= 110 && sistolica <= 139 && diastolica >= 70 && diastolica <= 89)
-          ? 'normal' : 'alerta';
+        const sis = Number(parts[0]);
+        const dia = Number(parts[1]);
+        return (sis >= 110 && sis <= 139 && dia >= 70 && dia <= 89) ? 'normal' : 'alerta';
 
       case 'oxygenSaturation':
         const o2 = Number(value);
@@ -144,153 +93,87 @@ export class RegistroSignosComponent implements OnInit {
     }
   }
 
-  // Inyectas el servicio
-  private empleadosService = inject(VitalSignsService);
-
-  onSubmit() {
-    const payload = { ...this.signosForm.value };
-    payload.residentId = parseInt(payload.residentId, 10);
-
-    this.empleadosService.registrarSignosVitales(payload).subscribe({
-      next: () => {
-        this.isRegistered.set(true);
-        this.successData.set({
-          titulo: '¡REGISTRO GUARDADO CON EXITO!',
-          mensaje: 'Los datos clinicos han sido guardados con exito en el expediente del residente',
-          botonPrincipal: 'NUEVO REGISTRO'
-        });
-      },
-      error: (err) => {
-        this.successData.set({
-          titulo: 'ERROR AL GUARDAR EN EL SERVIDOR',
-          mensaje: 'Los datos clinicos no se han guardado correctamente debido a un error en el servidor. Por favor, intente nuevamente.',
-          botonPrincipal: 'NUEVO REGISTRO'
-        });
-      }
-    });
-  }
-
-  //Popup de validación para mostrar errores específicos de cada campo
-  showValidationPopup = signal(false);
-  formErrors = signal<string[]>([]);
+  // --- LÓGICA DE ENVÍO ---
 
   verificarYEnviar() {
-    console.log("🔍 Verificando formulario antes de enviar...", this.signosForm.value);
-
     if (this.signosForm.invalid) {
       const errores: string[] = [];
       const controls = this.signosForm.controls;
-      const valorPresion = controls['bloodPressure'].value;
 
-      // --- TEMPERATURA ---
-      if (controls['temperature'].errors?.['required']) {
-        errores.push("TEMPERATURA REQUERIDA");
-      } else if (controls['temperature'].errors?.['min'] || controls['temperature'].errors?.['max']) {
-        errores.push("TEMPERATURA DEBE ESTAR ENTRE 30 Y 45 °C");
-      }
+      const labels: any = {
+        temperature: "TEMPERATURA",
+        bloodPressure: "PRESIÓN ARTERIAL",
+        heartRate: "PULSO CARDÍACO",
+        respiratoryFrequency: "FRECUENCIA RESPIRATORIA",
+        oxygenSaturation: "SATURACIÓN DE OXÍGENO",
+        glucoseLevel: "NIVEL DE GLUCOSA",
+        weight: "PESO",
+        residentId: "RESIDENTE"
+      };
 
-      // --- PRESIÓN ARTERIAL ---
-      if (controls['bloodPressure'].errors?.['required']) {
-        errores.push("PRESIÓN ARTERIAL REQUERIDA");
-      } else if (controls['bloodPressure'].invalid) {
+      Object.keys(controls).forEach(key => {
+        if (controls[key].errors?.['required']) {
+          errores.push(`${labels[key] || key.toUpperCase()} ES REQUERIDO(A)`);
+        }
+      });
+
+      if (controls['bloodPressure'].errors?.['pattern']) {
         errores.push("FORMATO DE PRESIÓN INVÁLIDO (EJ: 120/80)");
-      } else if (valorPresion) {
-        // Si el formato es correcto (ej. 120/80), verificamos los números
-        const partes = valorPresion.split('/');
-        const sis = parseInt(partes[0]);
-        const dias = parseInt(partes[1]);
-
-        if (sis < 50 || sis > 260) {
-          errores.push("VALOR SISTÓLICO (PRIMERO) FUERA DE RANGO REAL (50-260)");
-        }
-        if (dias < 30 || dias > 150) {
-          errores.push("VALOR DIASTÓLICO (SEGUNDO) FUERA DE RANGO REAL (30-150)");
-        }
-        if (sis <= dias) {
-          errores.push("LA PRESIÓN SISTÓLICA DEBE SER MAYOR A LA DIASTÓLICA");
-        }
-      }
-
-      // --- PULSO CARDÍACO ---
-      if (controls['heartRate'].errors?.['required']) {
-        errores.push("PULSO CARDÍACO REQUERIDO");
-      } else if (controls['heartRate'].errors?.['min'] || controls['heartRate'].errors?.['max']) {
-        errores.push("PULSO CARDÍACO DEBE ESTAR ENTRE 10 Y 250 LPM");
-      }
-
-      // --- FRECUENCIA RESPIRATORIA ---
-      if (controls['respiratoryFrequency'].errors?.['required']) {
-        errores.push("FRECUENCIA RESPIRATORIA REQUERIDA");
-      } else if (controls['respiratoryFrequency'].errors?.['min'] || controls['respiratoryFrequency'].errors?.['max']) {
-        errores.push("FRECUENCIA RESPIRATORIA DEBE ESTAR ENTRE 5 Y 60 RPM");
-      }
-
-      // --- SATURACIÓN DE OXÍGENO ---
-      if (controls['oxygenSaturation'].errors?.['required']) {
-        errores.push("SATURACIÓN DE OXÍGENO REQUERIDA");
-      } else if (controls['oxygenSaturation'].errors?.['min'] || controls['oxygenSaturation'].errors?.['max']) {
-        errores.push("SATURACIÓN DE OXÍGENO DEBE ESTAR ENTRE 1 Y 100%");
-      }
-
-      // --- NIVEL DE GLUCOSA ---
-      if (controls['glucoseLevel'].errors?.['required']) {
-        errores.push("NIVEL DE GLUCOSA REQUERIDO");
-      } else if (controls['glucoseLevel'].errors?.['min'] || controls['glucoseLevel'].errors?.['max']) {
-        errores.push("NIVEL DE GLUCOSA DEBE ESTAR ENTRE 20 Y 600 MG/DL");
-      }
-
-      // --- PESO ---
-      if (controls['weight'].errors?.['required']) {
-        errores.push("PESO REQUERIDO");
-      } else if (controls['weight'].errors?.['min'] || controls['weight'].errors?.['max']) {
-        errores.push("PESO DEBE ESTAR ENTRE 20 Y 500 KG");
       }
 
       this.formErrors.set(errores);
       this.showValidationPopup.set(true);
-
     } else {
       this.onSubmit();
     }
   }
 
-  volver() {
-    this.router.navigate(['/dashboard']);
+  onSubmit() {
+    const payload = { 
+      ...this.signosForm.value,
+      residentId: parseInt(this.signosForm.value.residentId, 10)
+    };
+
+    this.empleadosService.registrarSignosVitales(payload).subscribe({
+      next: () => {
+        this.isRegistered.set(true);
+        this.successData.set({
+          titulo: '¡REGISTRO GUARDADO CON ÉXITO!',
+          mensaje: 'Los datos clínicos han sido guardados en el expediente.',
+          botonPrincipal: 'NUEVO REGISTRO'
+        });
+      },
+      error: () => {
+        this.formErrors.set(['ERROR AL CONECTAR CON EL SERVIDOR']);
+        this.showValidationPopup.set(true);
+      }
+    });
+  }
+
+  // --- MÉTODOS DE APOYO ---
+
+  establecerUsuarioResponsable() {
+    const stored = localStorage.getItem('currentUser');
+    const user = stored ? JSON.parse(stored) : null;
+    if (user) {
+      this.signosForm.patchValue({ recordedByUserId: user.workerId });
+      this.usuarioLogueado.set(user);
+    }
+  }
+
+  cargarCatalogos() {
+    this.residentesService.obtenerActivos().subscribe({
+      next: (data) => this.residentes.set(data),
+      error: () => this.errorMessage.set('Error al cargar residentes')
+    });
   }
 
   nuevoRegistro() {
-    this.signosForm.reset({
-      residentId: '', // Volver al valor por defecto del select
-      temperature: null,
-      bloodPressure: '',
-      heartRate: null,
-      respiratoryFrequency: null,
-      oxygenSaturation: null,
-      glucoseLevel: null,
-      weight: null,
-      notes: ''
-    });
-
+    this.signosForm.reset({ residentId: '', bloodPressure: '', notes: '' });
     this.signosForm.markAsPristine();
     this.signosForm.markAsUntouched();
-
     this.isRegistered.set(false);
   }
 
-  // Helper para el HTML
-  isFieldValid(field: string) {
-    const control = this.signosForm.get(field);
-    return control && control.valid && (control.dirty || control.touched);
-  }
-
-  isFieldInvalid(field: string) {
-    const control = this.signosForm.get(field);
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-
-  isPasswordVisible = signal(false); // Estado para el ojo
-
-  togglePasswordVisibility() {
-    this.isPasswordVisible.update(v => !v);
-  }
+  volver() { this.router.navigate(['/dashboard']); }
 }
