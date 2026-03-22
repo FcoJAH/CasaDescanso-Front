@@ -1,146 +1,146 @@
-<div class="form-container" style="max-width: 650px; margin: 0 auto;">
-  
-  @if (!isRegistered()) {
-  <form [formGroup]="signosForm">
+  <div class="form-container" style="max-width: 650px; margin: 0 auto;">
+    
+    @if (!isRegistered()) {
+    <form [formGroup]="signosForm">
 
-    <div class="form-card">
-      <h3><span class="icon">👤</span> PACIENTE Y RESPONSABLE</h3>
-      <div class="grid-layout">
-        <div class="form-group center-residente">
-          <label>SELECCIONA UN RESIDENTE PARA CONTINUAR *</label>
-          <div class="input-container ">
-            <select formControlName="residentId" class="custom-select center-residente"
-              [class.is-invalid]="isFieldInvalid('residentId')">
-              <option value="" disabled selected>-- BUSQUE EL NOMBRE DEL RESIDENTE --</option>
-              @for (res of residentes(); track res.id) {
-              <option [value]="res.id">
-                {{ (res.firstName + ' ' + res.lastName + ' ' + (res.middleName || ''))}}
-              </option>
-              }
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    @if (signosForm.get('residentId')?.value) {
-
-    <div class="animate-fade-in">
-      <div class="form-card mt-4">
-        <h3><span class="icon">🩺</span> PARÁMETROS CLÍNICOS</h3>
-        <p class="subtitle-form">
-          LOS CAMPOS CAMBIARÁN A <span style="color: #28A745; font-weight: bold;">VERDE</span> EN RANGOS NORMALES Y 
-          <span style="color: #DC3545; font-weight: bold;">ROJO</span> EN ALERTA.
-        </p>
-
+      <div class="form-card">
+        <h3><span class="icon">👤</span> PACIENTE Y RESPONSABLE</h3>
         <div class="grid-layout">
-          <div class="form-group">
-            <label>TEMPERATURA (°C) *</label>
-            <div class="input-container">
-              <input formControlName="temperature" type="number" step="0.1" placeholder="EJ. 36.5"
-                [class.status-normal]="getStatus('temperature') === 'normal'"
-                [class.status-alerta]="getStatus('temperature') === 'alerta'">
-              @if (getStatus('temperature') === 'normal') { <span class="status-icon">✅</span> }
-              @if (getStatus('temperature') === 'alerta') { <span class="status-icon">⚠️</span> }
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>PRESIÓN ARTERIAL (SIST/DIAST) *</label>
-            <div class="input-container">
-              <input formControlName="bloodPressure" type="text" placeholder="EJ. 120/80"
-                [class.status-normal]="getStatus('bloodPressure') === 'normal'"
-                [class.status-alerta]="getStatus('bloodPressure') === 'alerta'">
-              @if (getStatus('bloodPressure') === 'normal') { <span class="status-icon">✅</span> }
-              @if (getStatus('bloodPressure') === 'alerta') { <span class="status-icon">⚠️</span> }
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>FREC. CARDÍACA (LPM) *</label>
-            <div class="input-container">
-              <input formControlName="heartRate" type="number" placeholder="EJ. 75"
-                [class.status-normal]="getStatus('heartRate') === 'normal'"
-                [class.status-alerta]="getStatus('heartRate') === 'alerta'">
-              @if (getStatus('heartRate') === 'normal') { <span class="status-icon">✅</span> }
-              @if (getStatus('heartRate') === 'alerta') { <span class="status-icon">⚠️</span> }
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>FREC. RESPIRATORIA (RPM) *</label>
-            <div class="input-container">
-              <input formControlName="respiratoryFrequency" type="number" placeholder="EJ. 18"
-                [class.status-normal]="getStatus('respiratoryFrequency') === 'normal'"
-                [class.status-alerta]="getStatus('respiratoryFrequency') === 'alerta'">
-              @if (getStatus('respiratoryFrequency') === 'normal') { <span class="status-icon">✅</span> }
-              @if (getStatus('respiratoryFrequency') === 'alerta') { <span class="status-icon">⚠️</span> }
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>SATURACIÓN OXÍGENO (%) *</label>
-            <div class="input-container">
-              <input formControlName="oxygenSaturation" type="number" placeholder="EJ. 98"
-                [class.status-normal]="getStatus('oxygenSaturation') === 'normal'"
-                [class.status-alerta]="getStatus('oxygenSaturation') === 'alerta'">
-              @if (getStatus('oxygenSaturation') === 'normal') { <span class="status-icon">✅</span> }
-              @if (getStatus('oxygenSaturation') === 'alerta') { <span class="status-icon">⚠️</span> }
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>GLUCOSA (MG/DL) *</label>
-            <div class="input-container">
-              <input formControlName="glucoseLevel" type="number" placeholder="EJ. 100"
-                [class.status-normal]="getStatus('glucoseLevel') === 'normal'"
-                [class.status-alerta]="getStatus('glucoseLevel') === 'alerta'">
-              @if (getStatus('glucoseLevel') === 'normal') { <span class="status-icon">✅</span> }
-              @if (getStatus('glucoseLevel') === 'alerta') { <span class="status-icon">⚠️</span> }
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>PESO (KG) *</label>
-            <div class="input-container">
-              <input formControlName="weight" type="number" step="0.1" placeholder="EJ. 70.5">
+          <div class="form-group center-residente">
+            <label>SELECCIONA UN RESIDENTE PARA CONTINUAR *</label>
+            <div class="input-container ">
+              <select formControlName="residentId" class="custom-select center-residente"
+                [class.is-invalid]="isFieldInvalid('residentId')">
+                <option value="" disabled selected>-- BUSQUE EL NOMBRE DEL RESIDENTE --</option>
+                @for (res of residentes(); track res.id) {
+                <option [value]="res.id">
+                  {{ (res.firstName + ' ' + res.lastName + ' ' + (res.middleName || ''))}}
+                </option>
+                }
+              </select>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="form-card mt-4">
-        <h3><span class="icon">📝</span> OBSERVACIONES MÉDICAS</h3>
-        <div class="grid-layout">
-          <div class="form-group full-width">
-            <label>NOTAS ADICIONALES</label>
-            <textarea formControlName="notes" placeholder="DESCRIBA CUALQUIER ANOMALÍA OBSERVADA..." rows="3"></textarea>
+      @if (signosForm.get('residentId')?.value) {
+
+      <div class="animate-fade-in">
+        <div class="form-card mt-4">
+          <h3><span class="icon">🩺</span> PARÁMETROS CLÍNICOS</h3>
+          <p class="subtitle-form">
+            LOS CAMPOS CAMBIARÁN A <span style="color: #28A745; font-weight: bold;">VERDE</span> EN RANGOS NORMALES Y 
+            <span style="color: #DC3545; font-weight: bold;">ROJO</span> EN ALERTA.
+          </p>
+
+          <div class="grid-layout">
+            <div class="form-group">
+              <label>TEMPERATURA (°C) *</label>
+              <div class="input-container">
+                <input formControlName="temperature" type="number" step="0.1" placeholder="EJ. 36.5"
+                  [class.status-normal]="getStatus('temperature') === 'normal'"
+                  [class.status-alerta]="getStatus('temperature') === 'alerta'">
+                @if (getStatus('temperature') === 'normal') { <span class="status-icon">✅</span> }
+                @if (getStatus('temperature') === 'alerta') { <span class="status-icon">⚠️</span> }
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>PRESIÓN ARTERIAL (SIST/DIAST) *</label>
+              <div class="input-container">
+                <input formControlName="bloodPressure" type="text" placeholder="EJ. 120/80"
+                  [class.status-normal]="getStatus('bloodPressure') === 'normal'"
+                  [class.status-alerta]="getStatus('bloodPressure') === 'alerta'">
+                @if (getStatus('bloodPressure') === 'normal') { <span class="status-icon">✅</span> }
+                @if (getStatus('bloodPressure') === 'alerta') { <span class="status-icon">⚠️</span> }
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>FREC. CARDÍACA (LPM) *</label>
+              <div class="input-container">
+                <input formControlName="heartRate" type="number" placeholder="EJ. 75"
+                  [class.status-normal]="getStatus('heartRate') === 'normal'"
+                  [class.status-alerta]="getStatus('heartRate') === 'alerta'">
+                @if (getStatus('heartRate') === 'normal') { <span class="status-icon">✅</span> }
+                @if (getStatus('heartRate') === 'alerta') { <span class="status-icon">⚠️</span> }
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>FREC. RESPIRATORIA (RPM) *</label>
+              <div class="input-container">
+                <input formControlName="respiratoryFrequency" type="number" placeholder="EJ. 18"
+                  [class.status-normal]="getStatus('respiratoryFrequency') === 'normal'"
+                  [class.status-alerta]="getStatus('respiratoryFrequency') === 'alerta'">
+                @if (getStatus('respiratoryFrequency') === 'normal') { <span class="status-icon">✅</span> }
+                @if (getStatus('respiratoryFrequency') === 'alerta') { <span class="status-icon">⚠️</span> }
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>SATURACIÓN OXÍGENO (%) *</label>
+              <div class="input-container">
+                <input formControlName="oxygenSaturation" type="number" placeholder="EJ. 98"
+                  [class.status-normal]="getStatus('oxygenSaturation') === 'normal'"
+                  [class.status-alerta]="getStatus('oxygenSaturation') === 'alerta'">
+                @if (getStatus('oxygenSaturation') === 'normal') { <span class="status-icon">✅</span> }
+                @if (getStatus('oxygenSaturation') === 'alerta') { <span class="status-icon">⚠️</span> }
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>GLUCOSA (MG/DL) *</label>
+              <div class="input-container">
+                <input formControlName="glucoseLevel" type="number" placeholder="EJ. 100"
+                  [class.status-normal]="getStatus('glucoseLevel') === 'normal'"
+                  [class.status-alerta]="getStatus('glucoseLevel') === 'alerta'">
+                @if (getStatus('glucoseLevel') === 'normal') { <span class="status-icon">✅</span> }
+                @if (getStatus('glucoseLevel') === 'alerta') { <span class="status-icon">⚠️</span> }
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>PESO (KG) *</label>
+              <div class="input-container">
+                <input formControlName="weight" type="number" step="0.1" placeholder="EJ. 70.5">
+              </div>
+            </div>
           </div>
         </div>
+
+        <div class="form-card mt-4">
+          <h3><span class="icon">📝</span> OBSERVACIONES MÉDICAS</h3>
+          <div class="grid-layout">
+            <div class="form-group full-width">
+              <label>NOTAS ADICIONALES</label>
+              <textarea formControlName="notes" placeholder="DESCRIBA CUALQUIER ANOMALÍA OBSERVADA..." rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-submit" (click)="verificarYEnviar()">
+            GUARDAR SIGNOS VITALES
+          </button>
+        </div>
       </div>
+      } 
+    </form>
+    }
 
-      <div class="actions">
-        <button type="button" class="btn-submit" (click)="verificarYEnviar()">
-          GUARDAR SIGNOS VITALES
-        </button>
-      </div>
-    </div>
-    } 
-  </form>
+    @else {
+      <app-success-view 
+        [config]="successData()!" 
+        (onAction)="nuevoRegistro()" 
+        (onExit)="volver()">
+      </app-success-view>
+    }
+  </div>
+
+  @if (showValidationPopup()) {
+    <app-validation-popup 
+      [errors]="formErrors()" 
+      (onClose)="showValidationPopup.set(false)">
+    </app-validation-popup>
   }
-
-  @else {
-    <app-success-view 
-      [config]="successData()!" 
-      (onAction)="nuevoRegistro()" 
-      (onExit)="volver()">
-    </app-success-view>
-  }
-</div>
-
-@if (showValidationPopup()) {
-  <app-validation-popup 
-    [errors]="formErrors()" 
-    (onClose)="showValidationPopup.set(false)">
-  </app-validation-popup>
-}
