@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -34,6 +34,42 @@ export class ReporteSignosComponent implements OnInit {
     fechaFin = signal<string>('');
     allHistory = signal<any[]>([]);
 
+    // --- NUEVOS SIGNALS PARA LA TABLA ---
+    historicoSignos = signal<any[]>([]);
+    paginaActual = signal(1);
+    totalRegistros = signal(0);
+    registrosPorPagina = 10;
+
+    historialFiltrado = computed(() => {
+        const registros = this.allHistory();
+        const inicio = this.fechaInicio();
+        const fin = this.fechaFin();
+
+        if (this.todoElHistorial() || !inicio || !fin) {
+            return registros;
+        }
+
+        // Normalizamos las fechas de los inputs para la comparación
+        const dInicio = new Date(inicio + 'T00:00:00');
+        const dFin = new Date(fin + 'T23:59:59');
+
+        return registros.filter(reg => {
+            const fechaReg = new Date(reg.recordedAt);
+            return fechaReg >= dInicio && fechaReg <= dFin;
+        });
+    });
+
+    historicoPaginado = computed(() => {
+        const filtrados = this.historialFiltrado();
+        const inicio = (this.paginaActual() - 1) * this.registrosPorPagina;
+        const fin = inicio + this.registrosPorPagina;
+        return filtrados.slice(inicio, fin);
+    });
+
+    totalPaginas = computed(() =>
+        Math.ceil(this.allHistory().length / this.registrosPorPagina)
+    );
+
     ngOnInit() {
         this.cargarResidentes();
     }
@@ -52,22 +88,33 @@ export class ReporteSignosComponent implements OnInit {
         const id = Number(event.target.value);
         const seleccionado = this.empleados().find(u => u.id === id);
         this.empleadoSeleccionado.set(seleccionado || null);
+        this.paginaActual.set(1);
         if (seleccionado) this.consultarHistorial(id);
+    }
+
+    cambiarPagina(nuevaPagina: number) {
+        if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas()) {
+            this.paginaActual.set(nuevaPagina);
+        }
     }
 
     consultarHistorial(residenteId: number) {
         this.loading.set(true);
         this.signosService.obtenerSignosVitalesPorResidente(residenteId).subscribe({
             next: (data) => {
-                this.allHistory.set(data);
+                this.allHistory.set(data); // Aquí recibes el array que me mostraste
+                this.paginaActual.set(1);
                 this.loading.set(false);
             },
             error: () => {
-                this.isError.set(true);
-                this.errorMessage.set('No se pudo obtener el historial clínico.');
                 this.loading.set(false);
+                this.errorMessage.set('Error al obtener datos');
             }
         });
+    }
+
+    onFiltroChange() {
+        this.paginaActual.set(1);
     }
 
     toggleTodoHistorial() {
