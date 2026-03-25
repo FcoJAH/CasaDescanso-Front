@@ -484,3 +484,50 @@ h3 {
   filter: brightness(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.table-container {
+  overflow-x: auto;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  /* Evita que las columnas se amontonen */
+}
+
+.text-small {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Estilo para los botones de página */
+.pagination button {
+  background-color: #005BB5;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

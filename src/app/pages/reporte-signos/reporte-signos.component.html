@@ -16,7 +16,7 @@
       </select>
     </div>
 
-    @if (empleadoSeleccionado()) {
+    @if (empleadoSeleccionado() && !loading()) {
     <div class="info-box" style="background-color: #F8F9FA; border-left: 5px solid #005BB5; margin-bottom: 20px;">
       <p style="margin: 0; color: #2C3E50;">
         <span class="icon">👤</span> Preparando reporte para: <br>
@@ -27,7 +27,8 @@
     <div class="filters-bar">
       <div class="filter-item-check">
         <label class="custom-checkbox">
-          <input type="checkbox" [(ngModel)]="todoElHistorial" (change)="toggleTodoHistorial()">
+          <input type="checkbox" [ngModel]="todoElHistorial()"
+            (ngModelChange)="todoElHistorial.set($event); onFiltroChange()">
           <span class="checkmark"></span>
           Incluir todo el historial
         </label>
@@ -37,25 +38,72 @@
         <div class="grid-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
           <div class="form-group">
             <label>Fecha Inicial:</label>
-            <input type="date" class="custom-input" [(ngModel)]="fechaInicio" [disabled]="todoElHistorial()">
+            <input type="date" class="custom-input" [ngModel]="fechaInicio()"
+              (ngModelChange)="fechaInicio.set($event); onFiltroChange()" [disabled]="todoElHistorial()">
           </div>
           <div class="form-group">
             <label>Fecha Final:</label>
-            <input type="date" class="custom-input" [(ngModel)]="fechaFin" [disabled]="todoElHistorial()">
+            <input type="date" class="custom-input" [ngModel]="fechaFin()"
+              (ngModelChange)="fechaFin.set($event); onFiltroChange()" [disabled]="todoElHistorial()">
           </div>
         </div>
       </div>
     </div>
 
     <div class="actions" style="margin-top: 30px;">
-      <button class="btn-submit" 
-              style="background-color: #F9A825; color: #FFFFFF; width: 100%; font-weight: bold;"
-              (click)="descargarPDF(empleadoSeleccionado().fullName)">
+      <button class="btn-submit" style="background-color: #F9A825; color: #FFFFFF; width: 100%; font-weight: bold;"
+        (click)="descargarPDF(empleadoSeleccionado().fullName)">
         <span class="icon">📥</span> DESCARGAR REPORTE (PDF)
       </button>
-      <p style="text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 10px;">
-        El reporte incluirá: T/A, F.C, F.R, Saturación, Temperatura y Glucosa.
-      </p>
+    </div>
+
+    <div class="table-container" style="margin-top: 20px;">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>FECHA</th>
+            <th>T/A</th>
+            <th>FC</th>
+            <th>FR</th>
+            <th>SAT O2</th>
+            <th>TEMP</th>
+            <th>GLUC</th>
+            <th>RESPONSABLE</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of historicoPaginado(); track item.id) {
+          <tr>
+            <td>{{ item.recordedAt | date:'dd/MM/yy HH:mm' }}</td>
+            <td class="text-bold">{{ item.bloodPressure }}</td>
+            <td>{{ item.heartRate }}</td>
+            <td>{{ item.respiratoryFrequency }}</td>
+            <td>{{ item.oxygenSaturation }}%</td>
+            <td [style.color]="item.temperature > 37.5 ? '#e74c3c' : 'inherit'">{{ item.temperature }}°C</td>
+            <td>{{ item.glucoseLevel }}</td>
+            <td class="text-small">{{ item.recordedBy }}</td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="8" class="text-center">SIN MÁS REGISTROS EN ESTE RANGO</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (totalPaginas() > 1) {
+      <div class="pagination"
+        style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px;">
+        <button class="btn-page" [disabled]="paginaActual() === 1" (click)="cambiarPagina(paginaActual() - 1)">
+          ANTERIOR
+        </button>
+        <span style="font-size: 0.9rem;">PÁGINA {{ paginaActual() }} DE {{ totalPaginas() }}</span>
+        <button class="btn-page" [disabled]="paginaActual() === totalPaginas()"
+          (click)="cambiarPagina(paginaActual() + 1)">
+          SIGUIENTE
+        </button>
+      </div>
+      }
     </div>
     }
   </div>
