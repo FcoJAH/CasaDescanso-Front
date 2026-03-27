@@ -129,7 +129,7 @@ export class RegistroSignosComponent implements OnInit {
   }
 
   onSubmit() {
-    const payload = { 
+    const payload = {
       ...this.signosForm.value,
       residentId: parseInt(this.signosForm.value.residentId, 10)
     };
@@ -169,7 +169,22 @@ export class RegistroSignosComponent implements OnInit {
   }
 
   nuevoRegistro() {
-    this.signosForm.reset({ residentId: '', bloodPressure: '', notes: '' });
+    // 1. Reseteamos el formulario a sus valores iniciales
+    this.signosForm.reset();
+
+    // 2. Recuperamos el usuario del Signal que ya cargamos en ngOnInit
+    const user = this.usuarioLogueado();
+
+    if (user) {
+      // 3. Volvemos a parchar el ID para que el siguiente registro no falle
+      this.signosForm.patchValue({
+        recordedByUserId: user.workerId,
+        residentId: '', // Opcional: limpiar selección de residente
+        notes: ''
+      });
+    }
+
+    // 4. Limpiamos estados de validación y regresamos a la vista del formulario
     this.signosForm.markAsPristine();
     this.signosForm.markAsUntouched();
     this.isRegistered.set(false);
