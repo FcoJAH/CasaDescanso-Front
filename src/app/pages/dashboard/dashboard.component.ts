@@ -16,19 +16,23 @@ import {
 import { Chart, registerables } from 'chart.js';
 import { AuthService } from '../../services/auth.service';
 import { forkJoin } from 'rxjs'; // Importante agregar esto
+import { CalendarEvent, EventsService } from '../../services/events.service';
+import { computed } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
   private dashboardService = inject(DashboardService);
   public authService = inject(AuthService);
+  public eventsService = inject(EventsService);
 
   @ViewChild('resChart') resChart!: ElementRef<HTMLCanvasElement>;
   @ViewChild('workChart') workChart!: ElementRef<HTMLCanvasElement>;
@@ -49,6 +53,25 @@ export class DashboardComponent implements OnInit {
   });
 
   public todayIncidents = signal<IncidentToday[]>([]);
+  // Signal para los días del mes
+  public calendarDays = signal<Date[]>([]);
+
+  // Signal para los huecos vacíos al inicio del mes
+  public calendarOffsets = signal<number[]>([]);
+
+  // Fecha de referencia (Mes actual)
+  public currentMonth = new Date();
+
+  // Signal de eventos (donde guardas lo que viene del API)
+  public events = signal<CalendarEvent[]>([]);
+
+  public showEventModal = signal(false);
+
+  public newEventData = {
+    title: '',
+    description: '',
+    eventDate: '',
+  };
 
   user$ = this.authService.currentUser$;
 
@@ -61,39 +84,70 @@ export class DashboardComponent implements OnInit {
   loadDashboard() {
     this.loading.set(true);
 
-    // Ejecutamos ambas peticiones en paralelo y esperamos a que las dos terminen
     forkJoin({
       stats: this.dashboardService.getStats(),
       incidents: this.dashboardService.getTodayIncidents(),
+      events: this.eventsService.getEvents(), // Consulta al endpoint /getAll
     }).subscribe({
-      next: (result) => {
-        // 1. Asignamos todos los datos
-        this.stats.set(result.stats);
-        this.todayIncidents.set(result.incidents);
+      next: (res) => {
+        // Seteamos los datos en las signals
+        this.stats.set(res.stats);
+        this.todayIncidents.set(res.incidents);
+        this.events.set(res.events); // <--- Aquí se guardan todos los eventos
 
-        // 2. Quitamos el loading (esto hace que el HTML aparezca en el DOM)
+        // Ejecutamos la lógica secundaria
+        this.generateCalendar();
         this.loading.set(false);
 
-        // 3. Esperamos un pequeño respiro para que Angular renderice los canvas
-        setTimeout(() => {
-          this.renderizarGraficas();
-        }, 150);
+        // Renderizamos gráficas tras el pequeño delay por el ngIf
+        setTimeout(() => this.renderizarGraficas(), 150);
       },
       error: (err) => {
-        console.error('Error cargando datos del dashboard', err);
+        console.error('Error al cargar datos del dashboard', err);
         this.loading.set(false);
       },
     });
   }
 
-  // Creamos un método limpio para renderizar
   private renderizarGraficas() {
-    // Validamos que los ViewChild ya existan en el DOM
-    if (this.resChart?.nativeElement && this.incidentChart?.nativeElement) {
-      this.createCharts();
-    } else {
-      console.warn('Los elementos Canvas no están listos todavía');
+    // 1. Validar que el elemento exista (por si el ngIf aún no lo muestra)
+    if (!this.resChart || !this.resChart.nativeElement) {
+      console.warn('Canvas no encontrado, reintentando...');
+      return;
     }
+
+    const data = this.stats();
+
+    // 2. Limpiar gráfica previa si existe
+    const existingChart = Chart.getChart(this.resChart.nativeElement);
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
+    // 3. Crear la nueva gráfica
+    new Chart(this.resChart.nativeElement, {
+      type: 'doughnut',
+      data: {
+        labels: ['Activos', 'Inactivos'],
+        datasets: [
+          {
+            data: [data.activeResidents, data.inactiveResidents],
+            backgroundColor: ['#005BB5', '#E2E8F0'], // Azul corporativo y gris claro
+            borderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false, // La leyenda la manejamos nosotros en el HTML
+          },
+        },
+        cutout: '70%', // Para que se vea como un anillo elegante
+      },
+    });
   }
 
   loadIncidents(): void {
@@ -167,5 +221,97 @@ export class DashboardComponent implements OnInit {
 
   calcPercent(value: number, total: number): number {
     return total > 0 ? Math.round((value * 100) / total) : 0;
+  }
+
+  generateCalendar() {
+    const year = this.currentMonth.getFullYear();
+    const month = this.currentMonth.getMonth();
+
+    // 1. Calcular el "offset" (espacios vacíos)
+    // .getDay() devuelve: 0 para Dom, 1 para Lun, etc.
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const offsets = Array.from({ length: firstDayOfMonth }, (_, i) => i);
+    this.calendarOffsets.set(offsets);
+
+    // 2. Calcular los días del mes
+    // El día "0" del mes siguiente es el último día del mes actual
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    const days: Date[] = [];
+
+    for (let i = 1; i <= lastDay; i++) {
+      days.push(new Date(year, month, i));
+    }
+
+    this.calendarDays.set(days);
+  }
+
+  hasEvent(date: Date): boolean {
+    return this.events().some((e) => {
+      const eventDate = new Date(e.eventDate);
+      return (
+        eventDate.getDate() === date.getDate() &&
+        eventDate.getMonth() === date.getMonth() &&
+        eventDate.getFullYear() === date.getFullYear()
+      );
+    });
+  }
+
+  changeMonth(delta: number) {
+    const currentYear = this.currentMonth.getFullYear();
+    const currentMonth = this.currentMonth.getMonth();
+
+    this.currentMonth = new Date(currentYear, currentMonth + delta, 1);
+
+    this.generateCalendar();
+  }
+
+  public proximosEventos = computed(() => {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    return this.events()
+      .filter((e) => new Date(e.eventDate) >= hoy) // Filtramos los que ya pasaron
+      .sort(
+        (a, b) =>
+          new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime(),
+      ) // Ordenamos por fecha
+      .slice(0, 5); // Tomamos los primeros 5
+  });
+
+  nuevoEvento() {
+    // Limpiamos el objeto
+    this.newEventData = {
+      title: '',
+      description: '',
+      eventDate: '',
+    };
+    // Mostramos el modal
+    this.showEventModal.set(true);
+  }
+
+  guardarEvento() {
+    // Validación mínima
+    if (!this.newEventData.title || !this.newEventData.eventDate) {
+      alert('El título y la fecha son obligatorios.');
+      return;
+    }
+
+    // Preparamos el objeto siguiendo tus reglas de negocio
+    const payload: CalendarEvent = {
+      title: this.newEventData.title.toUpperCase(), // REGLA: Siempre en mayúsculas
+      description: this.newEventData.description,
+      eventDate: this.newEventData.eventDate,
+    };
+
+    // Consumimos el servicio
+    this.eventsService.saveEvent(payload).subscribe({
+      next: () => {
+        this.showEventModal.set(false); // Cerramos modal
+        this.loadDashboard(); // Recargamos el dashboard para ver los cambios
+      },
+      error: (err) => {
+        console.error('Error al guardar el evento:', err);
+      },
+    });
   }
 }

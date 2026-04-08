@@ -98,6 +98,76 @@
       </div>
     </div>
 
+    <div class="calendar-card animate-fade-in">
+      <div class="calendar-header">
+        <div class="calendar-nav">
+          <button class="btn-nav" (click)="changeMonth(-1)">
+            <span class="icon">◀</span>
+          </button>
+
+          <h4>{{ currentMonth | date: "MMMM yyyy" | uppercase }}</h4>
+
+          <button class="btn-nav" (click)="changeMonth(1)">
+            <span class="icon">▶</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="calendar-grid">
+        <div class="day-name">Dom</div>
+        <div class="day-name">Lun</div>
+        <div class="day-name">Mar</div>
+        <div class="day-name">Mie</div>
+        <div class="day-name">Jue</div>
+        <div class="day-name">Vie</div>
+        <div class="day-name">Sab</div>
+
+        @for (offset of calendarOffsets(); track offset) {
+          <div class="calendar-day empty"></div>
+        }
+
+        @for (day of calendarDays(); track day) {
+          <div class="calendar-day" [class.has-event]="hasEvent(day)">
+            {{ day | date: "d" }}
+            @if (hasEvent(day)) {
+              <span class="event-dot"></span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="agenda-card">
+      <div class="agenda-header">
+        <h4>PRÓXIMOS EVENTOS</h4>
+        <button class="btn-new" (click)="nuevoEvento()">
+          Añadir nuevo evento
+        </button>
+      </div>
+
+      <div class="event-list">
+        @for (event of proximosEventos(); track event.id) {
+          <div class="event-item animate-fade-in">
+            <div class="event-badge">
+              <span class="day">{{ event.eventDate | date: "dd" }}</span>
+              <span class="month">{{
+                event.eventDate | date: "MMM" | uppercase
+              }}</span>
+            </div>
+
+            <div class="event-details">
+              <h5 class="title">{{ event.title }}</h5>
+              <p class="desc">{{ event.description }}</p>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-msg">
+            <p>No hay eventos próximos programados.</p>
+          </div>
+        }
+      </div>
+    </div>
+
     <!--<div class="chart-card">
       <h4>ESTADO DEL PERSONAL ({{ stats().totalWorkers }})</h4>
       <div class="chart-box">
@@ -107,7 +177,7 @@
         <span class="text-primary">● Activos</span>
         <span class="text-accent">● Bajas</span>
       </div>
-    </div>-->
+    </div>-
 
     <div class="chart-card border-danger">
       <h4>ESTADO DE INCIDENCIAS</h4>
@@ -120,6 +190,76 @@
           >● Totales: {{ stats().totalIncidents }}</span
         >
       </div>
-    </div>
+    </div>-->
   </div>
 </div>
+
+@if (showEventModal()) {
+  <div class="modal-overlay animate-fade-in">
+    <div
+      class="form-card modal-content animate-scale-up"
+      style="max-width: 650px"
+    >
+      <div class="form-header">
+        <h3>NUEVO EVENTO</h3>
+        <button class="btn-close" (click)="showEventModal.set(false)">×</button>
+      </div>
+
+      <form class="form-container">
+        <div class="form-group">
+          <label>Título del Evento</label>
+          <input
+            type="text"
+            [(ngModel)]="newEventData.title"
+            name="title"
+            placeholder="EJ: REVISIÓN MÉDICA"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Fecha</label>
+          <input
+            type="date"
+            [(ngModel)]="newEventData.eventDate"
+            name="eventDate"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea
+            [(ngModel)]="newEventData.description"
+            name="description"
+            rows="3"
+            placeholder="Detalles adicionales del evento..."
+            class="form-control"
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="showEventModal.set(false)"
+          >
+            CANCELAR
+          </button>
+          <button
+            type="button"
+            class="btn-primary"
+            (click)="guardarEvento()"
+            [disabled]="
+              !newEventData.title.trim() ||
+              !newEventData.eventDate ||
+              !newEventData.description.trim()
+            "
+          >
+            GUARDAR EVENTO
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
