@@ -1,5 +1,4 @@
 <div class="dashboard-container">
-
   <div class="metrics-grid">
     <div class="metric-card active-now">
       <span class="icon">👤</span>
@@ -17,7 +16,10 @@
       </div>
     </div>
 
-    <div class="metric-card incidents" [class.danger]="stats().totalIncidents > 0">
+    <div
+      class="metric-card incidents"
+      [class.danger]="stats().totalIncidents > 0"
+    >
       <span class="icon">⚠️</span>
       <div class="info">
         <h3>{{ stats().todayIncidents }}</h3>
@@ -27,36 +29,70 @@
   </div>
 
   @if (authService.isAdmin()) {
-  <div class="active-staff-panel animate-fade-in" *ngIf="!loading()">
-    <div class="panel-header">
-      <span class="icon">📋</span>
-      <h4>PERSONAL LABORANDO AHORA</h4>
-      <span class="badge">{{ stats().activeWorkersNames.length }} en turno</span>
-    </div>
-
-    <div class="staff-list-container">
-      @for (name of stats().activeWorkersNames; track name) {
-      <div class="staff-tag">
-        <span class="status-indicator"></span>
-        <span class="staff-name">{{ name }}</span>
+    <div class="active-staff-panel animate-fade-in" *ngIf="!loading()">
+      <div class="panel-header">
+        <span class="icon">📋</span>
+        <h4>PERSONAL LABORANDO AHORA</h4>
+        <span class="badge"
+          >{{ stats().activeWorkersNames.length }} en turno</span
+        >
       </div>
-      } @empty {
-      <p class="empty-staff">No hay registros de entrada activos hoy.</p>
-      }
+
+      <div class="staff-list-container">
+        @for (name of stats().activeWorkersNames; track name) {
+          <div class="staff-tag">
+            <span class="status-indicator"></span>
+            <span class="staff-name">{{ name }}</span>
+          </div>
+        } @empty {
+          <p class="empty-staff">No hay registros de entrada activos hoy.</p>
+        }
+      </div>
     </div>
-  </div>
+  }
+
+  @if (todayIncidents().length > 0) {
+    <div class="active-staff-panel animate-fade-in">
+      <div class="panel-header">
+        <span class="icon">⚠️</span>
+        <h4 style="color: #d32f2f">INCIDENCIAS DEL DÍA</h4>
+        <span class="badge" style="background: #ffebee; color: #c62828">
+          {{ todayIncidents().length }} alerta(s)
+        </span>
+      </div>
+
+      <div class="staff-list-container">
+        @for (incident of todayIncidents(); track incident.id) {
+          <div
+            class="staff-tag"
+            style="border-left: 3px solid #f44336; background: #fff5f5"
+          >
+            <span
+              class="status-indicator"
+              style="background-color: #f44336"
+            ></span>
+            <span class="staff-name" style="color: #b71c1c">{{
+              incident.residentName
+            }}</span>
+          </div>
+        }
+      </div>
+    </div>
   }
 
   <div class="charts-grid" *ngIf="!loading()">
-
     <div class="chart-card">
       <h4>RESIDENTES ({{ stats().totalResidents }})</h4>
       <div class="chart-box">
         <canvas #resChart></canvas>
       </div>
       <div class="chart-footer">
-        <span><strong>{{ stats().activeResidents }}</strong> Activos</span>
-        <span><strong>{{ stats().inactiveResidents }}</strong> Inactivos</span>
+        <span
+          ><strong>{{ stats().activeResidents }}</strong> Activos</span
+        >
+        <span
+          ><strong>{{ stats().inactiveResidents }}</strong> Inactivos</span
+        >
       </div>
     </div>
 
@@ -78,10 +114,10 @@
       </div>
       <div class="chart-footer">
         <span class="text-danger">● Hoy: {{ stats().todayIncidents }}</span>
-        <span class="text-success">● Totales: {{ stats().totalIncidents }}</span>
+        <span class="text-success"
+          >● Totales: {{ stats().totalIncidents }}</span
+        >
       </div>
     </div>
-
   </div>
-
 </div>
