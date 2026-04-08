@@ -1,6 +1,6 @@
 .dashboard-container {
   padding: 25px;
-  background-color: #F8F9FA;
+  background-color: #f8f9fa;
   /* Blanco Humo */
   animation: fadeIn 0.6s ease-out;
 }
@@ -14,14 +14,14 @@
 }
 
 .metric-card {
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 20px;
   border-radius: 15px;
   display: flex;
   align-items: center;
   gap: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  border-top: 4px solid #005BB5;
+  border-top: 4px solid #005bb5;
   /* Azul Corporativo */
   transition: transform 0.3s ease;
 }
@@ -45,7 +45,7 @@
 .metric-card h3 {
   margin: 0;
   font-size: 1.8rem;
-  color: #2C3E50;
+  color: #2c3e50;
   line-height: 1;
 }
 
@@ -65,19 +65,19 @@
 }
 
 .chart-card {
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .chart-card h4 {
-  color: #005BB5;
+  color: #005bb5;
   font-size: 0.9rem;
   font-weight: 800;
   margin-bottom: 20px;
   text-transform: uppercase;
-  border-left: 4px solid #F9A825;
+  border-left: 4px solid #f9a825;
   /* Dorado Cálido */
   padding-left: 10px;
 }
@@ -93,7 +93,7 @@
   margin-bottom: 8px;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #2C3E50;
+  color: #2c3e50;
 }
 
 .progress-bar-bg {
@@ -105,7 +105,7 @@
 
 .progress-fill {
   height: 100%;
-  background: #005BB5;
+  background: #005bb5;
   border-radius: 10px;
   transition: width 1s ease-in-out;
 }
@@ -120,11 +120,11 @@
 }
 
 .fill.active {
-  background: #005BB5;
+  background: #005bb5;
 }
 
 .fill.inactive {
-  background: #F9A825;
+  background: #f9a825;
 }
 
 /* Dorado para el contraste */
@@ -149,11 +149,11 @@
 }
 
 .dot.active {
-  background: #005BB5;
+  background: #005bb5;
 }
 
 .dot.inactive {
-  background: #F9A825;
+  background: #f9a825;
 }
 
 @keyframes fadeIn {
@@ -179,7 +179,7 @@
   background: white;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -188,7 +188,7 @@
 .chart-card h4 {
   font-size: 0.85rem;
   font-weight: 800;
-  color: #2C3E50;
+  color: #2c3e50;
   text-transform: uppercase;
   margin-bottom: 15px;
 }
@@ -199,11 +199,17 @@
   gap: 15px;
   margin-top: 10px;
   font-size: 0.8rem;
-  color: #2C3E50;
+  color: #2c3e50;
 }
 
-.text-primary { color: #005BB5; font-weight: bold; }
-.text-accent { color: #F9A825; font-weight: bold; }
+.text-primary {
+  color: #005bb5;
+  font-weight: bold;
+}
+.text-accent {
+  color: #f9a825;
+  font-weight: bold;
+}
 
 @media (max-width: 600px) {
   .charts-grid {
@@ -213,11 +219,17 @@
 
 /* Estilo para resaltar incidencias si hay abiertas */
 .chart-card.border-danger {
-  border-bottom: 4px solid #E74C3C;
+  border-bottom: 4px solid #e74c3c;
 }
 
-.text-danger { color: #E74C3C; font-weight: bold; }
-.text-success { color: #27AE60; font-weight: bold; }
+.text-danger {
+  color: #e74c3c;
+  font-weight: bold;
+}
+.text-success {
+  color: #27ae60;
+  font-weight: bold;
+}
 
 /* Ajuste del grid para 3 columnas en pantallas grandes */
 @media (min-width: 1024px) {
@@ -228,86 +240,92 @@
 
 /* Contenedor Principal del Panel */
 .active-staff-panel {
-    background: white;
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    border-left: 5px solid #005BB5; /* Azul Corporativo */
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid #005bb5; /* Azul Corporativo */
 }
 
 .panel-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.2rem;
 }
 
 .panel-header h4 {
-    margin: 0;
-    color: #2C3E50;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+  margin: 0;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
 }
 
 .badge {
-    background: #E3F2FD;
-    color: #005BB5;
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: bold;
+  background: #e3f2fd;
+  color: #005bb5;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
 }
 
 /* Lista de Tags */
 .staff-list-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .staff-tag {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    padding: 8px 15px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: transform 0.2s;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  padding: 8px 15px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s;
 }
 
 .staff-tag:hover {
-    transform: translateY(-2px);
-    border-color: #005BB5;
+  transform: translateY(-2px);
+  border-color: #005bb5;
 }
 
 .staff-name {
-    color: #495057;
-    font-size: 0.85rem;
-    font-weight: 500;
+  color: #495057;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 /* Indicador de "Online" */
 .status-indicator {
-    width: 8px;
-    height: 8px;
-    background-color: #2ecc71; /* Verde éxito */
-    border-radius: 50%;
-    box-shadow: 0 0 5px #2ecc71;
-    animation: pulse 2s infinite;
+  width: 8px;
+  height: 8px;
+  background-color: #2ecc71; /* Verde éxito */
+  border-radius: 50%;
+  box-shadow: 0 0 5px #2ecc71;
+  animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .empty-staff {
-    color: #95a5a6;
-    font-style: italic;
-    font-size: 0.9rem;
+  color: #95a5a6;
+  font-style: italic;
+  font-size: 0.9rem;
 }
 
 .dashboard-flex-row {
@@ -330,4 +348,363 @@
   .dashboard-flex-row {
     flex-direction: column;
   }
+}
+
+/* Tarjeta del Calendario */
+.calendar-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-header h4 {
+  color: #2c3e50; /* Azul Oscuro */
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  text-align: center;
+  border-bottom: 2px solid #f8f9fa;
+  padding-bottom: 10px;
+}
+
+/* El Grid Mágico de 7 columnas */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+
+/* Nombres de los días (Dom, Lun...) */
+.day-name {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #bdc3c7;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+
+/* Estilo de cada número de día */
+.calendar-day {
+  padding: 10px 0;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  border-radius: 8px;
+  transition: background 0.3s;
+  position: relative;
+  cursor: default;
+}
+
+/* Resaltado para días con eventos */
+.calendar-day.has-event {
+  background-color: #e3f2fd; /* Azul clarito de fondo */
+  color: #005bb5; /* Azul Corporativo para el número */
+  font-weight: bold;
+}
+
+/* El punto dorado (Dorado Cálido #F9A825) */
+.event-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #f9a825;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.calendar-day:hover {
+  background-color: #f8f9fa;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Separa los botones del título */
+  margin-bottom: 15px;
+  border-bottom: 2px solid #f8f9fa;
+  padding-bottom: 10px;
+}
+
+.calendar-nav h4 {
+  margin-bottom: 0; /* Quitamos el margen que tenía antes */
+  border-bottom: none; /* Quitamos el borde antiguo */
+  padding-bottom: 0;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.btn-nav {
+  background: none;
+  border: none;
+  color: #005bb5; /* Tu Azul Corporativo */
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-nav:hover {
+  background-color: #f8f9fa;
+}
+
+.btn-nav .icon {
+  font-size: 0.8rem;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f8f9fa; /* Fondo sutil */
+  transition: transform 0.2s;
+}
+
+.event-item:hover {
+  transform: translateX(5px);
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.event-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 50px;
+  background-color: #005bb5; /* Azul Corporativo */
+  color: white;
+  border-radius: 8px;
+  line-height: 1;
+}
+
+.event-badge .day {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.event-badge .month {
+  font-size: 0.65rem;
+  margin-top: 2px;
+}
+
+.event-details {
+  flex-grow: 1;
+}
+
+.event-details .title {
+  margin: 0;
+  color: #2c3e50; /* Azul Oscuro */
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.event-details .desc {
+  margin: 2px 0 0 0;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Corta el texto a 2 líneas si es muy largo */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.empty-msg {
+  text-align: center;
+  padding: 20px;
+  color: #bdc3c7;
+  font-style: italic;
+}
+
+.agenda-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Botón para abrir el modal */
+.btn-new {
+  background-color: #005bb5;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  height: 40px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-new:hover {
+  background-color: #00448a;
+}
+
+/* Overlay que cubre toda la pantalla */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(44, 62, 80, 0.7); /* Azul oscuro con transparencia */
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Contenedor del Modal */
+.modal-content {
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Encabezado del Formulario dentro del Modal */
+.form-header {
+  background-color: #005bb5; /* Azul Corporativo */
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+/* Botón de cerrar (X) */
+.btn-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Área de acciones (Botones inferiores) */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+}
+
+/* Animación de entrada */
+.animate-scale-up {
+  animation: scaleUp 0.3s ease-out;
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Contenedor del formulario */
+.form-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espacio entre cada grupo de input */
+}
+
+/* Grupos de control (Label + Input) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #2c3e50;
+  text-transform: uppercase;
+}
+
+/* Inputs, Selects y Textareas */
+.form-control {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  padding: 10px 12px;
+  border: 2px solid #edf2f7;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  box-sizing: border-box; /* Evita que el padding desborde el ancho */
+  transition: border-color 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #005bb5;
+  background-color: #ffffff;
+}
+
+/* Estilo para los botones en la parte inferior */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  background: #fdfdfd;
+}
+
+/* Botones con tu paleta */
+.btn-primary {
+  background-color: #005bb5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: #707070;
+  color: #ffffff;
+  border: 1px solid #e9ecef;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary:disabled {
+  background-color: #bdc3c7; /* Gris claro */
+  cursor: not-allowed;
+  transform: none; /* Evita que se mueva al pasar el mouse */
+  box-shadow: none;
 }
