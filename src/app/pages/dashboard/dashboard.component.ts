@@ -59,14 +59,17 @@ export class DashboardComponent implements OnInit {
 
   loadDashboard() {
     this.loading.set(true);
-
     this.dashboardService.getStats().subscribe({
       next: (data) => {
         this.stats.set(data);
-        // Cargamos los incidentes después o en paralelo
         this.loadIncidents();
 
-        setTimeout(() => this.createCharts(), 50);
+        // En lugar de un tiempo fijo, esperamos al siguiente ciclo de detección de cambios
+        setTimeout(() => {
+          if (this.resChart && this.resChart.nativeElement) {
+            this.createCharts();
+          }
+        }, 200); // Un margen un poco más amplio para prod
       },
       error: (err) => {
         console.error('Error al cargar dashboard', err);
