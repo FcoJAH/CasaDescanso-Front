@@ -2,13 +2,17 @@
   @if (!editMode() && !isSuccess() && !isError()) {
     <div class="form-card">
       <h3><span class="icon">✏️</span> Modificar Empleado</h3>
-      <p class="subtitle">Seleccione al trabajador para actualizar su expediente.</p>
-      
+      <p class="subtitle">
+        Seleccione al trabajador para actualizar su expediente.
+      </p>
+
       <div class="form-group full-width">
         <label>Buscar empleado:</label>
         <div class="input-container">
           <select class="custom-select" (change)="onSeleccionar($event)">
-            <option value="" disabled selected>-- Seleccionar por nombre --</option>
+            <option value="" disabled selected>
+              -- Seleccionar por nombre --
+            </option>
             @for (emp of empleados(); track emp.id) {
               <option [value]="emp.id">{{ emp.fullName | uppercase }}</option>
             }
@@ -20,39 +24,60 @@
 
   @if (editMode() && !isSuccess() && !isError()) {
     <div class="form-card">
-      <h3><span class="icon">👤</span> Editando: {{ formData().fullName | uppercase }}</h3>
+      <h3>
+        <span class="icon">👤</span> Editando:
+        {{ formData().fullName | uppercase }}
+      </h3>
 
       <form (submit)="onSubmit()">
         <div class="section-title">
-          <i class="icon">📄</i> Datos Personales
+          <i class="icon">📄</i> Datos Personales e Identidad
         </div>
-        
+
         <div class="grid-layout">
           <div class="form-group">
             <label>Nombre(s)</label>
             <div class="input-container">
-              <input type="text" [(ngModel)]="formData().firstName" name="firstName" required>
+              <input
+                type="text"
+                [(ngModel)]="formData().firstName"
+                name="firstName"
+                required
+              />
             </div>
           </div>
 
           <div class="form-group">
             <label>Apellido Paterno</label>
             <div class="input-container">
-              <input type="text" [(ngModel)]="formData().lastName" name="lastName" required>
+              <input
+                type="text"
+                [(ngModel)]="formData().lastName"
+                name="lastName"
+                required
+              />
             </div>
           </div>
 
           <div class="form-group">
             <label>Apellido Materno</label>
             <div class="input-container">
-              <input type="text" [(ngModel)]="formData().middleName" name="middleName">
+              <input
+                type="text"
+                [(ngModel)]="formData().middleName"
+                name="middleName"
+              />
             </div>
           </div>
 
           <div class="form-group">
             <label>Fecha de Nacimiento</label>
             <div class="input-container">
-              <input type="date" [(ngModel)]="formData().birthDate" name="birthDate">
+              <input
+                type="date"
+                [(ngModel)]="formData().birthDate"
+                name="birthDate"
+              />
             </div>
           </div>
 
@@ -69,9 +94,105 @@
           </div>
 
           <div class="form-group">
-            <label>Teléfono</label>
+            <label>Nivel de Estudios</label>
             <div class="input-container">
-              <input type="text" [(ngModel)]="formData().phone" name="phone">
+              <input
+                type="text"
+                [(ngModel)]="formData().educationLevel"
+                name="educationLevel"
+                placeholder="Ej. Licenciatura"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <i class="icon">📞</i> Contacto y Datos Fiscales
+        </div>
+
+        <div class="grid-layout">
+          <div class="form-group">
+            <label>Teléfono Personal</label>
+            <div class="input-container">
+              <input type="text" [(ngModel)]="formData().phone" name="phone" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Correo Electrónico</label>
+            <div class="input-container">
+              <input type="email" [(ngModel)]="formData().email" name="email" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>RFC</label>
+            <div class="input-container">
+              <input
+                type="text"
+                [(ngModel)]="formData().rfc"
+                name="rfc"
+                style="text-transform: uppercase"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>CURP</label>
+            <div class="input-container">
+              <input
+                type="text"
+                [(ngModel)]="formData().curp"
+                name="curp"
+                style="text-transform: uppercase"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>NSS (Seguro Social)</label>
+            <div class="input-container">
+              <input type="text" [(ngModel)]="formData().nss" name="nss" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Alergias / Notas Médicas</label>
+            <div class="input-container">
+              <input
+                type="text"
+                [(ngModel)]="formData().allergies"
+                name="allergies"
+                placeholder="Ninguna / Penicilina..."
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <i class="icon">🚨</i> Contacto de Emergencia
+        </div>
+
+        <div class="grid-layout">
+          <div class="form-group">
+            <label>Nombre de Contacto</label>
+            <div class="input-container">
+              <input
+                type="text"
+                [(ngModel)]="formData().emergencyContactName"
+                name="emergencyContactName"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Teléfono de Emergencia</label>
+            <div class="input-container">
+              <input
+                type="text"
+                [(ngModel)]="formData().emergencyContactPhone"
+                name="emergencyContactPhone"
+              />
             </div>
           </div>
         </div>
@@ -105,8 +226,16 @@
         </div>
 
         <div class="actions">
-          <button type="button" class="btn-cancel" (click)="editMode.set(false)">Cancelar</button>
-          <button type="submit" class="btn-submit" (click)="onSubmit()">Guardar Cambios</button>
+          <button
+            type="button"
+            class="btn-cancel"
+            (click)="editMode.set(false)"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn-submit" (click)="onSubmit()">
+            Guardar Cambios
+          </button>
         </div>
       </form>
     </div>
@@ -117,20 +246,30 @@
       <div class="success-icon">✅</div>
       <h2>¡Actualización Exitosa!</h2>
       <div class="info-box">
-        <p>Los datos de <strong>{{ formData().firstName | uppercase }}</strong> han sido modificados correctamente en la base de datos de <strong>CASA DESCANSO</strong>.</p>
+        <p>
+          Los datos de
+          <strong>{{ formData().firstName | uppercase }}</strong> han sido
+          modificados correctamente en la base de datos de
+          <strong>CASA DESCANSO</strong>.
+        </p>
       </div>
       <button class="btn-back" (click)="finalizar()">Volver a la lista</button>
     </div>
   }
 
   @if (isError()) {
-    <div class="success-card" style="border-top: 6px solid #e74c3c;">
+    <div class="success-card" style="border-top: 6px solid #e74c3c">
       <div class="success-icon">❌</div>
       <h2>Error al Guardar</h2>
       <div class="info-box">
-        <p>No se pudo procesar la solicitud. Por favor, revisa los datos o intenta más tarde.</p>
+        <p>
+          No se pudo procesar la solicitud. Por favor, revisa los datos o
+          intenta más tarde.
+        </p>
       </div>
-      <button class="btn-back" (click)="isError.set(false)">Regresar al formulario</button>
+      <button class="btn-back" (click)="isError.set(false)">
+        Regresar al formulario
+      </button>
     </div>
   }
 </div>

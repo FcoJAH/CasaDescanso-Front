@@ -1,6 +1,18 @@
-import { Component, ElementRef, inject, OnInit, signal, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardData, DashboardService } from './dashboard.service';
+import {
+  DashboardData,
+  DashboardService,
+  IncidentToday,
+} from './dashboard.service';
 import { Chart, registerables } from 'chart.js';
 import { AuthService } from '../../services/auth.service';
 
@@ -11,7 +23,7 @@ Chart.register(...registerables);
   standalone: true,
   imports: [CommonModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
   private dashboardService = inject(DashboardService);
@@ -22,12 +34,20 @@ export class DashboardComponent implements OnInit {
   @ViewChild('incidentChart') incidentChart!: ElementRef<HTMLCanvasElement>;
 
   stats = signal<DashboardData>({
-    totalResidents: 0, activeResidents: 0, inactiveResidents: 0,
-    totalWorkers: 0, activeWorkers: 0, inactiveWorkers: 0,
-    todayIncidents: 0, totalIncidents: 0,
-    workersWorkingNow: 0, checkInsToday: 0,
-    activeWorkersNames: []
+    totalResidents: 0,
+    activeResidents: 0,
+    inactiveResidents: 0,
+    totalWorkers: 0,
+    activeWorkers: 0,
+    inactiveWorkers: 0,
+    todayIncidents: 0,
+    totalIncidents: 0,
+    workersWorkingNow: 0,
+    checkInsToday: 0,
+    activeWorkersNames: [],
   });
+
+  public todayIncidents = signal<IncidentToday[]>([]);
 
   user$ = this.authService.currentUser$;
 
@@ -39,17 +59,32 @@ export class DashboardComponent implements OnInit {
 
   loadDashboard() {
     this.loading.set(true);
+
     this.dashboardService.getStats().subscribe({
       next: (data) => {
         this.stats.set(data);
-        this.loading.set(false);
-        // Pequeño timeout para asegurar que el DOM se renderizó tras el loading(false)
+        // Cargamos los incidentes después o en paralelo
+        this.loadIncidents();
+
         setTimeout(() => this.createCharts(), 50);
       },
       error: (err) => {
         console.error('Error al cargar dashboard', err);
         this.loading.set(false);
-      }
+      },
+    });
+  }
+
+  loadIncidents(): void {
+    this.dashboardService.getTodayIncidents().subscribe({
+      next: (data) => {
+        this.todayIncidents.set(data);
+        this.loading.set(false); // Quitamos el loading cuando la última carga termine
+      },
+      error: (err) => {
+        console.error('Error al cargar nombres de incidentes', err);
+        this.loading.set(false);
+      },
     });
   }
 
@@ -61,13 +96,15 @@ export class DashboardComponent implements OnInit {
       type: 'doughnut',
       data: {
         labels: ['Activos', 'Inactivos'],
-        datasets: [{
-          data: [data.activeResidents, data.inactiveResidents],
-          backgroundColor: ['#005BB5', '#E2E8F0'],
-          hoverOffset: 4
-        }]
+        datasets: [
+          {
+            data: [data.activeResidents, data.inactiveResidents],
+            backgroundColor: ['#005BB5', '#E2E8F0'],
+            hoverOffset: 4,
+          },
+        ],
       },
-      options: { responsive: true, maintainAspectRatio: false }
+      options: { responsive: true, maintainAspectRatio: false },
     });
 
     // Gráfica Trabajadores (Pastel) - Azul Corporativo y Dorado Cálido
@@ -89,19 +126,21 @@ export class DashboardComponent implements OnInit {
       type: 'doughnut',
       data: {
         labels: ['Hoy', 'Totales'],
-        datasets: [{
-          data: [data.todayIncidents, data.totalIncidents],
-          backgroundColor: ['#E74C3C', '#27AE60'], // Rojo para abiertos, Verde para resueltos
-          hoverOffset: 4
-        }]
+        datasets: [
+          {
+            data: [data.todayIncidents, data.totalIncidents],
+            backgroundColor: ['#E74C3C', '#27AE60'], // Rojo para abiertos, Verde para resueltos
+            hoverOffset: 4,
+          },
+        ],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { position: 'bottom' }
-        }
-      }
+          legend: { position: 'bottom' },
+        },
+      },
     });
   }
 
