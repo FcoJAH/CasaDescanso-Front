@@ -15,6 +15,7 @@ import {
 } from './dashboard.service';
 import { Chart, registerables } from 'chart.js';
 import { AuthService } from '../../services/auth.service';
+import { forkJoin } from 'rxjs'; // Importante agregar esto
 
 Chart.register(...registerables);
 
@@ -59,23 +60,40 @@ export class DashboardComponent implements OnInit {
 
   loadDashboard() {
     this.loading.set(true);
-    this.dashboardService.getStats().subscribe({
-      next: (data) => {
-        this.stats.set(data);
-        this.loadIncidents();
 
-        // En lugar de un tiempo fijo, esperamos al siguiente ciclo de detección de cambios
+    // Ejecutamos ambas peticiones en paralelo y esperamos a que las dos terminen
+    forkJoin({
+      stats: this.dashboardService.getStats(),
+      incidents: this.dashboardService.getTodayIncidents(),
+    }).subscribe({
+      next: (result) => {
+        // 1. Asignamos todos los datos
+        this.stats.set(result.stats);
+        this.todayIncidents.set(result.incidents);
+
+        // 2. Quitamos el loading (esto hace que el HTML aparezca en el DOM)
+        this.loading.set(false);
+
+        // 3. Esperamos un pequeño respiro para que Angular renderice los canvas
         setTimeout(() => {
-          if (this.resChart && this.resChart.nativeElement) {
-            this.createCharts();
-          }
-        }, 200); // Un margen un poco más amplio para prod
+          this.renderizarGraficas();
+        }, 150);
       },
       error: (err) => {
-        console.error('Error al cargar dashboard', err);
+        console.error('Error cargando datos del dashboard', err);
         this.loading.set(false);
       },
     });
+  }
+
+  // Creamos un método limpio para renderizar
+  private renderizarGraficas() {
+    // Validamos que los ViewChild ya existan en el DOM
+    if (this.resChart?.nativeElement && this.incidentChart?.nativeElement) {
+      this.createCharts();
+    } else {
+      console.warn('Los elementos Canvas no están listos todavía');
+    }
   }
 
   loadIncidents(): void {
