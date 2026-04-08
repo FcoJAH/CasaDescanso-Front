@@ -309,3 +309,25 @@
     font-style: italic;
     font-size: 0.9rem;
 }
+
+.dashboard-flex-row {
+  display: flex;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem; /* Espacio entre los dos cuadros */
+  width: 100%;
+  margin-bottom: 1.5rem;
+  align-items: stretch; /* Hace que ambos tengan la misma altura */
+}
+
+.flex-1 {
+  flex: 1; /* Esto hace que cada cuadro tome el 50% si hay dos */
+  margin-bottom: 0 !important; /* Quitamos margen inferior para que no se desfase */
+}
+
+/* Responsividad: En pantallas pequeñas se ponen uno abajo del otro */
+@media (max-width: 1024px) {
+  .dashboard-flex-row {
+    flex-direction: column;
+  }
+}
