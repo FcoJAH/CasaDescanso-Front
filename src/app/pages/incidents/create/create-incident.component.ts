@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Incidente, IncidentsService } from '../incidents.service';
 import { SuccessViewComponent } from '../../../utils/success/success-view.component';
 import { ValidationPopupComponent } from '../../../utils/popup/validation-popup.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-crear-incidente',
@@ -16,6 +17,7 @@ import { ValidationPopupComponent } from '../../../utils/popup/validation-popup.
 })
 export class CrearIncidenciaComponent implements OnInit {
     private incidentesService = inject(IncidentsService);
+    private authService = inject(AuthService);
     private router = inject(Router);
 
     // Signals de datos
@@ -91,9 +93,11 @@ export class CrearIncidenciaComponent implements OnInit {
     private ejecutarGuardado() {
         this.loading.set(true);
 
+        const usuarioActivo = this.authService.getCurrentUser();
+
         const payload: Incidente = {
             residentId: this.residenteSeleccionado().id,
-            registeredByUserId: 1,
+            registeredByUserId: usuarioActivo?.userId || 1,
             // Si viene de un formulario o de tu función que devuelve string:
             date: new Date(this.obtenerFechaHoraGDL()).toISOString(),
             type: this.tipoIncidente().toUpperCase(),
