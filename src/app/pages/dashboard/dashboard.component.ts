@@ -3,6 +3,7 @@ import {
   ElementRef,
   inject,
   OnInit,
+  OnDestroy,
   signal,
   ViewChild,
   AfterViewInit,
@@ -15,7 +16,7 @@ import {
 } from './dashboard.service';
 import { Chart, registerables } from 'chart.js';
 import { AuthService } from '../../services/auth.service';
-import { forkJoin } from 'rxjs'; // Importante agregar esto
+import { forkJoin, Subscription, interval } from 'rxjs'; // Importante agregar esto
 import { CalendarEvent, EventsService } from '../../services/events.service';
 import { computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -29,10 +30,13 @@ Chart.register(...registerables);
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   private dashboardService = inject(DashboardService);
   public authService = inject(AuthService);
   public eventsService = inject(EventsService);
+
+  private visibilityListener: (() => void) | null = null;
+  private autoRefreshSub: Subscription | null = null;
 
   @ViewChild('resChart') resChart!: ElementRef<HTMLCanvasElement>;
   @ViewChild('workChart') workChart!: ElementRef<HTMLCanvasElement>;
@@ -79,10 +83,34 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadDashboard();
+
+    // Configurar polling silencioso cada 5 minutos (300000 ms)
+    this.autoRefreshSub = interval(300000).subscribe(() => {
+      this.loadDashboard(true);
+    });
+
+    // Configurar Page Visibility API para recargar al maximizar la app
+    this.visibilityListener = () => {
+      if (document.visibilityState === 'visible') {
+        this.loadDashboard(true);
+      }
+    };
+    document.addEventListener('visibilitychange', this.visibilityListener);
   }
 
-  loadDashboard() {
-    this.loading.set(true);
+  ngOnDestroy() {
+    if (this.autoRefreshSub) {
+      this.autoRefreshSub.unsubscribe();
+    }
+    if (this.visibilityListener) {
+      document.removeEventListener('visibilitychange', this.visibilityListener);
+    }
+  }
+
+  loadDashboard(silent: boolean = false) {
+    if (!silent) {
+      this.loading.set(true);
+    }
 
     forkJoin({
       stats: this.dashboardService.getStats(),
@@ -97,14 +125,19 @@ export class DashboardComponent implements OnInit {
 
         // Ejecutamos la lógica secundaria
         this.generateCalendar();
-        this.loading.set(false);
+        
+        if (!silent) {
+          this.loading.set(false);
+        }
 
         // Renderizamos gráficas tras el pequeño delay por el ngIf
         setTimeout(() => this.renderizarGraficas(), 150);
       },
       error: (err) => {
         console.error('Error al cargar datos del dashboard', err);
-        this.loading.set(false);
+        if (!silent) {
+          this.loading.set(false);
+        }
       },
     });
   }
