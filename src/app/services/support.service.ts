@@ -9,6 +9,7 @@ export interface SupportTicketRequest {
   reporterName: string;
   reporterRole: string;
   localTime: string;
+  screenshotBase64?: string;
 }
 
 @Injectable({

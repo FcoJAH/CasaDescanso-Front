@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SupportService, SupportTicketRequest } from '../../services/support.service';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-support-ticket',
@@ -22,20 +23,40 @@ export class SupportTicketComponent {
   description = signal('');
   successMessage = signal('');
   errorMessage = signal('');
+  capturedScreenshotBase64 = signal<string | null>(null);
 
   isUserLoggedIn = computed(() => this.authService.currentUserSignal() !== null);
 
   toggleModal() {
     this.isOpen.update(v => !v);
-    if (!this.isOpen()) {
+    if (this.isOpen()) {
+      // Capturar la pantalla sin bloquear la apertura del modal
+      setTimeout(() => {
+        // Ocultar el botón temporalmente para que no salga en la captura si queremos,
+        // pero como es útil que salga, lo dejamos.
+        html2canvas(document.body, { 
+          scale: 1, // Reducimos escala para aligerar la imagen
+          useCORS: true, 
+          ignoreElements: (element) => element.classList.contains('support-modal-overlay') // Ignorar el modal mismo
+        }).then(canvas => {
+          this.capturedScreenshotBase64.set(canvas.toDataURL('image/png'));
+        }).catch(err => console.error('Error al capturar pantalla', err));
+      }, 50);
+    } else {
       this.resetForm();
     }
+  }
+
+  closeModal() {
+    this.isOpen.set(false);
+    this.resetForm();
   }
 
   resetForm() {
     this.description.set('');
     this.successMessage.set('');
     this.errorMessage.set('');
+    this.capturedScreenshotBase64.set(null);
   }
 
   submitTicket() {
@@ -52,7 +73,8 @@ export class SupportTicketComponent {
       currentUrl: window.location.pathname + window.location.search,
       reporterName: user.fullName,
       reporterRole: user.position,
-      localTime: new Date().toLocaleString()
+      localTime: new Date().toLocaleString(),
+      screenshotBase64: this.capturedScreenshotBase64() || undefined
     };
 
     this.supportService.sendTicket(request).subscribe({
@@ -62,7 +84,9 @@ export class SupportTicketComponent {
         this.description.set('');
         
         setTimeout(() => {
-          this.toggleModal();
+          if (this.isOpen()) {
+            this.closeModal();
+          }
         }, 3000);
       },
       error: (err) => {
