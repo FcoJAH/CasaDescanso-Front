@@ -20,13 +20,14 @@ import { forkJoin, Subscription, interval } from 'rxjs'; // Importante agregar e
 import { CalendarEvent, EventsService } from '../../services/events.service';
 import { computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SupportAnnouncementComponent } from '../../components/support-announcement/support-announcement.component';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SupportAnnouncementComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
