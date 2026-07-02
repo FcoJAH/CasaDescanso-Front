@@ -24,7 +24,7 @@
             <p class="subtitle">Describe detalladamente qué está fallando o qué error apareció en tu pantalla.</p>
             
             <textarea 
-              [(ngModel)]="description" 
+              [ngModel]="description()" (ngModelChange)="description.set($event)"
               placeholder="Ej. Al intentar checar entrada me dice error 500, o mi pantalla se puso en blanco..."
               rows="5"
               [disabled]="isSubmitting()">
