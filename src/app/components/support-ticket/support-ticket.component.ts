@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,9 +23,7 @@ export class SupportTicketComponent {
   successMessage = signal('');
   errorMessage = signal('');
 
-  get isUserLoggedIn(): boolean {
-    return this.authService.getCurrentUser() !== null;
-  }
+  isUserLoggedIn = computed(() => this.authService.currentUserSignal() !== null);
 
   toggleModal() {
     this.isOpen.update(v => !v);
