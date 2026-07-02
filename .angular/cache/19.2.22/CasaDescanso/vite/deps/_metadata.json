@@ -1,73 +1,79 @@
 {
-  "hash": "3b4dcea9",
-  "configHash": "dbc47e45",
-  "lockfileHash": "a49e3234",
-  "browserHash": "30535bbf",
+  "hash": "229e12e6",
+  "configHash": "cce6fc1c",
+  "lockfileHash": "2c8247ba",
+  "browserHash": "94099cc3",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "d85085b2",
+      "fileHash": "b9403e06",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "7673781a",
+      "fileHash": "8ff07639",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "c1deb5de",
+      "fileHash": "7a93a11c",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "f7a7767a",
+      "fileHash": "9af87a87",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "d0ed881f",
+      "fileHash": "0cd404ce",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "e7aec331",
+      "fileHash": "f4951405",
       "needsInterop": false
     },
     "chart.js": {
       "src": "../../../../../../node_modules/chart.js/dist/chart.js",
       "file": "chart__js.js",
-      "fileHash": "8a0ae079",
+      "fileHash": "81d80a86",
       "needsInterop": false
     },
     "jspdf": {
       "src": "../../../../../../node_modules/jspdf/dist/jspdf.es.min.js",
       "file": "jspdf.js",
-      "fileHash": "0afa4e20",
+      "fileHash": "e0f73247",
       "needsInterop": false
     },
     "jspdf-autotable": {
       "src": "../../../../../../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.mjs",
       "file": "jspdf-autotable.js",
-      "fileHash": "5db1de9d",
+      "fileHash": "b7c3ebb5",
+      "needsInterop": false
+    },
+    "pdf-lib": {
+      "src": "../../../../../../node_modules/pdf-lib/es/index.js",
+      "file": "pdf-lib.js",
+      "fileHash": "1bdc3a67",
       "needsInterop": false
     },
     "rxjs": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "552ecfc7",
+      "fileHash": "4c58ad6c",
       "needsInterop": false
     },
     "rxjs/operators": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/operators/index.js",
       "file": "rxjs_operators.js",
-      "fileHash": "43bccba8",
+      "fileHash": "5f51c60c",
       "needsInterop": false
     }
   },
@@ -78,20 +84,20 @@
     "purify.es-BDVAHXOW": {
       "file": "purify__es-BDVAHXOW.js"
     },
-    "index.es-MS5WJWBL": {
-      "file": "index__es-MS5WJWBL.js"
+    "index.es-WTBNR2MW": {
+      "file": "index__es-WTBNR2MW.js"
     },
-    "chunk-4ORAZ5S7": {
-      "file": "chunk-4ORAZ5S7.js"
+    "chunk-HDBGOFX7": {
+      "file": "chunk-HDBGOFX7.js"
     },
-    "chunk-EYCWXRWO": {
-      "file": "chunk-EYCWXRWO.js"
+    "chunk-Q7UD7HK4": {
+      "file": "chunk-Q7UD7HK4.js"
     },
-    "chunk-KNX2RFM5": {
-      "file": "chunk-KNX2RFM5.js"
+    "chunk-DG6XHKLA": {
+      "file": "chunk-DG6XHKLA.js"
     },
-    "chunk-M3LRYOHJ": {
-      "file": "chunk-M3LRYOHJ.js"
+    "chunk-WHIXDIT6": {
+      "file": "chunk-WHIXDIT6.js"
     },
     "chunk-GRJUGQH4": {
       "file": "chunk-GRJUGQH4.js"
@@ -104,6 +110,9 @@
     },
     "chunk-4S3KYZTJ": {
       "file": "chunk-4S3KYZTJ.js"
+    },
+    "chunk-N5O2RUTM": {
+      "file": "chunk-N5O2RUTM.js"
     },
     "chunk-TXDUYLVM": {
       "file": "chunk-TXDUYLVM.js"
