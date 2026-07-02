@@ -201,3 +201,33 @@ textarea:focus {
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+.screenshot-indicator {
+  margin-top: 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.badge.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge.loading {
+  background-color: #fff3e0;
+  color: #ef6c00;
+  animation: badgePulse 1.5s infinite;
+}
+
+@keyframes badgePulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}

@@ -10,12 +10,12 @@
 
 <!-- Modal -->
 @if (isOpen()) {
-  <div class="modal-overlay" (click)="toggleModal()">
+  <div class="modal-overlay" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       
       <div class="modal-header">
         <h3>Reportar Problema Técnico</h3>
-        <button class="close-btn" (click)="toggleModal()">✕</button>
+        <button class="close-btn" (click)="closeModal()">✕</button>
       </div>
 
       <div class="modal-body">
@@ -34,6 +34,14 @@
             [disabled]="isSubmitting()">
           </textarea>
 
+          <div class="screenshot-indicator">
+            @if (capturedScreenshotBase64()) {
+              <span class="badge success">📸 Pantalla capturada automáticamente para soporte</span>
+            } @else {
+              <span class="badge loading">📸 Capturando pantalla...</span>
+            }
+          </div>
+
           @if (errorMessage()) {
             <div class="alert error">
               <span class="icon">⚠️</span>
@@ -49,7 +57,7 @@
 
       @if (!successMessage()) {
         <div class="modal-footer">
-          <button class="btn-cancel" (click)="toggleModal()" [disabled]="isSubmitting()">Cancelar</button>
+          <button class="btn-cancel" (click)="closeModal()" [disabled]="isSubmitting()">Cancelar</button>
           <button class="btn-submit" (click)="submitTicket()" [disabled]="isSubmitting() || !description().trim()">
             {{ isSubmitting() ? 'Enviando...' : 'Enviar Reporte' }}
           </button>
