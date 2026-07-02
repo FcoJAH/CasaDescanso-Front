@@ -52,8 +52,8 @@ export class SupportTicketComponent {
     const request: SupportTicketRequest = {
       description: this.description(),
       currentUrl: window.location.pathname + window.location.search,
-      reporterName: user.name,
-      reporterRole: user.role,
+      reporterName: user.fullName,
+      reporterRole: user.position,
       localTime: new Date().toLocaleString()
     };
 
