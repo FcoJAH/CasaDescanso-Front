@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from './pages/login/login.component';
 import { RouterOutlet } from '@angular/router';
+import { SupportTicketComponent } from './components/support-ticket/support-ticket.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, SupportTicketComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'CasaDescanso';
+  title = 'CasaDescanso-Front';
 }
