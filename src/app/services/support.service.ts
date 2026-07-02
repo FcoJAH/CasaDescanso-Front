@@ -16,7 +16,7 @@ export interface SupportTicketRequest {
 })
 export class SupportService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/api/Support`;
+  private apiUrl = `${environment.apiUrl}/Support`;
 
   sendTicket(ticket: SupportTicketRequest): Observable<{message: string}> {
     return this.http.post<{message: string}>(`${this.apiUrl}/ticket`, ticket);
