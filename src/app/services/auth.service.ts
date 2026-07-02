@@ -11,6 +11,8 @@ export interface User {
   position: string;
   shift: string;
   hasSeenSupportAnnouncement: boolean;
+  token?: string;
+  refreshToken?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -43,6 +45,25 @@ export class AuthService {
         if (user) {
           this.currentUserSubject.next(user);
           localStorage.setItem('currentUser', JSON.stringify(user));
+          if (user.token) localStorage.setItem('token', user.token);
+          if (user.refreshToken) localStorage.setItem('refreshToken', user.refreshToken);
+          this.currentUserSignal.set(user);
+        }
+      })
+    );
+  }
+
+  refreshToken(): Observable<User> {
+    const token = localStorage.getItem('token');
+    const refreshToken = localStorage.getItem('refreshToken');
+    
+    return this.http.post<User>(`${this.myAppUrl}/Auth/refresh`, { token, refreshToken }).pipe(
+      tap(user => {
+        if (user) {
+          this.currentUserSubject.next(user);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          if (user.token) localStorage.setItem('token', user.token);
+          if (user.refreshToken) localStorage.setItem('refreshToken', user.refreshToken);
           this.currentUserSignal.set(user);
         }
       })
@@ -79,5 +100,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.currentUserSignal.set(null); // Limpiamos el signal
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
   }
 }
