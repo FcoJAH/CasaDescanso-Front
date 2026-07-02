@@ -27,13 +27,17 @@
 
 .image-container {
   width: 100%;
-  overflow-y: auto; /* Si la imagen es muy larga, permitir scroll en celulares pequeños */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa; /* Fondo suave por si la imagen no llena todo */
 }
 
 .image-container img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 70vh; /* Limitar la altura para que quepa en la pantalla */
+  object-fit: contain; /* Mostrar la imagen completa sin recortar */
   display: block;
-  object-fit: contain;
 }
 
 .actions {
