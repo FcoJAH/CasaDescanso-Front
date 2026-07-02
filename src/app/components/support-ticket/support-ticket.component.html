@@ -1,0 +1,58 @@
+@if (isUserLoggedIn) {
+  <!-- Botón flotante -->
+  <button class="support-fab" (click)="toggleModal()" title="Reportar problema técnico">
+    <span class="icon">🆘</span>
+  </button>
+
+  <!-- Modal -->
+  @if (isOpen()) {
+    <div class="modal-overlay" (click)="toggleModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+          <h3>Reportar Problema Técnico</h3>
+          <button class="close-btn" (click)="toggleModal()">✕</button>
+        </div>
+
+        <div class="modal-body">
+          @if (successMessage()) {
+            <div class="alert success">
+              <span class="icon">✅</span>
+              {{ successMessage() }}
+            </div>
+          } @else {
+            <p class="subtitle">Describe detalladamente qué está fallando o qué error apareció en tu pantalla.</p>
+            
+            <textarea 
+              [(ngModel)]="description" 
+              placeholder="Ej. Al intentar checar entrada me dice error 500, o mi pantalla se puso en blanco..."
+              rows="5"
+              [disabled]="isSubmitting()">
+            </textarea>
+
+            @if (errorMessage()) {
+              <div class="alert error">
+                <span class="icon">⚠️</span>
+                {{ errorMessage() }}
+              </div>
+            }
+
+            <p class="disclaimer">
+              * Automáticamente enviaremos tu nombre, rol y pantalla actual al desarrollador para que pueda ayudarte más rápido.
+            </p>
+          }
+        </div>
+
+        @if (!successMessage()) {
+          <div class="modal-footer">
+            <button class="btn-cancel" (click)="toggleModal()" [disabled]="isSubmitting()">Cancelar</button>
+            <button class="btn-submit" (click)="submitTicket()" [disabled]="isSubmitting() || !description().trim()">
+              {{ isSubmitting() ? 'Enviando...' : 'Enviar Reporte' }}
+            </button>
+          </div>
+        }
+
+      </div>
+    </div>
+  }
+}
