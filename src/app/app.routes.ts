@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   // LOGIN
@@ -13,6 +15,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./layout/layout.component').then(m => m.LayoutComponent),
+    canActivate: [authGuard], // PROTEGE TODAS LAS RUTAS INTERNAS
     children: [
       {
         path: 'dashboard',
@@ -29,6 +32,7 @@ export const routes: Routes = [
         path: 'empleados',
         loadComponent: () =>
           import('./pages/empleados/empleados.component').then(m => m.EmpleadosComponent),
+        canActivate: [adminGuard], // SOLO ADMIN
         children: [
           {
             path: 'registro',
@@ -86,6 +90,7 @@ export const routes: Routes = [
         path: 'horarios',
         loadComponent: () =>
           import('./pages/shift/shift.component').then(m => m.ShiftComponent),
+        canActivate: [adminGuard], // SOLO ADMIN
         children: [
           {
             path: 'crear',
@@ -111,6 +116,7 @@ export const routes: Routes = [
         path: 'roles',
         loadComponent: () =>
           import('./pages/roles/roles.component').then(m => m.RolesComponent),
+        canActivate: [adminGuard], // SOLO ADMIN
         children: [
           {
             path: 'crear-rol',
