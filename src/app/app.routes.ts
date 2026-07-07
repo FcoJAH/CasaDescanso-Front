@@ -2,14 +2,14 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { sistemasGuard } from './guards/sistemas.guard';
-import { LoginComponent } from './pages/auth/login/login.component';
+import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
   // LOGIN
   {
     path: '',
     loadComponent: () =>
-      import('./pages/auth/login/login.component').then(m => m.LoginComponent)
+      import('./pages/login/login.component').then(m => m.LoginComponent)
   },
 
   // LAYOUT PADRE con todas las páginas internas

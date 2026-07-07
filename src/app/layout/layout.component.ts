@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
@@ -63,8 +63,21 @@ export class LayoutComponent implements OnInit {
     });
   }
 
-  toggleNotifications() {
-    this.showNotifications.update(v => !v);
+  @ViewChild('notificationsWrapper') notificationsWrapper!: ElementRef;
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.showNotifications() && this.notificationsWrapper) {
+      if (!this.notificationsWrapper.nativeElement.contains(event.target)) {
+        this.showNotifications.set(false);
+      }
+    }
+  }
+
+  toggleNotifications(event: MouseEvent) {
+    // Evitamos que este click se propague al document y cierre el menú inmediatamente
+    event.stopPropagation();
+    this.showNotifications.update((v: boolean) => !v);
   }
 
   markAsRead(ticketId: number) {

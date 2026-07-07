@@ -26,7 +26,7 @@ export class AuthService {
   // --- NUEVO: Computed para verificar si es ADMIN ---
   public isAdmin = computed(() => {
     const user = this.currentUserSignal();
-    return user?.position === 'ADMIN';
+    return user?.position?.toUpperCase() === 'ADMIN' || user?.position?.toUpperCase() === 'SISTEMAS';
   });
 
   constructor(private http: HttpClient) {

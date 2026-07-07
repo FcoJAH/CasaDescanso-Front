@@ -133,7 +133,7 @@ body:not(.sidebar-hidden) .sidebar-overlay {
 .sidebar a {
   text-decoration: none;
   color: #2C3E50;
-  padding: 10px;
+  padding: 5px;
   border-radius: 6px;
   transition: 0.2s;
   white-space: nowrap;
@@ -311,6 +311,7 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   cursor: pointer;
   position: relative;
   padding: 0;
+  margin-right: 15px;
 }
 
 .notification-dot {

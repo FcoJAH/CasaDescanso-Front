@@ -32,7 +32,7 @@
           
           <div class="ticket-footer">
             @if (ticket.status === 'Pending') {
-              <button class="btn-resolve" (click)="resolveTicket(ticket.id)">
+              <button class="btn-resolve" (click)="confirmResolve(ticket.id)">
                 ✅ Marcar como Resuelto
               </button>
             } @else {
@@ -41,6 +41,22 @@
           </div>
         </div>
       }
+    </div>
+  }
+
+  <!-- MODAL DE CONFIRMACIÓN CUSTOM -->
+  @if (ticketToResolve() !== null) {
+    <div class="modal-overlay animate-fade-in" (click)="cancelResolve()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-icon">⚠️</div>
+        <h3>Confirmar acción</h3>
+        <p>¿Estás seguro de marcar este ticket como resuelto?</p>
+        <p class="modal-subtitle">Esta acción notificará al usuario que reportó el problema.</p>
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="cancelResolve()">Cancelar</button>
+          <button class="btn-confirm" (click)="executeResolve()">Sí, resolver ticket</button>
+        </div>
+      </div>
     </div>
   }
 </div>
