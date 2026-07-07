@@ -7,6 +7,39 @@
     </div>
 
     <div class="user-display" *ngIf="user$ | async as user">
+      <!-- Icono de Notificaciones -->
+      <div class="notifications-wrapper">
+        <button class="bell-btn" (click)="toggleNotifications()">
+          🔔
+          @if (hasUnread()) {
+            <span class="notification-dot"></span>
+          }
+        </button>
+
+        <!-- Menú de notificaciones -->
+        @if (showNotifications()) {
+          <div class="notifications-dropdown">
+            <h4>Tus últimos reportes resueltos</h4>
+            @if (notifications().length === 0) {
+              <p class="no-notif">No tienes reportes resueltos recientemente.</p>
+            } @else {
+              @for (notif of notifications(); track notif.id) {
+                <div class="notif-item" [class.unread]="!notif.isReadByReporter">
+                  <div class="notif-content">
+                    <strong>¡Problema resuelto!</strong>
+                    <p>Tu reporte en <code>{{ notif.currentUrl }}</code> ha sido solucionado por SISTEMAS.</p>
+                    <small>{{ notif.resolvedAt | date:'short' }}</small>
+                  </div>
+                  @if (!notif.isReadByReporter) {
+                    <button class="btn-read" (click)="markAsRead(notif.id)">Marcar Leído</button>
+                  }
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+
       <span class="user-welcome">BIENVENIDO,</span>
       <span class="user-fullname">{{ user.fullName | uppercase }}</span>
     </div>

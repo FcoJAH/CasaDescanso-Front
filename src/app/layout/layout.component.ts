@@ -3,6 +3,7 @@ import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } fro
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
+import { SupportService } from '../services/support.service';
 import { APP_VERSION } from '../../environments/versions';
 
 @Component({
@@ -22,7 +23,15 @@ export class LayoutComponent implements OnInit {
   isSidebarOpen = false; 
   user$ = this.authService.currentUser$;
 
+  // Notificaciones
+  private supportService = inject(SupportService);
+  notifications = signal<any[]>([]);
+  showNotifications = signal(false);
+  hasUnread = signal(false);
+
   ngOnInit() {
+    this.loadNotifications();
+
     // Escuchar cambios de navegación para cerrar el sidebar en móviles automáticamente
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -44,5 +53,23 @@ export class LayoutComponent implements OnInit {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     this.router.navigate(['']);
+  }
+
+  loadNotifications() {
+    if (!this.authService.getCurrentUser()) return;
+    this.supportService.getMyResolvedTickets().subscribe(res => {
+      this.notifications.set(res);
+      this.hasUnread.set(res.some(n => !n.isReadByReporter));
+    });
+  }
+
+  toggleNotifications() {
+    this.showNotifications.update(v => !v);
+  }
+
+  markAsRead(ticketId: number) {
+    this.supportService.markTicketAsRead(ticketId).subscribe(() => {
+      this.loadNotifications();
+    });
   }
 }

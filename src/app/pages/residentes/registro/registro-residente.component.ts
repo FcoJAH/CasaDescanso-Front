@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { ResidentesService } from '../residentes.service';
 import { ValidationPopupComponent } from '../../../utils/popup/validation-popup.component';
+import { SuccessViewComponent } from '../../../utils/success/success-view.component';
 
 @Component({
   selector: 'app-registro-residente',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ValidationPopupComponent],
+  imports: [CommonModule, ReactiveFormsModule, ValidationPopupComponent, SuccessViewComponent],
   templateUrl: './registro-residente.component.html',
   styleUrl: './registro-residente.component.css'
 })

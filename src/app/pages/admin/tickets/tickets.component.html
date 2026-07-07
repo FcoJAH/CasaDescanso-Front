@@ -1,0 +1,46 @@
+<div class="tickets-container">
+  <h2>Gestión de Tickets de Soporte</h2>
+  <p>Panel exclusivo para el departamento de SISTEMAS.</p>
+
+  @if (isLoading()) {
+    <div class="loading">Cargando tickets...</div>
+  } @else if (error()) {
+    <div class="error-msg">{{ error() }}</div>
+  } @else if (tickets().length === 0) {
+    <div class="no-data">No hay tickets reportados.</div>
+  } @else {
+    <div class="tickets-grid">
+      @for (ticket of tickets(); track ticket.id) {
+        <div class="ticket-card" [class.resolved]="ticket.status === 'Resolved'">
+          <div class="ticket-header">
+            <span class="ticket-id">#{{ ticket.id }}</span>
+            <span class="ticket-status" [class.pending]="ticket.status === 'Pending'">
+              {{ ticket.status === 'Pending' ? 'Pendiente' : 'Resuelto' }}
+            </span>
+          </div>
+          
+          <div class="ticket-body">
+            <p><strong>Reporta:</strong> {{ ticket.reporterName }} ({{ ticket.reporterRole }})</p>
+            <p><strong>Ruta:</strong> <code>{{ ticket.currentUrl }}</code></p>
+            <p><strong>Fecha:</strong> {{ ticket.createdAt | date:'short' }}</p>
+            
+            <div class="ticket-desc">
+              <strong>Descripción:</strong>
+              <p>{{ ticket.description }}</p>
+            </div>
+          </div>
+          
+          <div class="ticket-footer">
+            @if (ticket.status === 'Pending') {
+              <button class="btn-resolve" (click)="resolveTicket(ticket.id)">
+                ✅ Marcar como Resuelto
+              </button>
+            } @else {
+              <span class="resolved-date">Resuelto el: {{ ticket.resolvedAt | date:'short' }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

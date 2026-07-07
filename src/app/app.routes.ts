@@ -1,13 +1,15 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
+import { sistemasGuard } from './guards/sistemas.guard';
+import { LoginComponent } from './pages/auth/login/login.component';
 
 export const routes: Routes = [
   // LOGIN
   {
     path: '',
     loadComponent: () =>
-      import('./pages/login/login.component').then(m => m.LoginComponent)
+      import('./pages/auth/login/login.component').then(m => m.LoginComponent)
   },
 
   // LAYOUT PADRE con todas las páginas internas
@@ -21,6 +23,11 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () =>
           import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent)
+      },
+      { 
+        path: 'admin/tickets', 
+        loadComponent: () => import('./pages/admin/tickets/tickets.component').then(m => m.TicketsComponent),
+        canActivate: [sistemasGuard]
       },
       {
         path: 'checkin-out',

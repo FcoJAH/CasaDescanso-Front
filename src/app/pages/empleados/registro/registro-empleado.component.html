@@ -189,34 +189,28 @@
   }
 
   @else {
-  <div class="success-card">
-    <div class="success-icon">✅</div>
-    <h2>{{ registeredData()?.message }}</h2>
-
-    <div class="info-box">
-      <p>Se han generado las siguientes credenciales para el acceso de <strong>{{ empleadoForm.get('firstName')?.value |
-          uppercase }}</strong>:</p>
-
-      <div class="credentials-display">
-        <div class="credential-item">
-          <span class="label">Username:</span>
-          <span class="value">{{ registeredData()?.username }}</span>
+    <app-success-view 
+      [config]="config()" 
+      (onAction)="volver()" 
+      (onExit)="salir()">
+      
+      <p style="margin-top: 15px; text-align: center;">Se han generado las siguientes credenciales para el acceso:</p>
+      
+      <div class="credentials-display" style="display: flex; flex-direction: column; gap: 10px; background: #f9fafb; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin: 15px 0;">
+        <div class="credential-item" style="display: flex; justify-content: space-between;">
+          <span class="label" style="font-weight: bold; color: #4b5563;">Username:</span>
+          <span class="value" style="color: #1f2937;">{{ registeredData()?.username }}</span>
         </div>
-        <div class="credential-item">
-          <span class="label">Contraseña:</span>
-          <span class="value password-text">{{ registeredData()?.password }}</span>
+        <div class="credential-item" style="display: flex; justify-content: space-between;">
+          <span class="label" style="font-weight: bold; color: #4b5563;">Contraseña:</span>
+          <span class="value password-text" style="color: #059669; font-weight: bold; font-family: monospace;">{{ registeredData()?.password }}</span>
         </div>
       </div>
-
-      <p class="warning-text">
-        ⚠️ <strong>IMPORTANTE:</strong> Asegúrese de copiar la contraseña ahora. Por seguridad, no podrá verla
-        nuevamente una vez que salga de esta pantalla.
+      
+      <p class="warning-text" style="color: #b45309; background: #fef3c7; padding: 10px; border-radius: 6px; font-size: 0.85rem; text-align: center;">
+        ⚠️ <strong>IMPORTANTE:</strong> Asegúrese de copiar la contraseña ahora. Por seguridad, no podrá verla nuevamente una vez que salga de esta pantalla.
       </p>
-    </div>
 
-    <button type="button" class="btn-back" (click)="volver()">
-      Finalizar y Volver
-    </button>
-  </div>
+    </app-success-view>
   }
 </div>
