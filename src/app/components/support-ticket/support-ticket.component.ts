@@ -37,7 +37,7 @@ export class SupportTicketComponent {
         html2canvas(document.body, { 
           scale: 1, // Reducimos escala para aligerar la imagen
           useCORS: true, 
-          ignoreElements: (element) => element.classList.contains('support-modal-overlay') // Ignorar el modal mismo
+          ignoreElements: (element) => element.classList.contains('modal-overlay') || element.classList.contains('support-fab') // Ignorar el modal y el botón flotante
         }).then(canvas => {
           this.capturedScreenshotBase64.set(canvas.toDataURL('image/png'));
         }).catch(err => console.error('Error al capturar pantalla', err));
