@@ -31,6 +31,24 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
     this.loadNotifications();
+    
+    // Iniciar conexión SignalR si hay sesión
+    if (this.authService.getCurrentUser()) {
+      this.supportService.startConnection();
+      
+      // Escuchar el evento en vivo
+      this.supportService.ticketResolvedEvent.subscribe((nuevoTicket) => {
+        // Solo recargar si NO somos sistemas (o en todo caso, siempre está bien recargar para mantener sincronía)
+        this.loadNotifications();
+      });
+
+      this.supportService.newTicketEvent.subscribe((nuevoTicket) => {
+        // Alguien creó un ticket nuevo, si somos SISTEMAS recargamos
+        if (this.authService.currentUserSignal()?.position === 'SISTEMAS') {
+          this.loadNotifications();
+        }
+      });
+    }
 
     // Escuchar cambios de navegación para cerrar el sidebar en móviles automáticamente
     this.router.events.pipe(
@@ -56,11 +74,22 @@ export class LayoutComponent implements OnInit {
   }
 
   loadNotifications() {
-    if (!this.authService.getCurrentUser()) return;
-    this.supportService.getMyResolvedTickets().subscribe(res => {
-      this.notifications.set(res);
-      this.hasUnread.set(res.some(n => !n.isReadByReporter));
-    });
+    const user = this.authService.getCurrentUser();
+    if (!user) return;
+
+    if (this.authService.currentUserSignal()?.position === 'SISTEMAS') {
+      this.supportService.getSistemasNotifications().subscribe(res => {
+        this.notifications.set(res);
+        // Marcamos como "No leídos" (punto rojo) si el ticket está 'Pending'
+        // El backend lo manda como IsReadByReporter = false cuando es Pending.
+        this.hasUnread.set(res.some(n => !n.isReadByReporter));
+      });
+    } else {
+      this.supportService.getMyResolvedTickets().subscribe(res => {
+        this.notifications.set(res);
+        this.hasUnread.set(res.some(n => !n.isReadByReporter));
+      });
+    }
   }
 
   @ViewChild('notificationsWrapper') notificationsWrapper!: ElementRef;
