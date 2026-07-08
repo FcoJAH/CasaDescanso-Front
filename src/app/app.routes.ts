@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
+import { sistemasGuard } from './guards/sistemas.guard';
+import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
   // LOGIN
@@ -21,6 +23,11 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () =>
           import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent)
+      },
+      { 
+        path: 'admin/tickets', 
+        loadComponent: () => import('./pages/admin/tickets/tickets.component').then(m => m.TicketsComponent),
+        canActivate: [sistemasGuard]
       },
       {
         path: 'checkin-out',

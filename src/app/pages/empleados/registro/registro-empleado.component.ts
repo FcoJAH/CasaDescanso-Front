@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Empleado, EmpleadosService, Role, Shift } from '../empleados.service';
 import { minAgeValidator } from '../../../utils/validators'; // Eliminado passwordComplexityValidator ya que es auto
 import { Router } from '@angular/router';
+import { SuccessViewComponent } from '../../../utils/success/success-view.component';
 
 @Component({
   selector: 'app-registro-empleado',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SuccessViewComponent],
   templateUrl: './registro-empleado.component.html',
   styleUrl: './registro-empleado.component.css'
 })
@@ -21,6 +22,15 @@ export class RegistrarEmpleadoComponent implements OnInit {
   showPopup = signal(false);
   isRegistered = signal(false);
   
+  // Configuración para la Success View
+  config = signal({
+    titulo: 'REGISTRO EXITOSO',
+    mensaje: '',
+    nombreUsuario: '',
+    botonPrincipal: 'FINALIZAR Y VOLVER',
+    botonSecundario: 'VOLVER AL DASHBOARD'
+  });
+
   // Actualizamos el signal para que guarde también el password generado
   registeredData = signal<{ username: string; password: string; message: string } | null>(null);
 
@@ -82,6 +92,13 @@ export class RegistrarEmpleadoComponent implements OnInit {
 
       this.empleadosService.registrarEmpleado(payload).subscribe({
         next: (res) => {
+          const nombreCom = this.empleadoForm.get('firstName')?.value.toUpperCase();
+          this.config.update(c => ({
+            ...c,
+            mensaje: res.message,
+            nombreUsuario: nombreCom
+          }));
+
           // 3. Guardamos TODO para mostrar en el éxito (incluyendo la password que generamos)
           this.registeredData.set({
             username: res.username,
@@ -149,5 +166,9 @@ export class RegistrarEmpleadoComponent implements OnInit {
 
   volver() {
     this.router.navigate(['/empleados']);
+  }
+
+  salir() {
+    this.router.navigate(['/dashboard']);
   }
 }

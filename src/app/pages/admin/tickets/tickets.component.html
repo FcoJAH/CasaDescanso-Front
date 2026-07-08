@@ -1,0 +1,62 @@
+<div class="tickets-container">
+  <h2>Gestión de Tickets de Soporte</h2>
+  <p>Panel exclusivo para el departamento de SISTEMAS.</p>
+
+  @if (isLoading()) {
+    <div class="loading">Cargando tickets...</div>
+  } @else if (error()) {
+    <div class="error-msg">{{ error() }}</div>
+  } @else if (tickets().length === 0) {
+    <div class="no-data">No hay tickets reportados.</div>
+  } @else {
+    <div class="tickets-grid">
+      @for (ticket of tickets(); track ticket.id) {
+        <div class="ticket-card" [class.resolved]="ticket.status === 'Resolved'">
+          <div class="ticket-header">
+            <span class="ticket-id">#{{ ticket.id }}</span>
+            <span class="ticket-status" [class.pending]="ticket.status === 'Pending'">
+              {{ ticket.status === 'Pending' ? 'Pendiente' : 'Resuelto' }}
+            </span>
+          </div>
+          
+          <div class="ticket-body">
+            <p><strong>Reporta:</strong> {{ ticket.reporterName }} ({{ ticket.reporterRole }})</p>
+            <p><strong>Ruta:</strong> <code>{{ ticket.currentUrl }}</code></p>
+            <p><strong>Fecha:</strong> {{ ticket.createdAt | date:'short' }}</p>
+            
+            <div class="ticket-desc">
+              <strong>Descripción:</strong>
+              <p>{{ ticket.description }}</p>
+            </div>
+          </div>
+          
+          <div class="ticket-footer">
+            @if (ticket.status === 'Pending') {
+              <button class="btn-resolve" (click)="confirmResolve(ticket.id)">
+                ✅ Marcar como Resuelto
+              </button>
+            } @else {
+              <span class="resolved-date">Resuelto el: {{ ticket.resolvedAt | date:'short' }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- MODAL DE CONFIRMACIÓN CUSTOM -->
+  @if (ticketToResolve() !== null) {
+    <div class="modal-overlay animate-fade-in" (click)="cancelResolve()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-icon">⚠️</div>
+        <h3>Confirmar acción</h3>
+        <p>¿Estás seguro de marcar este ticket como resuelto?</p>
+        <p class="modal-subtitle">Esta acción notificará al usuario que reportó el problema.</p>
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="cancelResolve()">Cancelar</button>
+          <button class="btn-confirm" (click)="executeResolve()">Sí, resolver ticket</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

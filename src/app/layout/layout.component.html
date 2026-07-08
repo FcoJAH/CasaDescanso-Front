@@ -11,6 +11,39 @@
       <span class="user-fullname">{{ user.fullName | uppercase }}</span>
     </div>
 
+    <!-- Icono de Notificaciones -->
+    <div class="notifications-wrapper" #notificationsWrapper>
+      <button class="bell-btn" (click)="toggleNotifications($event)">
+        🔔
+        @if (hasUnread()) {
+        <span class="notification-dot"></span>
+        }
+      </button>
+
+      <!-- Menú de notificaciones -->
+      @if (showNotifications()) {
+      <div class="notifications-dropdown">
+        <h4>Tus últimos reportes resueltos</h4>
+        @if (notifications().length === 0) {
+        <p class="no-notif">No tienes reportes resueltos recientemente.</p>
+        } @else {
+        @for (notif of notifications(); track notif.id) {
+        <div class="notif-item" [class.unread]="!notif.isReadByReporter">
+          <div class="notif-content">
+            <strong>¡Problema resuelto!</strong>
+            <p>Tu reporte en <code>{{ notif.currentUrl }}</code> ha sido solucionado por SISTEMAS.</p>
+            <small>{{ notif.resolvedAt | date:'short' }}</small>
+          </div>
+          @if (!notif.isReadByReporter) {
+          <button class="btn-read" (click)="markAsRead(notif.id)">Marcar Leído</button>
+          }
+        </div>
+        }
+        }
+      </div>
+      }
+    </div>
+
     <button class="logout-btn" (click)="logout()">Cerrar sesión</button>
   </header>
 
@@ -23,7 +56,8 @@
       <nav>
         <a routerLink="/dashboard" routerLinkActive="active" (click)="isSidebarOpen = false">Dashboard</a>
         <a routerLink="/residentes" routerLinkActive="active" (click)="isSidebarOpen = false">Gestión de residentes</a>
-        <a routerLink="/resident-history" routerLinkActive="active" (click)="isSidebarOpen = false">Expediente de residentes</a>
+        <a routerLink="/resident-history" routerLinkActive="active" (click)="isSidebarOpen = false">Expediente de
+          residentes</a>
         <a routerLink="/signos-vitales" routerLinkActive="active" (click)="isSidebarOpen = false">Signos vitales</a>
         <a routerLink="/incidents" routerLinkActive="active" (click)="isSidebarOpen = false">Incidentes</a>
         <a routerLink="/reporte-signos" routerLinkActive="active" (click)="isSidebarOpen = false">Reporte de signos</a>
@@ -38,11 +72,12 @@
         <a routerLink="/roles" routerLinkActive="active" (click)="isSidebarOpen = false">Roles</a>
         <a routerLink="/check-history" routerLinkActive="active" (click)="isSidebarOpen = false">Historial de checks</a>
         }
-      </nav>
 
-      <div class="sidebar-footer">
-        <img src="images/CD_Titulo.png" alt="Logo Inferior" class="img-footer">
-      </div>
+        @if (authService.currentUserSignal()?.position === 'SISTEMAS') {
+        <div class="admin-separator">SOPORTE</div>
+        <a routerLink="/admin/tickets" routerLinkActive="active" (click)="isSidebarOpen = false">Gestión de Tickets</a>
+        }
+      </nav>
     </aside>
 
     <main class="content">

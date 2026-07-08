@@ -146,34 +146,11 @@
   }
 
   @else {
-  <div class="success-screen animate-fade-in">
-    <div class="success-card">
-      <div class="success-header">
-        <div class="icon-circle">
-          <img src="images/CD_Logo_Pequeno.png" alt="Logo" class="logo">
-        </div>
-        <h2>REGISTRO EXITOSO</h2>
-      </div>
-
-      <div class="info-box">
-        <p>El residente <strong>{{ registeredData()?.fullName | uppercase }}</strong> ha sido dado de alta correctamente
-          en el sistema de Casa Descanso.</p>
-        @if (config().nombreUsuario) {
-        <span class="user-badge">{{ config().nombreUsuario | uppercase }}</span>
-        }
-      </div>
-
-      <div class="actions-container">
-        <button type="button" class="btn-primary-success" (click)="volver()">
-          VOLVER A RESIDENTES
-        </button>
-
-        <button type="button" class="btn-link" (click)="salir()">
-          VOLVER AL DASHBOARD
-        </button>
-      </div>
-    </div>
-  </div>
+    <app-success-view 
+      [config]="config()" 
+      (onAction)="volver()" 
+      (onExit)="salir()">
+    </app-success-view>
   }
 </div>
 
