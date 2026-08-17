@@ -1,0 +1,118 @@
+.announcement-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+  animation: fadeIn 0.4s ease;
+  backdrop-filter: blur(2px);
+}
+
+.announcement-content {
+  background: #f0f8ff; /* Fondo azul clarito como la imagen */
+  border-radius: 16px;
+  width: 90%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+  position: relative;
+  text-align: center;
+}
+
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.header {
+  padding: 30px 20px 10px;
+}
+
+.title {
+  color: #2980b9;
+  font-size: 1.4rem;
+  margin: 0 0 20px 0;
+  font-weight: bold;
+}
+
+.icon-container {
+  font-size: 80px;
+  margin: 10px 0;
+  display: inline-block;
+  position: relative;
+}
+
+.clock-icon {
+  display: inline-block;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.body-text {
+  padding: 0 30px 20px;
+}
+
+.body-text p {
+  color: #333;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.actions {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-accept {
+  background: #2b70b5;
+  color: white;
+  border: none;
+  padding: 14px 40px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-accept:hover:not([disabled]) {
+  background: #1a5288;
+  transform: scale(1.05);
+}
+
+.btn-accept[disabled] {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}

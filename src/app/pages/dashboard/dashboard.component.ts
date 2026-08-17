@@ -21,13 +21,14 @@ import { CalendarEvent, EventsService } from '../../services/events.service';
 import { computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SupportAnnouncementComponent } from '../../components/support-announcement/support-announcement.component';
+import { CheckinAnnouncementComponent } from '../../components/checkin-announcement/checkin-announcement.component';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, SupportAnnouncementComponent],
+  imports: [CommonModule, FormsModule, SupportAnnouncementComponent, CheckinAnnouncementComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })

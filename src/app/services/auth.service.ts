@@ -11,6 +11,7 @@ export interface User {
   position: string;
   shift: string;
   hasSeenSupportAnnouncement: boolean;
+  hasSeenCheckinAnnouncement: boolean;
   token?: string;
   refreshToken?: string;
 }
@@ -77,6 +78,20 @@ export class AuthService {
     return this.http.post(`${this.myAppUrl}/Auth/${user.userId}/mark-support-announcement`, {}).pipe(
       tap(() => {
         user.hasSeenSupportAnnouncement = true;
+        this.currentUserSubject.next(user);
+        this.currentUserSignal.set(user);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      })
+    );
+  }
+
+  markCheckinAnnouncementAsSeen(): Observable<any> {
+    const user = this.getCurrentUser();
+    if (!user) return new Observable();
+    
+    return this.http.post(`${this.myAppUrl}/Auth/${user.userId}/mark-checkin-announcement`, {}).pipe(
+      tap(() => {
+        user.hasSeenCheckinAnnouncement = true;
         this.currentUserSubject.next(user);
         this.currentUserSignal.set(user);
         localStorage.setItem('currentUser', JSON.stringify(user));
