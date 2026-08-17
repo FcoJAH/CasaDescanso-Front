@@ -21,9 +21,9 @@ export class CheckinAnnouncementComponent {
   isDismissed = false;
 
   accept() {
+    this.isDismissed = true; // OCULTAR INMEDIATAMENTE EL MODAL
     if (this.isAccepting) return;
     this.isAccepting = true;
-    this.isDismissed = true; // Ocultar inmediatamente en la UI local
     
     this.authService.markCheckinAnnouncementAsSeen().subscribe({
       next: () => {
