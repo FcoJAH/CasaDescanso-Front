@@ -18,10 +18,12 @@ export class CheckinAnnouncementComponent {
   });
 
   isAccepting = false;
+  isDismissed = false;
 
   accept() {
     if (this.isAccepting) return;
     this.isAccepting = true;
+    this.isDismissed = true; // Ocultar inmediatamente en la UI local
     
     this.authService.markCheckinAnnouncementAsSeen().subscribe({
       next: () => {
@@ -34,7 +36,7 @@ export class CheckinAnnouncementComponent {
         const user = this.authService.getCurrentUser();
         if (user) {
            user.hasSeenCheckinAnnouncement = true;
-           this.authService.currentUserSignal.set(user);
+           this.authService.currentUserSignal.set({ ...user });
         }
       }
     });

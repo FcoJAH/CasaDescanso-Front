@@ -1,4 +1,4 @@
-@if (showAnnouncement()) {
+@if (showAnnouncement() && !isDismissed) {
   <div class="announcement-overlay">
     <div class="announcement-content">
       <button class="btn-close" (click)="accept()">×</button>

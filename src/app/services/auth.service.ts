@@ -79,7 +79,7 @@ export class AuthService {
       tap(() => {
         user.hasSeenSupportAnnouncement = true;
         this.currentUserSubject.next(user);
-        this.currentUserSignal.set(user);
+        this.currentUserSignal.set({ ...user }); // Clonar para forzar reactividad
         localStorage.setItem('currentUser', JSON.stringify(user));
       })
     );
@@ -93,7 +93,7 @@ export class AuthService {
       tap(() => {
         user.hasSeenCheckinAnnouncement = true;
         this.currentUserSubject.next(user);
-        this.currentUserSignal.set(user);
+        this.currentUserSignal.set({ ...user }); // Clonar para forzar reactividad
         localStorage.setItem('currentUser', JSON.stringify(user));
       })
     );
