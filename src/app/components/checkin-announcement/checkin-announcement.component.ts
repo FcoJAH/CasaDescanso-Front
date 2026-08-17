@@ -20,15 +20,27 @@ export class CheckinAnnouncementComponent {
   });
 
   accept() {
-    // Forzamos el cierre a través de la señal y guardamos localmente
+    // 1. Ocultar inmediatamente por reactividad
     this.isDismissed.set(true);
     
-    // Lo guardamos en el localStorage directamente para evitar llamadas a la API que puedan fallar
+    // 2. Ocultar a la fuerza por DOM (respaldo infalible)
+    const overlay = document.querySelector('.announcement-overlay') as HTMLElement;
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
+    
+    // 3. Actualizar estado local
     const user = this.authService.getCurrentUser();
     if (user) {
       user.hasSeenCheckinAnnouncement = true;
       this.authService.currentUserSignal.set({ ...user });
       localStorage.setItem('currentUser', JSON.stringify(user));
     }
+
+    // 4. Avisar al backend para que no vuelva a salir al iniciar sesión
+    this.authService.markCheckinAnnouncementAsSeen().subscribe({
+      next: () => console.log('Anuncio marcado como visto en el servidor.'),
+      error: (err) => console.error('Falló la conexión al servidor al marcar el anuncio:', err)
+    });
   }
 }
