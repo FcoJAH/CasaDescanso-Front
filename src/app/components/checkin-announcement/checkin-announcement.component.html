@@ -1,0 +1,26 @@
+@if (showAnnouncement()) {
+  <div class="announcement-overlay">
+    <div class="announcement-content">
+      <button class="btn-close" (click)="accept()">×</button>
+      
+      <div class="header">
+        <h2 class="title">¡Nueva Funcionalidad de Checado!</h2>
+        <div class="icon-container">
+          <span class="clock-icon">⏰</span>
+          <!-- O puedes usar una imagen si la agregas a assets -->
+          <!-- <img src="assets/images/checkin-icon.png" alt="Reloj" /> -->
+        </div>
+      </div>
+      
+      <div class="body-text">
+        <p>Ahora puedes registrar tu <strong>entrada</strong> y salida directamente desde el menú principal con el <strong>nuevo</strong> ícono de reloj. ¡Pruébalo para agilizar tus registros!</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn-accept" (click)="accept()" [disabled]="isAccepting">
+          {{ isAccepting ? 'Guardando...' : 'Empezar a Usarlo' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
