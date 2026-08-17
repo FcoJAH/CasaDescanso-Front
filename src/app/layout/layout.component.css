@@ -304,7 +304,7 @@ body:not(.sidebar-hidden) .sidebar-overlay {
   margin-bottom: 5px;
 }
 
-.bell-btn {
+.bell-btn, .clock-btn {
   background: none;
   border: none;
   font-size: 1.5rem;
