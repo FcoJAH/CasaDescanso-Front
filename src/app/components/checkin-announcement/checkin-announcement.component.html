@@ -1,4 +1,4 @@
-@if (showAnnouncement() && !isDismissed) {
+@if (showAnnouncement()) {
   <div class="announcement-overlay">
     <div class="announcement-content">
       <button class="btn-close" (click)="accept()">×</button>
@@ -7,8 +7,6 @@
         <h2 class="title">¡Nueva Funcionalidad de Checado!</h2>
         <div class="icon-container">
           <span class="clock-icon">⏰</span>
-          <!-- O puedes usar una imagen si la agregas a assets -->
-          <!-- <img src="assets/images/checkin-icon.png" alt="Reloj" /> -->
         </div>
       </div>
       
@@ -17,8 +15,8 @@
       </div>
 
       <div class="actions">
-        <button class="btn-accept" (click)="accept()" [disabled]="isAccepting">
-          {{ isAccepting ? 'Guardando...' : 'Empezar a Usarlo' }}
+        <button class="btn-accept" (click)="accept()">
+          Empezar a Usarlo
         </button>
       </div>
     </div>
