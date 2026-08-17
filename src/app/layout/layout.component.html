@@ -11,6 +11,13 @@
       <span class="user-fullname">{{ user.fullName | uppercase }}</span>
     </div>
 
+    <!-- Contenedor de iconos superiores -->
+    <div style="display: flex; align-items: center;">
+      <!-- Botón directo para registrar asistencia -->
+      <button class="clock-btn" routerLink="/checkin-out" title="Registrar Asistencia">
+        ⏰
+      </button>
+
     <!-- Icono de Notificaciones -->
     <div class="notifications-wrapper" #notificationsWrapper>
       <button class="bell-btn" (click)="toggleNotifications($event)">
@@ -42,6 +49,8 @@
         }
       </div>
       }
+    </div>
+
     </div>
 
     <button class="logout-btn" (click)="logout()">Cerrar sesión</button>
